@@ -15,16 +15,26 @@ export default function Home() {
   const [currentScreen, setCurrentScreen] = useState('home')
   const [activeTab, setActiveTab] = useState('home')
   const [selectedEvent, setSelectedEvent] = useState(null)
+  const [purchasedTicket, setPurchasedTicket] = useState(null)
 
   const handleNavigation = (screen: string, data: any = null) => {
     setCurrentScreen(screen)
-    // Si data es un string, es un tab
-    if (typeof data === 'string') {
-      setActiveTab(data)
-    }
-    // Si data es un objeto, es un evento
-    else if (data && typeof data === 'object') {
-      setSelectedEvent(data)
+    
+    // Manejar diferentes tipos de datos
+    if (data) {
+      if (typeof data === 'string') {
+        // Es un tab
+        setActiveTab(data)
+      } else if (data.tab) {
+        // Es un objeto con tab y posiblemente evento
+        setActiveTab(data.tab)
+        if (data.event) {
+          setPurchasedTicket(data)
+        }
+      } else {
+        // Es un evento
+        setSelectedEvent(data)
+      }
     }
   }
 
