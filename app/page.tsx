@@ -14,10 +14,18 @@ import ProfileScreen from './components/screens/ProfileScreen'
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState('home')
   const [activeTab, setActiveTab] = useState('home')
+  const [selectedEvent, setSelectedEvent] = useState(null)
 
-  const handleNavigation = (screen: string, tab: string | null = null) => {
+  const handleNavigation = (screen: string, data: any = null) => {
     setCurrentScreen(screen)
-    if (tab) setActiveTab(tab)
+    // Si data es un string, es un tab
+    if (typeof data === 'string') {
+      setActiveTab(data)
+    }
+    // Si data es un objeto, es un evento
+    else if (data && typeof data === 'object') {
+      setSelectedEvent(data)
+    }
   }
 
   const renderScreen = () => {
@@ -27,7 +35,7 @@ export default function Home() {
       case 'partner':
         return <PartnerScreen onNavigate={handleNavigation} />
       case 'ticketSelection':
-        return <TicketSelectionScreen onNavigate={handleNavigation} />
+        return <TicketSelectionScreen onNavigate={handleNavigation} selectedEvent={selectedEvent} />
       case 'checkout':
         return <CheckoutScreen onNavigate={handleNavigation} />
       case 'paymentPlan':
@@ -55,4 +63,3 @@ export default function Home() {
     </div>
   )
 }
-// Actualizado
