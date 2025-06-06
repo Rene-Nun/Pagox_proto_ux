@@ -1,7 +1,7 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
 import BottomNav from '../BottomNav'
-import { Lock, Calendar, Music, AlertTriangle } from 'lucide-react'
+import { Lock, Calendar, Music, AlertTriangle, Wallet } from 'lucide-react'
 
 interface WalletScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -17,7 +17,7 @@ export default function WalletScreen({ onNavigate, activeTab }: WalletScreenProp
         {/* Locked Ticket Card */}
         <div className="bg-gray-800 text-white rounded-3xl p-6 relative overflow-hidden shadow-xl">
           <div className="absolute top-4 right-4 w-16 h-16 bg-white rounded-full opacity-10"></div>
-          
+
           {/* Header */}
           <div className="flex items-start justify-between mb-6">
             <div className="flex-1">
@@ -28,7 +28,7 @@ export default function WalletScreen({ onNavigate, activeTab }: WalletScreenProp
               <Lock className="w-8 h-8 text-yellow-400" />
             </div>
           </div>
-          
+
           {/* Ticket Visual */}
           <div className="bg-gray-700 rounded-2xl p-4 mb-6">
             <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl aspect-[16/9] flex items-center justify-center relative overflow-hidden">
