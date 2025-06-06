@@ -1,5 +1,4 @@
 import { ChevronLeft, MapPin, Calendar } from 'lucide-react'
-import { useState } from 'react'
 
 interface PartnerScreenProps {
   onNavigate: (screen: string, event?: any) => void
@@ -16,7 +15,7 @@ export default function PartnerScreen({ onNavigate }: PartnerScreenProps) {
       city: 'CDMX',
       price: 'Desde $1,200 MXN',
       gradient: 'from-yellow-400 via-orange-500 to-red-500',
-      image: '🎤'
+      emoji: '🎤'
     },
     {
       id: 2,
@@ -27,7 +26,7 @@ export default function PartnerScreen({ onNavigate }: PartnerScreenProps) {
       city: 'CDMX',
       price: 'Desde $900 MXN',
       gradient: 'from-blue-400 via-purple-500 to-pink-500',
-      image: '🌟'
+      emoji: '🌟'
     },
     {
       id: 3,
@@ -38,19 +37,18 @@ export default function PartnerScreen({ onNavigate }: PartnerScreenProps) {
       city: 'MTY',
       price: 'Desde $1,500 MXN',
       gradient: 'from-pink-400 via-purple-500 to-indigo-500',
-      image: '✨'
+      emoji: '✨'
     }
   ]
 
   const handleConcertSelect = (concert: any) => {
-    // Pasar el evento seleccionado a la siguiente pantalla
     onNavigate('ticketSelection', concert)
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="h-full flex flex-col bg-gray-100">
       {/* Partner Header */}
-      <div className="bg-purple-600 text-white p-4 flex items-center shadow-lg">
+      <div className="bg-purple-600 text-white p-4 flex items-center shadow-lg flex-shrink-0">
         <ChevronLeft 
           className="w-6 h-6 mr-3 cursor-pointer hover:opacity-80 transition-opacity" 
           onClick={() => onNavigate('home')}
@@ -62,18 +60,17 @@ export default function PartnerScreen({ onNavigate }: PartnerScreenProps) {
       </div>
 
       {/* Scrollable Concert List */}
-      <div className="flex-1 overflow-y-auto pb-4">
-        <div className="p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto">
+        <div className="p-4 space-y-4 pb-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Próximos Eventos</h2>
           
           {concerts.map((concert) => (
             <div 
               key={concert.id} 
-              className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow animate-slide-up"
-              style={{ animationDelay: `${concert.id * 100}ms` }}
+              className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
             >
               <div className={`h-40 bg-gradient-to-br ${concert.gradient} relative flex items-center justify-center`}>
-                <div className="text-6xl">{concert.image}</div>
+                <div className="text-6xl">{concert.emoji}</div>
                 <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-medium">
                   En venta
                 </div>
