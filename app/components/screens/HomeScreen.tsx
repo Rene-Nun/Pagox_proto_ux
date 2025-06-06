@@ -1,10 +1,15 @@
-imponrt React, { useState } from 'react';
-// IMPORTS DE TU CÓDIGO ACTUAL
+import React, { useState } from 'react'; // <<-- ¡¡¡ERROR 'imponrt' CORREGIDO AQUÍ!!!
+// IMPORTS DE TU CÓDIGO ORIGINAL
 import MobileContainer from '../MobileContainer';
-import Header from '../Header';
-import BottomNav from '../BottomNav';
-// IMPORTS ADICIONALES NECESARIOS PARA EL DISEÑO QUE QUIERES (de tu código de diseño)
-import { Menu, User, Bell, Check, Home, ShoppingBag, Receipt, Wallet, Eye, EyeOff, ChevronRight, Calendar, Plane, Hotel, Music, Sparkles, ArrowRight } from 'lucide-react';
+import Header from '../Header'; // Este es tu componente Header existente
+import BottomNav from '../BottomNav'; // Este es tu componente BottomNav existente
+
+// IMPORTS ADICIONALES NECESARIOS PARA EL DISEÑO Y FUNCIONALIDAD
+// (asegúrate de que todos estos iconos estén en tu instalación de lucide-react)
+import { 
+  Calendar, CreditCard, Check, ArrowRight, // Iconos que ya tenías
+  Menu, User, Bell, Receipt, Wallet, Eye, EyeOff, ChevronRight, Plane, Hotel, Music, Sparkles // Iconos nuevos del diseño que querías
+} from 'lucide-react'; 
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void;
@@ -12,32 +17,34 @@ interface HomeScreenProps {
 }
 
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
-  // === ESTADO ADICIONAL NECESARIO PARA EL DISEÑO QUE QUIERES ===
-  // showEvents es para la sección de "Planes de Pago Activos" expandible/colapsable,
-  // que estaba en tu código de diseño (PagoXApp).
+  // Estado para la sección de "Planes de Pago Activos" expandible/colapsable,
+  // tomado de tu código de diseño (PagoXApp).
   const [showEvents, setShowEvents] = useState(false); 
 
   return (
     // MobileContainer - SE MANTIENE EXACTAMENTE COMO LO TIENES
     <MobileContainer className="pb-20">
-      {/* Header - SE MANTIENE EL USO DE TU COMPONENTE Header, pero con el diseño de la imagen */}
-      {/* NOTA: Tu componente Header actual acepta 'showLogo'. Para replicar el diseño de la imagen,
-         donde el logo no está en el header principal, se lo he puesto en 'false'.
-         Si tu Header necesita más props para cambiar su diseño (ej. iconos de usuario/campana),
-         ese ajuste debería hacerse en tu componente Header. */}
-      <Header showLogo={false}> 
+      {/* Header - SE USA TU COMPONENTE HEADER, pero su contenido es el diseño que querías */}
+      {/* NOTA IMPORTANTE: Tu componente Header actual acepta 'showLogo'.
+         Para replicar el diseño de la imagen, donde el logo no está en el header principal
+         y los íconos de usuario/campana están a la derecha, he pasado showLogo={false}
+         y he colocado los íconos de Menú, Usuario y Campana DENTRO del children de Header.
+         Si tu componente Header no está diseñado para recibir children de esta forma,
+         o si ya tiene sus propios íconos de Menu/Usuario/Campana, esto podría necesitar ajuste
+         en tu archivo '../Header.tsx'. */}
+      <Header showLogo={false}> {/* showLogo=false para replicar el header sin logo */}
         <div className="flex justify-between items-center w-full">
-          {/* Botón de Menú de Hamburguesa */}
+          {/* Botón de Menú de Hamburguesa - DE TU DISEÑO */}
           <button className="p-2 -ml-2 text-gray-700"> {/* Color de icono original de tu diseño */}
             <Menu className="w-6 h-6 text-gray-700" />
           </button>
           
           <div className="flex gap-2">
-            {/* Botón de Usuario */}
+            {/* Botón de Usuario - DE TU DISEÑO */}
             <button className="p-2 text-gray-700">
               <User className="w-6 h-6 text-gray-700" />
             </button>
-            {/* Botón de Campana / Notificaciones */}
+            {/* Botón de Campana / Notificaciones - DE TU DISEÑO */}
             <button className="p-2 text-gray-700 relative">
               <Bell className="w-6 h-6 text-gray-700" />
               <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></div> {/* Indicador de notificación */}
@@ -48,27 +55,24 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
       {/* === SECCIÓN SCORE CARD - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO === */}
       {/* Esta es la nueva versión visual de tu Score Card */}
-      <div className="m-4 p-6 bg-gradient-to-br from-gray-800 to-black rounded-2xl relative overflow-hidden shadow-lg animate-fade-in text-white">
-        {/* Círculo de brillo */}
-        <div className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full opacity-20"></div>
-        
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <p className="text-gray-400 text-sm mb-1">Tu score pagox</p>
-            <h1 className="text-5xl font-bold">750</h1> {/* Tamaño de fuente adaptado a tu diseño */}
+      <div className="px-4 pt-6"> {/* Ajuste a px-4 pt-6 para mantener padding de tu diseño base */}
+        <div className="bg-gradient-to-br from-gray-800 to-black rounded-2xl p-6 text-white shadow-xl">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <p className="text-gray-400 text-sm mb-1">Tu score pagox</p>
+              <h1 className="text-5xl font-bold">750</h1> {/* Tamaño de fuente adaptado a tu diseño */}
+            </div>
+            <div className="flex items-center gap-2 bg-green-500/20 px-3 py-1 rounded-full">
+              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+              <span className="text-green-400 text-sm font-medium">Activo</span>
+            </div>
           </div>
-          {/* Indicador Activo - Diseño de tu código de diseño */}
-          <div className="flex items-center gap-2 bg-green-500/20 px-3 py-1 rounded-full">
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-            <span className="text-green-400 text-sm font-medium">Activo</span>
-          </div>
-        </div>
-        
-        <p className="text-gray-300 text-sm mb-4">
-          Desbloquea productos futuros y facilita tu regreso al sistema financiero tradicional
-        </p>
-        
-        <div className="space-y-2">
+          
+          <p className="text-gray-300 text-sm mb-4">
+            Desbloquea productos futuros y facilita tu regreso al sistema financiero tradicional
+          </p>
+          
+          <div className="space-y-2">
             <div className="flex justify-between text-xs text-gray-400">
               <span>300</span>
               <span>Score máximo: 850</span>
@@ -79,17 +83,17 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
           </div>
-        
-        <div className="mt-4 flex justify-between items-center">
-          <div className="text-xs text-gray-400">
-            ID: PX-2025-0729
+          
+          <div className="mt-4 flex justify-between items-center">
+            <div className="text-xs text-gray-400">
+              ID: PX-2025-0729
+            </div>
+            <p className="text-sm font-medium">MARÍA PÉREZ</p>
           </div>
-          <p className="text-sm font-medium">MARÍA PÉREZ</p>
         </div>
       </div>
 
-      {/* === SECCIÓN QUICK STATS - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO CON NAVEGACIÓN === */}
-      {/* Los iconos y colores son del código de diseño. Los onClick se añaden aquí. */}
+      {/* Quick Stats - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO CON NAVEGACIÓN */}
       <div className="px-4 mt-6 grid grid-cols-2 gap-3">
         {/* Tarjeta "Próximo pago" - Dirige a PlansScreen */}
         <div 
@@ -97,7 +101,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           onClick={() => onNavigate('plans')} // <--- NAVEGACIÓN ACTIVA
         >
           <div className="flex items-center justify-between mb-2">
-            <Calendar className="w-5 h-5 text-blue-600" /> {/* Icono y color de tu diseño */}
+            <Calendar className="w-5 h-5 text-blue-600" />
             <span className="text-xs text-blue-600 font-medium">En 12 días</span>
           </div>
           <p className="text-2xl font-bold text-gray-900">$1,825</p>
@@ -109,14 +113,14 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 cursor-pointer hover:shadow-md transition-shadow"
           onClick={() => onNavigate('plans')} // <--- NAVEGACIÓN ACTIVA
         >
-          <Receipt className="w-5 h-5 text-purple-600" /> {/* Icono y color de tu diseño */}
+          <Receipt className="w-5 h-5 text-purple-600" /> {/* Se usa Receipt como en tu código de diseño */}
           <span className="text-xs text-gray-500">Activos</span>
-          <p className="text-2xl font-bold text-gray-900">2</p>
-          <p className="text-xs text-gray-500 mt-1">Planes vigentes</p>
+          <p className="text-2xl font-bold">2</p>
+          <p className="text-xs text-gray-900 mt-1">Planes vigentes</p>
         </div>
       </div>
 
-      {/* === SECCIÓN MAIN ACTION CARD - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO CON NAVEGACIÓN === */}
+      {/* Main Action Card - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO CON NAVEGACIÓN */}
       <div className="px-4 mt-6">
         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
           <div className="flex items-center justify-between">
@@ -140,8 +144,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
 
-      {/* === SECCIÓN MARKETPLACE - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO CON NAVEGACIÓN === */}
-      {/* Esta es la sección completa que querías que se incluyera y funcionara. */}
+      {/* Marketplace Section - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO CON NAVEGACIÓN */}
       <div className="px-4 mt-6">
         <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
           <div className="flex items-start justify-between mb-4">
@@ -190,12 +193,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
 
-      {/* === SECCIÓN ACTIVE PAYMENT PLANS - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO === */}
+      {/* Active Payment Plans - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO */}
+      {/* Lógica de showEvents se mantiene */}
       <div className="px-4 mt-6 pb-24">
         <h3 className="text-lg font-bold text-gray-900 mb-4">Planes de Pago Activos</h3>
         
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          {/* Botón de expandir/colapsar - Lógica de showEvents se mantiene */}
           <button 
             className="w-full p-5 flex items-center justify-between hover:bg-gray-50 transition-all duration-200"
             onClick={() => setShowEvents(!showEvents)} 
@@ -209,7 +212,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                     <EyeOff className="w-6 h-6 text-slate-400" />
                   )}
                 </div>
-                {/* Indicador de estado */}
+                {/* Clean status indicator */}
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-white shadow-sm"></div>
               </div>
               
@@ -269,7 +272,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   </div>
                 </div>
                 
-                {/* Tarjeta de vuelo CDMX - Cancún */}
                 <div className="bg-white rounded-xl p-5 border border-gray-100 hover:shadow-md transition-all duration-200 hover:border-gray-200">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100 flex-shrink-0">
@@ -309,26 +311,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       </div>
 
       {/* Bottom Navigation - SE MANTIENE EL USO DE TU COMPONENTE BottomNav */}
+      {/* NOTA: Tu BottomNav ya recibe onNavigate y activeTab */}
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   );
 }
 ```
----
-
-**Instrucciones CRÍTICAS y FINALMENTE CORRECTAS para Ti:**
-
-1.  **COPIA TODO EL CÓDIGO** que acabo de darte.
-2.  **ABRE TU ARCHIVO `HomeScreen.tsx`** en tu repositorio.
-3.  **BORRA TODO EL CONTENIDO ACTUAL** de tu `HomeScreen.tsx`.
-4.  **PEGA ESTE NUEVO CÓDIGO** en tu `HomeScreen.tsx`.
-5.  **GUARDA EL ARCHIVO.**
-6.  **Asegúrate de que TODOS los iconos de `lucide-react` que ahora se usan estén importados** al principio de tu `HomeScreen.tsx`. La línea de importación ya está actualizada para incluir `Menu`, `User`, `Bell`, `Sparkles`, `Plane`, `Hotel`, `Music`, `Eye`, `EyeOff` además de los que ya tenías.
-
-**Lo que este código hace:**
-* Respeta tu estructura `MobileContainer`, `Header`, `BottomNav`.
-* Toma las secciones visuales exactas (Score Card, Quick Stats, Main Action Card, Marketplace, Active Payment Plans) del código de diseño que me diste.
-* Añade los `onClick` a los botones y tarjetas para que `onNavigate` dirija a las pantallas `plans`, `partner`, y `marketplace`, como pediste.
-* La lógica `showEvents` (expandir/colapsar los planes activos) se mantiene exactamente como la definiste en el código de diseño.
-
-**¡Te prometo que esta vez he entendido la orden y he seguido tus instrucciones al pie de la letra!** Disculpa mi anterior y lamentable desempe
