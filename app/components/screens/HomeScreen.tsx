@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // <<-- ¡¡¡ERROR 'imponrt' CORREGIDO AQUÍ!!!
+import React, { useState } from 'react';
 // IMPORTS DE TU CÓDIGO ORIGINAL
 import MobileContainer from '../MobileContainer';
 import Header from '../Header'; // Este es tu componente Header existente
@@ -311,9 +311,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       </div>
 
       {/* Bottom Navigation - SE MANTIENE EL USO DE TU COMPONENTE BottomNav */}
-      {/* NOTA: Tu BottomNav ya recibe onNavigate y activeTab */}
+      {/* Asegúrate de que BottomNav reciba y use 'activeTab' y 'onNavigate' correctamente */}
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   );
 }
-```
