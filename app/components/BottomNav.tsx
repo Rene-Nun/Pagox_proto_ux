@@ -1,4 +1,4 @@
-import { Home, ShoppingBag, CreditCard, Wallet, User } from 'lucide-react'
+import { Home, ShoppingBag, CreditCard, Wallet } from 'lucide-react'
 
 interface BottomNavProps {
   activeTab: string
@@ -9,9 +9,8 @@ export default function BottomNav({ activeTab, onNavigate }: BottomNavProps) {
   const navItems = [
     { icon: Home, label: 'Inicio', screen: 'home', tab: 'home' },
     { icon: ShoppingBag, label: 'Marketplace', screen: 'marketplace', tab: 'marketplace' },
-    { icon: CreditCard, label: 'Planes', screen: 'plans', tab: 'plans' },
-    { icon: Wallet, label: 'Cartera', screen: 'wallet', tab: 'wallet' },
-    { icon: User, label: 'Perfil', screen: 'profile', tab: 'profile' }
+    { icon: CreditCard, label: 'Mis Pagos', screen: 'plans', tab: 'plans' },
+    { icon: Wallet, label: 'Cartera', screen: 'wallet', tab: 'wallet' }
   ]
 
   return (
