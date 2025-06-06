@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { CreditCard, Smartphone, Store, DollarSign, X } from 'lucide-react'
+import { CreditCard, Smartphone, Store, DollarSign, X, Bell } from 'lucide-react'
 
 interface CheckoutScreenProps {
   onNavigate: (screen: string) => void
@@ -43,7 +43,7 @@ export default function CheckoutScreen({ onNavigate }: CheckoutScreenProps) {
     setTimeout(() => {
       setShowNotification(false)
       onNavigate('paymentPlan')
-    }, 2000)
+    }, 3000)
   }
 
   return (
@@ -54,25 +54,38 @@ export default function CheckoutScreen({ onNavigate }: CheckoutScreenProps) {
         onBack={() => onNavigate('ticketSelection')}
       />
 
-      {/* Push Notification */}
+      {/* iOS Style Push Notification */}
       {showNotification && (
-        <div className="absolute top-20 left-4 right-4 z-50 animate-slide-up">
+        <div className="absolute top-0 left-0 right-0 z-50 p-4 animate-slide-down">
           <div 
-            className="bg-green-500 text-white p-4 rounded-2xl shadow-2xl cursor-pointer"
+            className="bg-white rounded-2xl shadow-2xl overflow-hidden cursor-pointer"
             onClick={() => {
               setShowNotification(false)
               onNavigate('paymentPlan')
             }}
           >
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <DollarSign className="w-6 h-6" />
+            <div className="p-4">
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Bell className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="font-semibold text-sm">Pagox</p>
+                    <span className="text-xs text-gray-500">ahora</span>
+                  </div>
+                  <p className="text-gray-900 text-sm font-medium">
+                    ¡Tu plan de financiamiento está listo! 💳
+                  </p>
+                  <p className="text-gray-600 text-xs mt-1">
+                    Toca para revisar y aceptar tu plan personalizado
+                  </p>
+                </div>
               </div>
-              <div className="flex-1">
-                <p className="font-bold text-lg">¡Pagox!</p>
-                <p className="text-sm opacity-90">Revisa tu plan de financiamiento en la app.</p>
-              </div>
-              <X className="w-5 h-5 opacity-70" />
+            </div>
+            <div className="bg-gray-100 h-[1px]"></div>
+            <div className="bg-gray-50 px-4 py-2">
+              <p className="text-xs text-gray-500 uppercase tracking-wide">Pagox App</p>
             </div>
           </div>
         </div>
