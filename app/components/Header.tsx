@@ -10,7 +10,7 @@ interface HeaderProps {
 
 export default function Header({ title, showBack = false, onBack, showLogo = false, onNavigate }: HeaderProps) {
   return (
-    <div className="bg-gray-900 text-white safe-area-inset">
+    <div className="bg-white text-gray-900 safe-area-inset border-b border-gray-200">
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-3">
           {showBack ? (
