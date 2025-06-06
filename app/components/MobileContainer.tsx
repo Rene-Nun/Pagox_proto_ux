@@ -7,7 +7,7 @@ interface MobileContainerProps {
 
 export default function MobileContainer({ children, className = '' }: MobileContainerProps) {
   return (
-    <div className={`min-h-screen bg-gray-50 ${className}`}>
+    <div className={`h-full flex flex-col bg-gray-50 ${className}`}>
       {children}
     </div>
   )
