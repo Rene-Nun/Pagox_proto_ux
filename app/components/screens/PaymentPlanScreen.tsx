@@ -3,7 +3,7 @@ import Header from '../Header'
 import { Calendar, TrendingUp, Check, X, Music, Plane, DollarSign } from 'lucide-react'
 
 interface PaymentPlanScreenProps {
-  onNavigate: (screen: string, tab?: string) => void
+  onNavigate: (screen: string, data?: any) => void
   activeTab: string
   selectedEvent?: any
 }
