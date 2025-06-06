@@ -39,9 +39,9 @@ export default function Home() {
       case 'checkout':
         return <CheckoutScreen onNavigate={handleNavigation} />
       case 'paymentPlan':
-        return <PaymentPlanScreen onNavigate={handleNavigation} activeTab={activeTab} />
+        return <PaymentPlanScreen onNavigate={handleNavigation} activeTab={activeTab} selectedEvent={selectedEvent} />
       case 'wallet':
-        return <WalletScreen onNavigate={handleNavigation} activeTab={activeTab} />
+        return <WalletScreen onNavigate={handleNavigation} activeTab={activeTab} purchasedEvent={purchasedTicket} />
       case 'marketplace':
         return <MarketplaceScreen onNavigate={handleNavigation} activeTab={activeTab} />
       case 'plans':
