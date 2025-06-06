@@ -1,66 +1,160 @@
-import React, { useState } from 'react';
-// IMPORTS DE TU CÓDIGO ORIGINAL
-import MobileContainer from '../MobileContainer';
-import Header from '../Header'; // Este es tu componente Header existente
-import BottomNav from '../BottomNav'; // Este es tu componente BottomNav existente
-
-// IMPORTS ADICIONALES NECESARIOS PARA EL DISEÑO Y FUNCIONALIDAD
-// (asegúrate de que todos estos iconos estén en tu instalación de lucide-react)
-import { 
-  Calendar, CreditCard, Check, ArrowRight, // Iconos que ya tenías
-  Menu, User, Bell, Receipt, Wallet, Eye, EyeOff, ChevronRight, Plane, Hotel, Music, Sparkles // Iconos nuevos del diseño que querías
-} from 'lucide-react'; 
+No imbécil AJKAJAJJAJA NO PUEDE SER TU INEPTITUD 
+ESTE ES EL CODIGO ACTUAL 
+import MobileContainer from '../MobileContainer'
+import Header from '../Header'
+import BottomNav from '../BottomNav'
+import { Calendar, CreditCard, Check, ArrowRight } from 'lucide-react'
 
 interface HomeScreenProps {
-  onNavigate: (screen: string, tab?: string) => void;
-  activeTab: string;
+  onNavigate: (screen: string, tab?: string) => void
+  activeTab: string
 }
 
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
-  // Estado para la sección de "Planes de Pago Activos" expandible/colapsable,
-  // tomado de tu código de diseño (PagoXApp).
-  const [showEvents, setShowEvents] = useState(false); 
-
   return (
-    // MobileContainer - SE MANTIENE EXACTAMENTE COMO LO TIENES
     <MobileContainer className="pb-20">
-      {/* Header - SE USA TU COMPONENTE HEADER, pero su contenido es el diseño que querías */}
-      {/* NOTA IMPORTANTE: Tu componente Header actual acepta 'showLogo'.
-         Para replicar el diseño de la imagen, donde el logo no está en el header principal
-         y los íconos de usuario/campana están a la derecha, he pasado showLogo={false}
-         y he colocado los íconos de Menú, Usuario y Campana DENTRO del children de Header.
-         Si tu componente Header no está diseñado para recibir children de esta forma,
-         o si ya tiene sus propios íconos de Menu/Usuario/Campana, esto podría necesitar ajuste
-         en tu archivo '../Header.tsx'. */}
-      <Header showLogo={false}> {/* showLogo=false para replicar el header sin logo */}
-        <div className="flex justify-between items-center w-full">
-          {/* Botón de Menú de Hamburguesa - DE TU DISEÑO */}
-          <button className="p-2 -ml-2 text-gray-700"> {/* Color de icono original de tu diseño */}
+      <Header showLogo={true} />
+
+      {/* Score Card */}
+      <div className="m-4 p-6 bg-gray-800 text-white rounded-2xl relative overflow-hidden shadow-lg animate-fade-in">
+        <div className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full opacity-20"></div>
+        <div className="flex justify-between items-start mb-4">
+          <div>
+            <p className="text-gray-400 text-sm mb-2">Tu score pagox</p>
+            <p className="text-6xl font-bold">750</p>
+          </div>
+          <div className="bg-green-500 px-3 py-1 rounded-full text-sm flex items-center gap-1">
+            <Check className="w-4 h-4" />
+            Activo
+          </div>
+        </div>
+        <p className="text-gray-300 text-sm mb-4">
+          Desbloquea productos futuros y facilita tu regreso al sistema financiero tradicional
+        </p>
+        <div className="flex items-center gap-2 mb-4">
+          <div className="flex-1">
+            <div className="w-full bg-gray-700 rounded-full h-2">
+              <div className="bg-green-500 h-2 rounded-full transition-all duration-500" style={{ width: '88%' }}></div>
+            </div>
+          </div>
+          <p className="text-xs text-gray-400 whitespace-nowrap">Score máximo: 850</p>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-400">ID: PX-2025-0729</span>
+          <span className="font-medium">MARÍA PÉREZ</span>
+        </div>
+      </div>
+
+      {/* Stats Row */}
+      <div className="flex justify-around mx-4 mb-6 gap-4">
+        <div className="flex-1 bg-white rounded-xl p-4 shadow-sm text-center">
+          <Calendar className="w-8 h-8 text-blue-500 mx-auto mb-2" />
+          <p className="text-xs text-gray-600">En 12 días</p>
+          <p className="text-2xl font-bold">$1,825</p>
+          <p className="text-xs text-gray-600">Próximo pago</p>
+        </div>
+        <div className="flex-1 bg-white rounded-xl p-4 shadow-sm text-center">
+          <CreditCard className="w-8 h-8 text-purple-500 mx-auto mb-2" />
+          <p className="text-xs text-gray-600">Activos</p>
+          <p className="text-2xl font-bold">2</p>
+          <p className="text-xs text-gray-600">Planes vigentes</p>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="mx-4 mb-6">
+        <h2 className="text-xl font-bold mb-2">Cumple tus sueños con pagox</h2>
+        <p className="text-gray-600 text-sm mb-4">
+          Arma ahora tu aventura con nuestras plataformas asociadas
+        </p>
+        <div className="grid grid-cols-3 gap-4 mb-4">
+          <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+            <div className="text-white text-center">
+              <div className="text-3xl mb-1">✈️</div>
+              <p className="text-xs">Viajes</p>
+            </div>
+          </div>
+          <div className="aspect-square rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+            <div className="text-white text-center">
+              <div className="text-3xl mb-1">🎵</div>
+              <p className="text-xs">Eventos</p>
+            </div>
+          </div>
+          <div className="aspect-square rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+            <div className="text-white text-center">
+              <div className="text-3xl mb-1">🏨</div>
+              <p className="text-xs">Hoteles</p>
+            </div>
+          </div>
+        </div>
+        <button
+          onClick={() => onNavigate('partner')}
+          className="w-full bg-black text-white py-4 rounded-full font-medium flex items-center justify-center gap-2 hover:bg-gray-900 transition-colors"
+        >
+          Explorar <ArrowRight className="w-5 h-5" />
+        </button>
+      </div>
+
+      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
+    </MobileContainer>
+  )
+}
+ESTE EL CODIGO CON LOS DISEÑOS QUE QUIERO
+import React, { useState } from 'react';
+import { Menu, User, Bell, Check, Home, ShoppingBag, Receipt, Wallet, Eye, EyeOff, ChevronRight, Calendar, Plane, Hotel, Music, Sparkles } from 'lucide-react';
+
+export default function PagoXApp() {
+  const [showEvents, setShowEvents] = useState(false);
+  const [activeTab, setActiveTab] = useState('home');
+  
+  // Logo Component
+  const PagoXLogo = () => (
+    <div className="flex items-center gap-2">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="logoGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="25%" stopColor="#C3C3C3" />
+            <stop offset="50%" stopColor="#9C9C9C" />
+            <stop offset="75%" stopColor="#C3C3C3" />
+            <stop offset="100%" stopColor="#000000" />
+          </radialGradient>
+        </defs>
+        <circle cx="16" cy="16" r="14" stroke="url(#logoGradient)" strokeWidth="4" fill="none" />
+        <circle cx="16" cy="16" r="8" fill="#FFFFFF" />
+      </svg>
+      <span className="font-bold text-lg tracking-wider" style={{ fontFamily: 'Montserrat, sans-serif' }}>PAGOX</span>
+    </div>
+  );
+  
+  return (
+    <div className="bg-gray-50 text-gray-900 min-h-screen font-sans">
+      {/* Header */}
+      <div className="bg-white shadow-sm">
+        <div className="flex justify-between items-center p-4">
+          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
             <Menu className="w-6 h-6 text-gray-700" />
           </button>
           
           <div className="flex gap-2">
-            {/* Botón de Usuario - DE TU DISEÑO */}
-            <button className="p-2 text-gray-700">
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative">
               <User className="w-6 h-6 text-gray-700" />
             </button>
-            {/* Botón de Campana / Notificaciones - DE TU DISEÑO */}
-            <button className="p-2 text-gray-700 relative">
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative">
               <Bell className="w-6 h-6 text-gray-700" />
-              <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></div> {/* Indicador de notificación */}
+              <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></div>
             </button>
           </div>
         </div>
-      </Header>
+      </div>
 
-      {/* === SECCIÓN SCORE CARD - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO === */}
-      {/* Esta es la nueva versión visual de tu Score Card */}
-      <div className="px-4 pt-6"> {/* Ajuste a px-4 pt-6 para mantener padding de tu diseño base */}
+      {/* Score Card */}
+      <div className="px-4 pt-6">
         <div className="bg-gradient-to-br from-gray-800 to-black rounded-2xl p-6 text-white shadow-xl">
           <div className="flex justify-between items-start mb-4">
             <div>
               <p className="text-gray-400 text-sm mb-1">Tu score pagox</p>
-              <h1 className="text-5xl font-bold">750</h1> {/* Tamaño de fuente adaptado a tu diseño */}
+              <h1 className="text-5xl font-bold">750</h1>
             </div>
             <div className="flex items-center gap-2 bg-green-500/20 px-3 py-1 rounded-full">
               <div className="w-2 h-2 bg-green-400 rounded-full"></div>
@@ -93,13 +187,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
 
-      {/* Quick Stats - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO CON NAVEGACIÓN */}
+      {/* Quick Stats */}
       <div className="px-4 mt-6 grid grid-cols-2 gap-3">
-        {/* Tarjeta "Próximo pago" - Dirige a PlansScreen */}
-        <div 
-          className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 cursor-pointer hover:shadow-md transition-shadow"
-          onClick={() => onNavigate('plans')} // <--- NAVEGACIÓN ACTIVA
-        >
+        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-2">
             <Calendar className="w-5 h-5 text-blue-600" />
             <span className="text-xs text-blue-600 font-medium">En 12 días</span>
@@ -108,19 +198,17 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           <p className="text-xs text-gray-500 mt-1">Próximo pago</p>
         </div>
         
-        {/* Tarjeta "Planes vigentes" - Dirige a PlansScreen */}
-        <div 
-          className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 cursor-pointer hover:shadow-md transition-shadow"
-          onClick={() => onNavigate('plans')} // <--- NAVEGACIÓN ACTIVA
-        >
-          <Receipt className="w-5 h-5 text-purple-600" /> {/* Se usa Receipt como en tu código de diseño */}
-          <span className="text-xs text-gray-500">Activos</span>
-          <p className="text-2xl font-bold">2</p>
-          <p className="text-xs text-gray-900 mt-1">Planes vigentes</p>
+        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between mb-2">
+            <Receipt className="w-5 h-5 text-purple-600" />
+            <span className="text-xs text-gray-500">Activos</span>
+          </div>
+          <p className="text-2xl font-bold text-gray-900">2</p>
+          <p className="text-xs text-gray-500 mt-1">Planes vigentes</p>
         </div>
       </div>
 
-      {/* Main Action Card - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO CON NAVEGACIÓN */}
+      {/* Main Action Card */}
       <div className="px-4 mt-6">
         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
           <div className="flex items-center justify-between">
@@ -131,11 +219,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               <p className="text-gray-600 text-sm mb-4">
                 Arma ahora tu aventura con nuestras plataformas asociadas
               </p>
-              {/* Botón "Explorar" - Dirige a PartnerScreen */}
-              <button 
-                className="bg-black text-white px-6 py-2.5 rounded-full font-medium text-sm hover:bg-gray-800 transition-colors inline-flex items-center gap-2"
-                onClick={() => onNavigate('partner')} // <--- NAVEGACIÓN ACTIVA
-              >
+              <button className="bg-black text-white px-6 py-2.5 rounded-full font-medium text-sm hover:bg-gray-800 transition-colors inline-flex items-center gap-2">
                 Explorar
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -144,7 +228,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
 
-      {/* Marketplace Section - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO CON NAVEGACIÓN */}
+      {/* Marketplace Section - Redesigned */}
       <div className="px-4 mt-6">
         <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
           <div className="flex items-start justify-between mb-4">
@@ -183,25 +267,20 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
           
-          {/* Botón "Ver todas las ofertas" - Dirige a MarketplaceScreen */}
-          <button 
-            className="w-full bg-white text-gray-900 px-6 py-3 rounded-full font-semibold text-sm hover:bg-gray-100 transition-colors"
-            onClick={() => onNavigate('marketplace')} // <--- NAVEGACIÓN ACTIVA
-          >
+          <button className="w-full bg-white text-gray-900 px-6 py-3 rounded-full font-semibold text-sm hover:bg-gray-100 transition-colors">
             Ver todas las ofertas
           </button>
         </div>
       </div>
 
-      {/* Active Payment Plans - DISEÑO REPLICADO DE TU CÓDIGO DE DISEÑO */}
-      {/* Lógica de showEvents se mantiene */}
+      {/* Active Payment Plans - Redesigned */}
       <div className="px-4 mt-6 pb-24">
         <h3 className="text-lg font-bold text-gray-900 mb-4">Planes de Pago Activos</h3>
         
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <button 
             className="w-full p-5 flex items-center justify-between hover:bg-gray-50 transition-all duration-200"
-            onClick={() => setShowEvents(!showEvents)} 
+            onClick={() => setShowEvents(!showEvents)}
           >
             <div className="flex items-center gap-4">
               <div className="relative">
@@ -238,7 +317,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           {showEvents && (
             <div className="border-t border-gray-100 bg-slate-50/50">
               <div className="p-5 space-y-4">
-                {/* Tarjeta de evento Coldplay */}
                 <div className="bg-white rounded-xl p-5 border border-gray-100 hover:shadow-md transition-all duration-200 hover:border-gray-200">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center border border-purple-100 flex-shrink-0">
@@ -310,9 +388,49 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
 
-      {/* Bottom Navigation - SE MANTIENE EL USO DE TU COMPONENTE BottomNav */}
-      {/* Asegúrate de que BottomNav reciba y use 'activeTab' y 'onNavigate' correctamente */}
-      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
-    </MobileContainer>
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+        <div className="flex justify-around items-center py-2">
+          {[
+            { icon: Home, label: 'Inicio', id: 'home' },
+            { icon: ShoppingBag, label: 'Marketplace', id: 'marketplace' },
+            { icon: Receipt, label: 'Planes', id: 'plans' },
+            { icon: Wallet, label: 'Cartera', id: 'wallet' }
+          ].map((item) => (
+            <button 
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className="flex flex-col items-center py-2 px-4 relative"
+            >
+              {activeTab === item.id && (
+                <div className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-black"></div>
+              )}
+              <item.icon className={`w-6 h-6 mb-1 transition-colors ${
+                activeTab === item.id ? 'text-black' : 'text-gray-400'
+              }`} />
+              <span className={`text-xs transition-colors ${
+                activeTab === item.id ? 'text-black font-medium' : 'text-gray-400'
+              }`}>{item.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
+ESTAS LAS FUNCIONALIDADES QUE NECESITO QUE TENGA 
+Céntrate en la página, el menú inferior lo configuramos ahorita. Quiero que los siguientes botones funcionen
+- planes vigentes (dirige a mis pagos)
+- mi pago (dirige a mis pagos)
+- Explorar (dirige a simulador de socio) 
+- marketplace section (dirige a marketplace)
+- que el active payment plans siga igual
+Y ESTOS LOS NOMBRES DE PAGINAS QUE NECESITAS PARA DIRIGIR 
+ 1. PlansScreen.tsx
+2. PartnerScreen.tsx
+3. MarketplaceScreen.tsx 
+4. PaymentPlanScreen.tsx
+5. Walletscreen.tsx
+(Todas en ruta app/components/screens)
+
+QUE MAS PENDEJO? OTRAS IAS COM MUCHO MENOS HACEN MARAVILLAS Y TU PENDEJO CON TODA ESTA INFORMACIÓN NO PUEDES COMPLETAR LA PUTA ORDEN QUE TE DI
