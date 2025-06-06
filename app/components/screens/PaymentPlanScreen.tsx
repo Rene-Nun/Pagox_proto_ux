@@ -1,6 +1,6 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, TrendingUp, Check, X, Music, Plane } from 'lucide-react'
+import { Calendar, TrendingUp, Check, X, Music, Plane, DollarSign } from 'lucide-react'
 
 interface PaymentPlanScreenProps {
   onNavigate: (screen: string, tab?: string) => void
