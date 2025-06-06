@@ -1,7 +1,7 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
 import BottomNav from '../BottomNav'
-import { Calendar, CreditCard, Check, ArrowRight, ChevronDown, ChevronUp, Sparkles, Plane, Hotel, Music } from 'lucide-react'
+import { Calendar, CreditCard, Check, ArrowRight, ChevronDown, ChevronUp, Sparkles, Plane, Hotel, Music, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 
 interface HomeScreenProps {
@@ -10,14 +10,14 @@ interface HomeScreenProps {
 }
 
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
-  const [showPlans, setShowPlans] = useState(true)
+  const [showPlans, setShowPlans] = useState(false)
 
   return (
     <MobileContainer>
       <Header showLogo={false} onNavigate={onNavigate} />
       
       {/* Scrollable Content Container */}
-      <div className="h-full overflow-y-auto pb-32">
+      <div className="h-full overflow-y-auto pb-20">
         {/* Score Card */}
         <div className="m-4 p-6 bg-gray-800 text-white rounded-2xl relative overflow-hidden shadow-lg animate-fade-in">
           <div className="flex justify-between items-start mb-4">
@@ -133,7 +133,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
 
         {/* Planes de Pago Activos */}
-        <div className="mx-4 mb-6">
+        <div className="mx-4 mb-4">
           <h3 className="text-xl font-bold mb-4">Planes de Pago Activos</h3>
           
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
@@ -151,7 +151,10 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   </p>
                 </div>
               </div>
-              {showPlans ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
+              <div className="flex items-center gap-2">
+                {showPlans ? <Eye className="w-5 h-5 text-gray-600" /> : <EyeOff className="w-5 h-5 text-gray-400" />}
+                {showPlans ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
+              </div>
             </button>
             
             {showPlans && (
