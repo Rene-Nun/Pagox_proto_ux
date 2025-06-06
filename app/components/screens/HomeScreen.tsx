@@ -14,13 +14,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
   return (
     <MobileContainer>
-      <Header showLogo={true} />
+      <Header showLogo={false} onNavigate={onNavigate} />
       
       {/* Scrollable Content Container */}
       <div className="h-full overflow-y-auto pb-32">
         {/* Score Card */}
         <div className="m-4 p-6 bg-gray-800 text-white rounded-2xl relative overflow-hidden shadow-lg animate-fade-in">
-          <div className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full opacity-20"></div>
           <div className="flex justify-between items-start mb-4">
             <div>
               <p className="text-gray-400 text-sm mb-2">Tu score pagox</p>
@@ -65,8 +64,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="mx-4 mb-6">
+        {/* CTA Section - Más marcada */}
+        <div className="mx-4 mb-6 bg-white rounded-2xl p-6 shadow-md">
           <h2 className="text-xl font-bold mb-2">Cumple tus sueños con pagox</h2>
           <p className="text-gray-600 text-sm mb-4">
             Arma ahora tu aventura con nuestras plataformas asociadas
@@ -79,46 +78,54 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </button>
         </div>
 
-        {/* Ofertas Exclusivas Card */}
+        {/* Ofertas Exclusivas Card - Rediseñada */}
         <div className="mx-4 mb-6">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white relative overflow-hidden">
-            <div className="flex items-start justify-between mb-4">
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white relative overflow-hidden shadow-lg">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                  <Sparkles className="w-6 h-6" />
+                <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                  <Sparkles className="w-8 h-8" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">Ofertas Exclusivas</h3>
-                  <p className="text-sm opacity-90">Marketplace pagox</p>
+                  <h3 className="text-2xl font-bold">Ofertas</h3>
+                  <h3 className="text-2xl font-bold">Exclusivas</h3>
+                  <p className="text-sm opacity-90 mt-1">Marketplace pagox</p>
                 </div>
               </div>
-              <span className="bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold">
-                70% OFF
-              </span>
+              <div className="bg-yellow-400 text-black px-4 py-2 rounded-2xl">
+                <p className="text-lg font-black">70%</p>
+                <p className="text-sm font-bold -mt-1">OFF</p>
+              </div>
             </div>
             
-            <p className="mb-6 opacity-90">
+            <p className="mb-6 text-lg opacity-90">
               Accede a descuentos exclusivos para miembros pagox
             </p>
             
-            <div className="flex justify-around mb-6">
+            <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="text-center">
-                <Plane className="w-8 h-8 mx-auto mb-1" />
-                <p className="text-sm">Vuelos</p>
+                <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-2">
+                  <Plane className="w-8 h-8" />
+                </div>
+                <p className="text-sm font-medium">Vuelos</p>
               </div>
               <div className="text-center">
-                <Hotel className="w-8 h-8 mx-auto mb-1" />
-                <p className="text-sm">Hoteles</p>
+                <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-2">
+                  <Hotel className="w-8 h-8" />
+                </div>
+                <p className="text-sm font-medium">Hoteles</p>
               </div>
               <div className="text-center">
-                <Music className="w-8 h-8 mx-auto mb-1" />
-                <p className="text-sm">Eventos</p>
+                <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-2">
+                  <Music className="w-8 h-8" />
+                </div>
+                <p className="text-sm font-medium">Eventos</p>
               </div>
             </div>
             
             <button 
               onClick={() => onNavigate('marketplace', 'marketplace')}
-              className="w-full bg-white text-purple-600 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors"
+              className="w-full bg-white text-purple-600 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors"
             >
               Ver todas las ofertas
             </button>
