@@ -5,9 +5,10 @@ interface HeaderProps {
   showBack?: boolean
   onBack?: () => void
   showLogo?: boolean
+  onNavigate?: (screen: string, tab?: string) => void
 }
 
-export default function Header({ title, showBack = false, onBack, showLogo = false }: HeaderProps) {
+export default function Header({ title, showBack = false, onBack, showLogo = false, onNavigate }: HeaderProps) {
   return (
     <div className="bg-gray-900 text-white safe-area-inset">
       <div className="flex items-center justify-between p-4">
@@ -32,7 +33,10 @@ export default function Header({ title, showBack = false, onBack, showLogo = fal
             <Bell className="w-5 h-5 cursor-pointer hover:opacity-80 transition-opacity" />
             <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></div>
           </div>
-          <User className="w-5 h-5 cursor-pointer hover:opacity-80 transition-opacity" />
+          <User 
+            className="w-5 h-5 cursor-pointer hover:opacity-80 transition-opacity" 
+            onClick={() => onNavigate && onNavigate('profile', 'profile')}
+          />
         </div>
       </div>
     </div>
