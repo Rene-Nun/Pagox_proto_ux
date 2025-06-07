@@ -12,12 +12,10 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [showPlans, setShowPlans] = useState(false)
 
   return (
-    // Se reemplazó h-screen por h-dvh para un manejo correcto de la altura en móviles
     <div className="h-dvh flex flex-col bg-gray-50">
       <Header showLogo={false} onNavigate={onNavigate} />
 
-      {/* El contenido es el único elemento que ahora tendrá scroll */}
-      <div className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-4">
           {/* Score Card */}
           <div className="p-6 bg-gray-800 text-white rounded-2xl relative overflow-hidden shadow-lg animate-fade-in">
@@ -124,7 +122,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            <button 
+            <button
               onClick={() => onNavigate('marketplace', 'marketplace')}
               className="w-full bg-white text-purple-600 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors"
             >
@@ -135,7 +133,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           {/* Planes de Pago Activos */}
           <div className="pb-4">
             <h3 className="text-xl font-bold mb-4">Planes de Pago Activos</h3>
-
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
               <button
                 onClick={() => setShowPlans(!showPlans)}
@@ -146,7 +143,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   <div className="text-left">
                     <p className="font-bold">2 eventos • Siguiente pago en 12 días</p>
                     <p className="text-sm text-gray-600 flex items-center gap-2">
-                      Total quincenal: $1,825 
+                      Total quincenal: $1,825
                       <span className="text-green-500 text-xs font-medium">• Al día</span>
                     </p>
                   </div>
@@ -168,7 +165,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                       <div className="flex-1">
                         <h4 className="font-bold">Coldplay - Music of the Spheres</h4>
                         <p className="text-sm text-gray-600">Foro Sol • 15 Mar 2025</p>
-
                         <div className="mt-3">
                           <div className="flex justify-between items-center mb-1">
                             <div className="w-full bg-gray-200 rounded-full h-2 mr-3">
@@ -195,7 +191,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                       <div className="flex-1">
                         <h4 className="font-bold">Vuelo CDMX - Cancún</h4>
                         <p className="text-sm text-gray-600">Aeroméxico • 28 Jun 2025</p>
-
                         <div className="mt-3">
                           <div className="flex justify-between items-center mb-1">
                             <div className="w-full bg-gray-200 rounded-full h-2 mr-3">
@@ -217,9 +212,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* El menú ahora se mantiene abajo, fuera del scroll */}
+      </main>
+
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </div>
   )
