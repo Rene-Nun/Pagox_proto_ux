@@ -218,4 +218,4 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   )
-}
+} 
