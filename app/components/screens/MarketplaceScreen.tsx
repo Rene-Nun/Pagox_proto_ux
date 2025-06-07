@@ -77,11 +77,11 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   ]
 
   return (
-    <MobileContainer className="bg-gray-50">
+    <div className="h-full flex flex-col bg-gray-50">
       <Header title="Marketplace" onNavigate={onNavigate} />
 
-      <div className="flex-1 overflow-y-auto pb-24">
-        <div className="p-4">
+      <div className="flex-1 overflow-y-auto">
+        <div className="p-4 pb-20">
           {/* Search Bar */}
           <div className="relative mb-6">
             <input
@@ -215,9 +215,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200">
-        <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
-      </div>
-    </MobileContainer>
+      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
+    </div>
   )
 }
