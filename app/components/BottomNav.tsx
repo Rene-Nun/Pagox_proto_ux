@@ -14,18 +14,22 @@ export default function BottomNav({ activeTab, onNavigate }: BottomNavProps) {
   ]
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-inset">
-      <div className="flex justify-around py-2">
+    <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 rounded-b-[40px] overflow-hidden">
+      <div className="flex justify-around py-2 pb-4">
         {navItems.map(({ icon: Icon, label, screen, tab }) => (
           <button
             key={tab}
             onClick={() => onNavigate(screen, tab)}
-            className={`flex flex-col items-center p-2 transition-colors ${
-              activeTab === tab ? 'text-green-500' : 'text-gray-600'
+            className={`flex flex-col items-center p-2 transition-all ${
+              activeTab === tab ? 'text-purple-600' : 'text-gray-500'
             }`}
           >
-            <Icon className="w-5 h-5 mb-1" />
-            <span className="text-xs">{label}</span>
+            <div className={`p-2 rounded-xl transition-all ${
+              activeTab === tab ? 'bg-purple-100' : ''
+            }`}>
+              <Icon className="w-5 h-5" />
+            </div>
+            <span className="text-xs mt-1 font-medium">{label}</span>
           </button>
         ))}
       </div>
