@@ -131,5 +131,5 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   )
-}
+} 
 
