@@ -1,6 +1,6 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import BottomNav from '../BottomNav'
+// Se elimina la importación de BottomNav porque ya no se usa aquí
 import { TrendingUp, TrendingDown, Clock, Percent, Filter, Search, Sparkles, Info, Zap } from 'lucide-react'
 
 interface MarketplaceScreenProps {
@@ -77,12 +77,12 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   ]
 
   return (
-    // Se restaura MobileContainer y se organiza la estructura interna
-    <MobileContainer className="bg-gray-50">
+    // Se usa un div normal con flexbox para controlar el layout
+    <div className="h-dvh flex flex-col bg-gray-50">
       <Header title="Marketplace" onNavigate={onNavigate} />
 
-      {/* Contenido principal que crece y permite el scroll */}
-      <div className="flex-1 overflow-y-auto">
+      {/* Contenedor con scroll y padding inferior para dejar espacio al menú global */}
+      <div className="flex-1 overflow-y-auto pb-24">
         <div className="p-4">
           {/* Search Bar */}
           <div className="relative mb-6">
@@ -217,9 +217,9 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
       
-      {/* Menú inferior, ahora como hermano del div de contenido */}
-      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
-    </MobileContainer>
+      {/* El componente BottomNav se elimina de aquí. Debe ser renderizado
+          en un componente padre (como App.tsx) de forma global. */}
+    </div>
   )
 }
 
