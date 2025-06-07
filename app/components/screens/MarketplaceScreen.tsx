@@ -77,10 +77,10 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   ]
 
   return (
-    <MobileContainer className="pb-20 bg-gray-50">
+    <MobileContainer className="bg-gray-50">
       <Header title="Marketplace" onNavigate={onNavigate} />
 
-      <div className="h-full overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pb-24">
         <div className="p-4">
           {/* Search Bar */}
           <div className="relative mb-6">
@@ -135,7 +135,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           </div>
 
           {/* Listings */}
-          <div className="space-y-4 pb-4">
+          <div className="space-y-4">
             {listings.map((listing) => (
               <div key={listing.id} className="bg-white rounded-3xl shadow-sm overflow-hidden hover:shadow-lg transition-all transform hover:scale-[1.01]">
                 <div className="p-5">
@@ -196,7 +196,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           </div>
 
           {/* CTA Banner */}
-          <div className="mt-6 mb-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
+          <div className="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
                 <Sparkles className="w-6 h-6" />
@@ -215,7 +215,9 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
+      <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+        <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
+      </div>
     </MobileContainer>
   )
 }
