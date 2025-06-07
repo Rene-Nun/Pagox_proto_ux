@@ -9,37 +9,15 @@ interface PlansScreenProps {
 
 export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps) {
   const plans = [
-    {
-      id: 1,
-      name: 'Bad Bunny - World Tour',
-      type: 'Concierto',
-      nextPayment: 400,
-      nextDate: '01/07/2025',
-      progress: 33,
-      status: 'active',
-      totalDebt: 1200,
-      paidAmount: 400
-    },
-    {
-      id: 2,
-      name: 'Vuelo CDMX - Cancún',
-      type: 'Viaje',
-      nextPayment: 680,
-      nextDate: '15/06/2025',
-      progress: 60,
-      status: 'active',
-      totalDebt: 6800,
-      paidAmount: 4080
-    }
+    { id: 1, name: 'Bad Bunny - World Tour', type: 'Concierto', nextPayment: 400, nextDate: '01/07/2025', progress: 33, status: 'active', totalDebt: 1200, paidAmount: 400 },
+    { id: 2, name: 'Vuelo CDMX - Cancún', type: 'Viaje', nextPayment: 680, nextDate: '15/06/2025', progress: 60, status: 'active', totalDebt: 6800, paidAmount: 4080 }
   ]
 
   return (
-    // Se reemplazó h-screen por h-dvh para un manejo correcto de la altura en móviles
     <div className="h-dvh flex flex-col bg-gray-50">
-      <Header title="Mis Planes de Pago" />
+      <Header title="Mis Planes de Pago" onNavigate={onNavigate}/>
 
-      {/* El contenido es el único elemento que ahora tendrá scroll */}
-      <div className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto">
         <div className="p-4">
           {/* Summary Cards */}
           <div className="grid grid-cols-2 gap-4 mb-6">
@@ -77,7 +55,7 @@ export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps)
                     <span>${plan.totalDebt.toLocaleString()} total</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
+                    <div
                       className="bg-green-500 h-2 rounded-full transition-all duration-500"
                       style={{ width: `${plan.progress}%` }}
                     ></div>
@@ -112,9 +90,8 @@ export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps)
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* El menú ahora se mantiene abajo, fuera del scroll */}
+      </main>
+
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </div>
   )
