@@ -1,5 +1,5 @@
+import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import BottomNav from '../BottomNav'
 import { TrendingUp, TrendingDown, Clock, Percent, Filter, Search, Sparkles, Info, Zap } from 'lucide-react'
 
 interface MarketplaceScreenProps {
@@ -76,10 +76,10 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   ]
 
   return (
-    <div className="h-full flex flex-col bg-gray-50">
+    <MobileContainer className="bg-gray-50">
       <Header title="Marketplace" onNavigate={onNavigate} />
 
-      <div className="flex-1 overflow-y-auto pb-20">
+      <div className="flex-1 overflow-y-auto pb-24">
         <div className="p-4">
           {/* Search Bar */}
           <div className="relative mb-6">
@@ -195,7 +195,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           </div>
 
           {/* CTA Banner */}
-          <div className="mt-6 mb-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
+          <div className="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
                 <Sparkles className="w-6 h-6" />
@@ -213,10 +213,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           </div>
         </div>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-inset">
-        <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
-      </div>
-    </div>
+    </MobileContainer>
   )
 }
