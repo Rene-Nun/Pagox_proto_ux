@@ -143,7 +143,14 @@ export default function TicketSelectionScreen({ onNavigate, selectedEvent }: Tic
       {/* Fixed Continue Button */}
       <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
         <button
-          onClick={() => onNavigate('checkout')}
+          onClick={() => onNavigate('checkout', { 
+            event: event, 
+            ticket: { 
+              type: selectedTicket, 
+              quantity: quantity, 
+              price: ticketOptions.find(t => t.id === selectedTicket)?.price || 1500 
+            } 
+          })}
           className="w-full bg-purple-600 text-white py-4 rounded-full font-medium hover:bg-purple-700 transition-colors"
         >
           Continuar al Pago
