@@ -1,6 +1,6 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import BottomNav from '../BottomNav' // Import agregado
+import BottomNav from '../BottomNav'
 import { Calendar, DollarSign, AlertCircle, CheckCircle } from 'lucide-react'
 
 interface PlansScreenProps {
@@ -38,8 +38,8 @@ export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps)
     <MobileContainer>
       <Header title="Mis Planes de Pago" />
 
-      {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto pb-24">
+      {/* Scrollable Content - se eliminó pb-24 */}
+      <div className="flex-1 overflow-y-auto">
         <div className="p-4">
           {/* Summary Cards */}
           <div className="grid grid-cols-2 gap-4 mb-6">
@@ -113,8 +113,7 @@ export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps)
           </div>
         </div>
       </div>
-
-      {/* BottomNav re-agregado para que sea visible */}
+      
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   )
