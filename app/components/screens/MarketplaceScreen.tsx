@@ -1,6 +1,6 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import BottomNav from '../BottomNav' // Import agregado
+import BottomNav from '../BottomNav'
 import { TrendingUp, TrendingDown, Clock, Percent, Filter, Search, Sparkles, Info, Zap } from 'lucide-react'
 
 interface MarketplaceScreenProps {
@@ -80,7 +80,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
     <MobileContainer className="bg-gray-50">
       <Header title="Marketplace" onNavigate={onNavigate} />
 
-      <div className="flex-1 overflow-y-auto pb-24">
+      {/* Scrollable Content - se eliminó pb-24 */}
+      <div className="flex-1 overflow-y-auto">
         <div className="p-4">
           {/* Search Bar */}
           <div className="relative mb-6">
@@ -215,7 +216,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
       
-      {/* BottomNav agregado para que sea visible */}
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   )
