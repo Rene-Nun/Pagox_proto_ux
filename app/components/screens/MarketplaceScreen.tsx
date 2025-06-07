@@ -196,6 +196,65 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           </div>
 
           {/* CTA Banner */}
+          <div className="mt-6 mb-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-bold text-lg mb-2">¿Tienes un boleto que vender?</h4>
+                <p className="text-white/90 text-sm mb-4">
+                  Nuestra IA calcula el mejor precio y encuentra compradores en minutos.
+                </p>
+                <button className="bg-white text-purple-600 px-5 py-2.5 rounded-full text-sm font-bold hover:shadow-lg transition-all">
+                  Publicar ahora
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
+    </MobileContainer>
+  )
+}>
+                            {listing.trend === 'up' && <TrendingUp className="w-4 h-4 text-green-500" />}
+                            {listing.trend === 'down' && <TrendingDown className="w-4 h-4 text-red-500" />}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">Deuda asumible</p>
+                          <p className="text-xl font-bold text-orange-600">${listing.debt.toLocaleString()}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center text-sm font-bold text-purple-700">
+                        {listing.seller.split(' ')[0][0]}{listing.seller.split(' ')[1][0]}
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{listing.seller}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-xs text-gray-500">Score: {listing.score}</p>
+                          <span className="text-xs text-gray-400">•</span>
+                          <p className="text-xs text-gray-500">Hace {listing.daysListed} días</p>
+                        </div>
+                      </div>
+                    </div>
+                    <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:shadow-lg transition-all">
+                      Ver detalles
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Banner */}
           <div className="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
