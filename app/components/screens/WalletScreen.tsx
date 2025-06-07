@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import BottomNav from '../BottomNav'
 import { Lock, Calendar, Music, Plane, Unlock, Clock, TrendingUp } from 'lucide-react'
 
 interface WalletScreenProps {
@@ -106,7 +105,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
               {/* Ticket Header */}
               <div className={`bg-gradient-to-r ${ticket.gradient} p-5 text-white relative overflow-hidden`}>
                 <div className="absolute top-0 right-0 text-6xl opacity-20">{ticket.icon}</div>
-                
+
                 <div className="flex items-start justify-between relative z-10">
                   <div className="flex-1">
                     <h3 className="text-xl font-bold mb-1">{ticket.artist}</h3>
@@ -185,8 +184,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
           ))}
         </div>
       </div>
-
-      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   )
 }
