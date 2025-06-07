@@ -1,5 +1,6 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
+import BottomNav from '../BottomNav' // Import agregado
 import { TrendingUp, TrendingDown, Clock, Percent, Filter, Search, Sparkles, Info, Zap } from 'lucide-react'
 
 interface MarketplaceScreenProps {
@@ -213,6 +214,10 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           </div>
         </div>
       </div>
+      
+      {/* BottomNav agregado para que sea visible */}
+      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   )
 }
+
