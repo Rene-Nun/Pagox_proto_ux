@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Header from '../Header'
+import BottomNav from '../BottomNav' // Import re-agregado
 import { Lock, Calendar, Music, Plane, Unlock, Clock, TrendingUp } from 'lucide-react'
 
 interface WalletScreenProps {
@@ -73,7 +74,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
     <div className="h-full flex flex-col bg-gray-50">
       <Header title="Mi Cartera" onNavigate={onNavigate} />
 
-      {/* Scrollable Content con padding inferior agregado */}
+      {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto pb-24">
         <div className="p-4 space-y-4">
           {/* Header Stats */}
@@ -178,7 +179,9 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
         </div>
       </div>
       
-      {/* BottomNav ha sido eliminado */}
+      {/* BottomNav re-agregado para que sea visible */}
+      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </div>
   )
 }
+
