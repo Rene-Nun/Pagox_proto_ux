@@ -1,4 +1,3 @@
-import MobileContainer from '../MobileContainer'
 import Header from '../Header'
 import BottomNav from '../BottomNav'
 import { TrendingUp, TrendingDown, Clock, Percent, Filter, Search, Sparkles, Info, Zap } from 'lucide-react'
@@ -77,10 +76,11 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   ]
 
   return (
-    <MobileContainer className="bg-gray-50">
+    // Contenedor principal ajustado para ocupar toda la pantalla y organizar el contenido en columna
+    <div className="h-screen flex flex-col bg-gray-50">
       <Header title="Marketplace" onNavigate={onNavigate} />
 
-      {/* Scrollable Content - se eliminó pb-24 */}
+      {/* El contenido es el único elemento que ahora tendrá scroll */}
       <div className="flex-1 overflow-y-auto">
         <div className="p-4">
           {/* Search Bar */}
@@ -216,8 +216,9 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
       
+      {/* El menú ahora se mantiene abajo, fuera del scroll */}
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
-    </MobileContainer>
+    </div>
   )
 }
 
