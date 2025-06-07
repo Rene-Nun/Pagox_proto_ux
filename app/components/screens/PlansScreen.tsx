@@ -1,3 +1,4 @@
+import MobileContainer from '../MobileContainer'
 import Header from '../Header'
 import BottomNav from '../BottomNav'
 import { Calendar, DollarSign, AlertCircle, CheckCircle } from 'lucide-react'
@@ -14,7 +15,7 @@ export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps)
   ]
 
   return (
-    <div className="h-dvh flex flex-col bg-gray-50">
+    <MobileContainer>
       <Header title="Mis Planes de Pago" onNavigate={onNavigate}/>
 
       <main className="flex-1 overflow-y-auto">
@@ -37,7 +38,7 @@ export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps)
           <h3 className="text-lg font-bold mb-4">Planes Activos</h3>
           <div className="space-y-4">
             {plans.map((plan) => (
-              <div key={plan.id} className="bg-white rounded-2xl p-4 shadow-sm">
+              <div key={plan.id} className="bg-white rounded-2xl p-4 shadow-sm mb-4">
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <h4 className="font-bold">{plan.name}</h4>
@@ -93,7 +94,7 @@ export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps)
       </main>
 
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
-    </div>
+    </MobileContainer>
   )
 }
 
