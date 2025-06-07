@@ -14,8 +14,8 @@ export default function BottomNav({ activeTab, onNavigate }: BottomNavProps) {
   ]
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-inset z-50">
-      <div className="flex justify-around py-2 pb-4">
+    <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 rounded-b-[40px] overflow-hidden z-50">
+      <div className="flex justify-around py-2 pb-4 safe-area-inset">
         {navItems.map(({ icon: Icon, label, screen, tab }) => (
           <button
             key={tab}
