@@ -10,6 +10,7 @@ import WalletScreen from './components/screens/WalletScreen'
 import MarketplaceScreen from './components/screens/MarketplaceScreen'
 import PlansScreen from './components/screens/PlansScreen'
 import ProfileScreen from './components/screens/ProfileScreen'
+import BottomNav from './components/BottomNav'
 
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState('home')
@@ -21,23 +22,18 @@ export default function Home() {
   const handleNavigation = (screen: string, data: any = null) => {
     setCurrentScreen(screen)
 
-    // Manejar diferentes tipos de datos
     if (data) {
       if (typeof data === 'string') {
-        // Es un tab
         setActiveTab(data)
       } else if (data.tab) {
-        // Es un objeto con tab y posiblemente evento
         setActiveTab(data.tab)
         if (data.newTicket) {
           setPurchasedTicket(data)
         }
       } else if (data.event && data.ticket) {
-        // Es información de checkout
         setSelectedEvent(data.event)
         setTicketInfo(data.ticket)
       } else {
-        // Es un evento
         setSelectedEvent(data)
       }
     }
@@ -68,10 +64,34 @@ export default function Home() {
     }
   }
 
+  const screensWithoutBottomNav = ['partner', 'ticketSelection', 'checkout', 'paymentPlan']
+  const showBottomNav = !screensWithoutBottomNav.includes(currentScreen)
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200 p-4">
-      <div className="w-full max-w-[390px] h-[844px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative flex flex-col">
-        {renderScreen()}
+      <div className="w-full max-w-[390px] h-[844px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative">
+        <div className="h-full flex flex-col">
+          <div className="flex-1 overflow-hidden relative">
+            {renderScreen()}
+          </div>
+        </div>
+        
+        {showBottomNav && (
+          <div 
+            className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
+            style={{ 
+              position: 'absolute',
+              bottom: '0px',
+              left: '0px', 
+              right: '0px',
+              borderBottomLeftRadius: '40px',
+              borderBottomRightRadius: '40px',
+              overflow: 'hidden'
+            }}
+          >
+            <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
+          </div>
+        )}
       </div>
     </div>
   )
