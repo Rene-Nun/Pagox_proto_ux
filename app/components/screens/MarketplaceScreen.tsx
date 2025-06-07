@@ -76,8 +76,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   ]
 
   return (
-    // Contenedor principal ajustado para ocupar toda la pantalla y organizar el contenido en columna
-    <div className="h-screen flex flex-col bg-gray-50">
+    // Se reemplazó h-screen por h-dvh para un manejo correcto de la altura en móviles
+    <div className="h-dvh flex flex-col bg-gray-50">
       <Header title="Marketplace" onNavigate={onNavigate} />
 
       {/* El contenido es el único elemento que ahora tendrá scroll */}
