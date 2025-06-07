@@ -15,6 +15,7 @@ export default function Home() {
   const [currentScreen, setCurrentScreen] = useState('home')
   const [activeTab, setActiveTab] = useState('home')
   const [selectedEvent, setSelectedEvent] = useState(null)
+  const [ticketInfo, setTicketInfo] = useState(null)
   const [purchasedTicket, setPurchasedTicket] = useState(null)
 
   const handleNavigation = (screen: string, data: any = null) => {
@@ -28,9 +29,13 @@ export default function Home() {
       } else if (data.tab) {
         // Es un objeto con tab y posiblemente evento
         setActiveTab(data.tab)
-        if (data.event) {
+        if (data.newTicket) {
           setPurchasedTicket(data)
         }
+      } else if (data.event && data.ticket) {
+        // Es información de checkout
+        setSelectedEvent(data.event)
+        setTicketInfo(data.ticket)
       } else {
         // Es un evento
         setSelectedEvent(data)
@@ -47,9 +52,9 @@ export default function Home() {
       case 'ticketSelection':
         return <TicketSelectionScreen onNavigate={handleNavigation} selectedEvent={selectedEvent} />
       case 'checkout':
-        return <CheckoutScreen onNavigate={handleNavigation} />
+        return <CheckoutScreen onNavigate={handleNavigation} selectedEvent={selectedEvent} ticketInfo={ticketInfo} />
       case 'paymentPlan':
-        return <PaymentPlanScreen onNavigate={handleNavigation} activeTab={activeTab} selectedEvent={selectedEvent} />
+        return <PaymentPlanScreen onNavigate={handleNavigation} activeTab={activeTab} selectedEvent={selectedEvent} ticketInfo={ticketInfo} />
       case 'wallet':
         return <WalletScreen onNavigate={handleNavigation} activeTab={activeTab} purchasedEvent={purchasedTicket} />
       case 'marketplace':
