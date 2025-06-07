@@ -15,8 +15,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     <MobileContainer>
       <Header showLogo={false} onNavigate={onNavigate} />
 
-      {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto">
+      {/* Scrollable Content con padding inferior agregado */}
+      <div className="flex-1 overflow-y-auto pb-24">
         <div className="p-4 space-y-4">
           {/* Score Card */}
           <div className="p-6 bg-gray-800 text-white rounded-2xl relative overflow-hidden shadow-lg animate-fade-in">
