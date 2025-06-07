@@ -11,72 +11,23 @@ interface WalletScreenProps {
 
 export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: WalletScreenProps) {
   const [tickets, setTickets] = useState<any[]>([
-    {
-      artist: 'Coldplay',
-      tour: 'Music of the Spheres',
-      type: 'concert',
-      ticketType: 'general',
-      quantity: 1,
-      venue: 'Foro Sol',
-      date: '15 Mar 2025',
-      price: 1225,
-      totalPaid: 3675,
-      totalDebt: 7350,
-      progress: 50,
-      nextPayment: 1225,
-      nextPaymentDate: '01/07/2025',
-      unlockDate: '15/03/2025',
-      gradient: 'from-blue-500 to-purple-600',
-      icon: '🌟'
-    },
-    {
-      artist: 'Vuelo CDMX - Cancún',
-      tour: 'Aeroméxico',
-      type: 'flight',
-      ticketType: 'económico',
-      quantity: 1,
-      venue: 'AICM',
-      date: '28 Jun 2025',
-      price: 600,
-      totalPaid: 600,
-      totalDebt: 1800,
-      progress: 33,
-      nextPayment: 600,
-      nextPaymentDate: '15/06/2025',
-      unlockDate: '28/06/2025',
-      gradient: 'from-sky-500 to-blue-600',
-      icon: '✈️'
-    }
+    { artist: 'Coldplay', tour: 'Music of the Spheres', type: 'concert', ticketType: 'general', quantity: 1, venue: 'Foro Sol', date: '15 Mar 2025', price: 1225, totalPaid: 3675, totalDebt: 7350, progress: 50, nextPayment: 1225, nextPaymentDate: '01/07/2025', unlockDate: '15/03/2025', gradient: 'from-blue-500 to-purple-600', icon: '🌟' },
+    { artist: 'Vuelo CDMX - Cancún', tour: 'Aeroméxico', type: 'flight', ticketType: 'económico', quantity: 1, venue: 'AICM', date: '28 Jun 2025', price: 600, totalPaid: 600, totalDebt: 1800, progress: 33, nextPayment: 600, nextPaymentDate: '15/06/2025', unlockDate: '28/06/2025', gradient: 'from-sky-500 to-blue-600', icon: '✈️' }
   ])
 
   useEffect(() => {
     if (purchasedEvent?.newTicket) {
       const { event, ticket } = purchasedEvent.newTicket
-      const newTicket = {
-        ...event,
-        ticketType: ticket.type,
-        quantity: ticket.quantity,
-        price: ticket.price,
-        totalPaid: 0,
-        totalDebt: ticket.price * ticket.quantity,
-        progress: 0,
-        nextPayment: Math.round((ticket.price * ticket.quantity * 0.8) / 3),
-        nextPaymentDate: '01/07/2025',
-        unlockDate: event.date || '31/12/2025',
-        gradient: event.gradient || 'from-purple-500 to-pink-600',
-        icon: event.emoji || '🎫'
-      }
+      const newTicket = { ...event, ticketType: ticket.type, quantity: ticket.quantity, price: ticket.price, totalPaid: 0, totalDebt: ticket.price * ticket.quantity, progress: 0, nextPayment: Math.round((ticket.price * ticket.quantity * 0.8) / 3), nextPaymentDate: '01/07/2025', unlockDate: event.date || '31/12/2025', gradient: event.gradient || 'from-purple-500 to-pink-600', icon: event.emoji || '🎫' }
       setTickets(prevTickets => [...prevTickets, newTicket])
     }
   }, [purchasedEvent])
 
   return (
-    // Se reemplazó h-screen por h-dvh para un manejo correcto de la altura en móviles
     <div className="h-dvh flex flex-col bg-gray-50">
       <Header title="Mi Cartera" onNavigate={onNavigate} />
 
-      {/* El contenido es el único elemento que ahora tendrá scroll */}
-      <div className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-4">
           {/* Header Stats */}
           <div className="grid grid-cols-2 gap-4 mb-6">
@@ -100,11 +51,10 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
 
           {/* Tickets */}
           {tickets.map((ticket, index) => (
-            <div key={index} className="bg-white rounded-3xl shadow-lg overflow-hidden transform hover:scale-[1.02] transition-all">
+            <div key={index} className="bg-white rounded-3xl shadow-lg overflow-hidden transform hover:scale-[1.02] transition-all mb-4">
               {/* Ticket Header */}
               <div className={`bg-gradient-to-r ${ticket.gradient} p-5 text-white relative overflow-hidden`}>
                 <div className="absolute top-0 right-0 text-6xl opacity-20">{ticket.icon}</div>
-
                 <div className="flex items-start justify-between relative z-10">
                   <div className="flex-1">
                     <h3 className="text-xl font-bold mb-1">{ticket.artist}</h3>
@@ -119,7 +69,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
                     <Lock className="w-6 h-6" />
                   </div>
                 </div>
-
                 <div className="flex items-center gap-4 mt-4 text-white/90 text-sm">
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
@@ -138,7 +87,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
                     <span className="text-sm font-bold text-purple-600">{ticket.progress}%</span>
                   </div>
                   <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div 
+                    <div
                       className={`bg-gradient-to-r ${ticket.gradient} h-full rounded-full transition-all duration-500`}
                       style={{ width: `${ticket.progress}%` }}
                     />
@@ -148,7 +97,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
                     <span className="text-xs text-gray-500">${ticket.totalDebt.toLocaleString()} total</span>
                   </div>
                 </div>
-
                 <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center">
@@ -163,7 +111,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
                     </div>
                   </div>
                 </div>
-
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-gray-50 rounded-xl p-3">
                     <p className="text-xs text-gray-500 mb-1">Próximo pago</p>
@@ -178,9 +125,8 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
             </div>
           ))}
         </div>
-      </div>
-      
-      {/* El menú ahora se mantiene abajo, fuera del scroll */}
+      </main>
+
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </div>
   )
