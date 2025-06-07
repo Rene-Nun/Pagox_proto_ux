@@ -1,6 +1,5 @@
-import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-// Se elimina la importación de BottomNav porque ya no se usa aquí
+import BottomNav from '../BottomNav'
 import { TrendingUp, TrendingDown, Clock, Percent, Filter, Search, Sparkles, Info, Zap } from 'lucide-react'
 
 interface MarketplaceScreenProps {
@@ -10,79 +9,17 @@ interface MarketplaceScreenProps {
 
 export default function MarketplaceScreen({ onNavigate, activeTab }: MarketplaceScreenProps) {
   const listings = [
-    {
-      id: 1,
-      event: 'Taylor Swift - The Eras Tour',
-      date: '10 Mar 2026',
-      venue: 'Estadio GNP Seguros',
-      originalPrice: 2500,
-      currentPrice: 2200,
-      discount: 12,
-      debt: 1800,
-      seller: 'Ana M.',
-      score: 92,
-      trend: 'up',
-      gradient: 'from-pink-500 to-purple-600',
-      emoji: '✨',
-      daysListed: 3
-    },
-    {
-      id: 2,
-      event: 'Formula 1 - Gran Premio de México',
-      date: '29 Oct 2025',
-      venue: 'Autódromo Hermanos Rodríguez',
-      originalPrice: 4000,
-      currentPrice: 3500,
-      discount: 13,
-      debt: 2800,
-      seller: 'Carlos R.',
-      score: 88,
-      trend: 'down',
-      gradient: 'from-red-500 to-orange-600',
-      emoji: '🏎️',
-      daysListed: 1
-    },
-    {
-      id: 3,
-      event: 'Blink-182 World Tour',
-      date: '15 Ago 2025',
-      venue: 'Palacio de los Deportes',
-      originalPrice: 1800,
-      currentPrice: 1650,
-      discount: 8,
-      debt: 1200,
-      seller: 'Luis P.',
-      score: 75,
-      trend: 'stable',
-      gradient: 'from-gray-600 to-black',
-      emoji: '🎸',
-      daysListed: 5
-    },
-    {
-      id: 4,
-      event: 'Cirque du Soleil - Kooza',
-      date: '22 Sep 2025',
-      venue: 'Carpa Santa Fe',
-      originalPrice: 3200,
-      currentPrice: 2800,
-      discount: 13,
-      debt: 2100,
-      seller: 'María G.',
-      score: 95,
-      trend: 'up',
-      gradient: 'from-blue-500 to-purple-600',
-      emoji: '🎪',
-      daysListed: 2
-    }
-  ]
+      { id: 1, event: 'Taylor Swift - The Eras Tour', date: '10 Mar 2026', venue: 'Estadio GNP Seguros', originalPrice: 2500, currentPrice: 2200, discount: 12, debt: 1800, seller: 'Ana M.', score: 92, trend: 'up', gradient: 'from-pink-500 to-purple-600', emoji: '✨', daysListed: 3 },
+      { id: 2, event: 'Formula 1 - Gran Premio de México', date: '29 Oct 2025', venue: 'Autódromo Hermanos Rodríguez', originalPrice: 4000, currentPrice: 3500, discount: 13, debt: 2800, seller: 'Carlos R.', score: 88, trend: 'down', gradient: 'from-red-500 to-orange-600', emoji: '🏎️', daysListed: 1 },
+      { id: 3, event: 'Blink-182 World Tour', date: '15 Ago 2025', venue: 'Palacio de los Deportes', originalPrice: 1800, currentPrice: 1650, discount: 8, debt: 1200, seller: 'Luis P.', score: 75, trend: 'stable', gradient: 'from-gray-600 to-black', emoji: '🎸', daysListed: 5 },
+      { id: 4, event: 'Cirque du Soleil - Kooza', date: '22 Sep 2025', venue: 'Carpa Santa Fe', originalPrice: 3200, currentPrice: 2800, discount: 13, debt: 2100, seller: 'María G.', score: 95, trend: 'up', gradient: 'from-blue-500 to-purple-600', emoji: '🎪', daysListed: 2 }
+    ]
 
   return (
-    // Se usa un div normal con flexbox para controlar el layout
     <div className="h-dvh flex flex-col bg-gray-50">
       <Header title="Marketplace" onNavigate={onNavigate} />
 
-      {/* Contenedor con scroll y padding inferior para dejar espacio al menú global */}
-      <div className="flex-1 overflow-y-auto pb-24">
+      <main className="flex-1 overflow-y-auto">
         <div className="p-4">
           {/* Search Bar */}
           <div className="relative mb-6">
@@ -113,7 +50,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
                 <p className="text-xs text-gray-500 mt-1">de boletos vendidos</p>
               </div>
             </div>
-
             <div className="bg-white rounded-2xl p-5 shadow-sm relative overflow-hidden">
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-400 to-blue-600 rounded-full -translate-y-10 translate-x-10 opacity-20"></div>
               <div className="relative z-10">
@@ -156,7 +92,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
                           <span className="text-xs font-bold text-green-700">-{listing.discount}%</span>
                         </div>
                       </div>
-
                       <div className="grid grid-cols-2 gap-3 mt-3">
                         <div>
                           <p className="text-xs text-gray-500">Precio actual</p>
@@ -173,7 +108,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
                       </div>
                     </div>
                   </div>
-
                   <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center text-sm font-bold text-purple-700">
@@ -198,7 +132,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           </div>
 
           {/* CTA Banner */}
-          <div className="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
+          <div className="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl mb-4">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
                 <Sparkles className="w-6 h-6" />
@@ -215,10 +149,9 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* El componente BottomNav se elimina de aquí. Debe ser renderizado
-          en un componente padre (como App.tsx) de forma global. */}
+      </main>
+
+      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </div>
   )
 }
