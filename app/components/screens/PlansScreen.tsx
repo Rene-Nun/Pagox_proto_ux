@@ -37,7 +37,8 @@ export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps)
     <MobileContainer>
       <Header title="Mis Planes de Pago" />
 
-      <div className="flex-1 overflow-y-auto">
+      {/* Scrollable Content con padding inferior agregado */}
+      <div className="flex-1 overflow-y-auto pb-24">
         <div className="p-4">
           {/* Summary Cards */}
           <div className="grid grid-cols-2 gap-4 mb-6">
