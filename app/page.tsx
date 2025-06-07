@@ -10,6 +10,7 @@ import WalletScreen from './components/screens/WalletScreen'
 import MarketplaceScreen from './components/screens/MarketplaceScreen'
 import PlansScreen from './components/screens/PlansScreen'
 import ProfileScreen from './components/screens/ProfileScreen'
+import BottomNav from './components/BottomNav'
 
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState('home')
@@ -20,7 +21,7 @@ export default function Home() {
 
   const handleNavigation = (screen: string, data: any = null) => {
     setCurrentScreen(screen)
-    
+
     // Manejar diferentes tipos de datos
     if (data) {
       if (typeof data === 'string') {
@@ -68,10 +69,21 @@ export default function Home() {
     }
   }
 
+  // Pantallas que NO deben mostrar el BottomNav
+  const screensWithoutBottomNav = ['partner', 'ticketSelection', 'checkout', 'paymentPlan']
+  const showBottomNav = !screensWithoutBottomNav.includes(currentScreen)
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200 p-4">
       <div className="w-full max-w-[390px] h-[844px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative flex flex-col">
-        {renderScreen()}
+        <div className="flex-1 overflow-hidden">
+          {renderScreen()}
+        </div>
+        {showBottomNav && (
+          <div className="bg-white border-t border-gray-200">
+            <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
+          </div>
+        )}
       </div>
     </div>
   )
