@@ -70,11 +70,9 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200 p-4">
-      <div className="w-full max-w-[390px] h-[844px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative">
-        <div className="absolute inset-0 rounded-[40px] overflow-hidden">
-          {renderScreen()}
-        </div>
+      <div className="w-full max-w-[390px] h-[844px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative flex flex-col">
+        {renderScreen()}
       </div>
     </div>
   )
-} 
+}
