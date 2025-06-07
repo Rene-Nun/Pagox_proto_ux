@@ -1,6 +1,5 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import BottomNav from '../BottomNav'
 import { Calendar, CreditCard, Check, ArrowRight, ChevronDown, ChevronUp, Sparkles, Plane, Hotel, Music, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 
@@ -15,7 +14,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   return (
     <MobileContainer>
       <Header showLogo={false} onNavigate={onNavigate} />
-      
+
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-4">
@@ -98,11 +97,11 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 <p className="text-sm font-bold -mt-1">OFF</p>
               </div>
             </div>
-            
+
             <p className="mb-6 text-lg opacity-90">
               Accede a descuentos exclusivos para miembros pagox
             </p>
-            
+
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="text-center">
                 <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-2">
@@ -123,7 +122,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 <p className="text-sm font-medium">Eventos</p>
               </div>
             </div>
-            
+
             <button 
               onClick={() => onNavigate('marketplace', 'marketplace')}
               className="w-full bg-white text-purple-600 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors"
@@ -135,7 +134,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           {/* Planes de Pago Activos */}
           <div className="pb-4">
             <h3 className="text-xl font-bold mb-4">Planes de Pago Activos</h3>
-            
+
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
               <button
                 onClick={() => setShowPlans(!showPlans)}
@@ -156,7 +155,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   {showPlans ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
                 </div>
               </button>
-              
+
               {showPlans && (
                 <div className="border-t border-gray-100">
                   {/* Plan 1 - Coldplay */}
@@ -168,7 +167,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                       <div className="flex-1">
                         <h4 className="font-bold">Coldplay - Music of the Spheres</h4>
                         <p className="text-sm text-gray-600">Foro Sol • 15 Mar 2025</p>
-                        
+
                         <div className="mt-3">
                           <div className="flex justify-between items-center mb-1">
                             <div className="w-full bg-gray-200 rounded-full h-2 mr-3">
@@ -195,7 +194,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                       <div className="flex-1">
                         <h4 className="font-bold">Vuelo CDMX - Cancún</h4>
                         <p className="text-sm text-gray-600">Aeroméxico • 28 Jun 2025</p>
-                        
+
                         <div className="mt-3">
                           <div className="flex justify-between items-center mb-1">
                             <div className="w-full bg-gray-200 rounded-full h-2 mr-3">
@@ -218,8 +217,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
         </div>
       </div>
-
-      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   )
 }
