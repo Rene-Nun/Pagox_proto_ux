@@ -1,159 +1,180 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, TrendingUp, Check, X, Music, Plane, DollarSign } from 'lucide-react'
+import { Calendar, TrendingUp, Check, X, Music, Plane, DollarSign, Zap, Brain, Cpu } from 'lucide-react'
 
 interface PaymentPlanScreenProps {
   onNavigate: (screen: string, data?: any) => void
   activeTab: string
   selectedEvent?: any
+  ticketInfo?: any
 }
 
-export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent }: PaymentPlanScreenProps) {
+export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent, ticketInfo }: PaymentPlanScreenProps) {
   const handleAcceptPlan = () => {
-    // Pasar el evento seleccionado a la pantalla de cartera
-    onNavigate('wallet', { tab: 'wallet', event: selectedEvent })
+    // Pasar toda la información del evento y boleto a la cartera
+    onNavigate('wallet', { 
+      tab: 'wallet', 
+      newTicket: {
+        event: selectedEvent,
+        ticket: ticketInfo,
+        purchaseDate: new Date().toISOString()
+      }
+    })
   }
 
-  // Usar evento seleccionado o valores por defecto
-  const event = selectedEvent || {
-    artist: 'Bad Bunny',
-    tour: 'World Tour',
-    type: 'concert',
-    price: 1500
-  }
+  // Usar evento y boleto seleccionado
+  const event = selectedEvent || { artist: 'Evento', tour: 'Tour', type: 'concert', price: 1500 }
+  const ticket = ticketInfo || { type: 'general', quantity: 1, price: 1500 }
+  const totalPrice = ticket.price * ticket.quantity
+
+  // Calcular valores del plan con IA
+  const aiScore = event.type === 'concert' ? 85 : 92 // Conciertos tienen mayor liquidez
+  const downPaymentPercent = aiScore > 90 ? 0.15 : 0.20 // Menor enganche para mayor liquidez
+  const downPayment = Math.round(totalPrice * downPaymentPercent)
+  const financed = totalPrice - downPayment
+  const payments = totalPrice > 5000 ? 6 : 3 // Más pagos para montos mayores
+  const paymentAmount = Math.round(financed / payments)
 
   // Determinar el ícono según el tipo de evento
   const getEventIcon = () => {
-    if (event.type === 'flight') return <Plane className="w-8 h-8 text-gray-600" />
-    return <Music className="w-8 h-8 text-gray-600" />
+    if (event.type === 'flight') return <Plane className="w-8 h-8 text-blue-600" />
+    return <Music className="w-8 h-8 text-purple-600" />
   }
-
-  // Calcular los valores del plan
-  const totalPrice = event.price || 1500
-  const downPayment = Math.round(totalPrice * 0.2) // 20% de enganche
-  const financed = totalPrice - downPayment
-  const payments = event.type === 'flight' ? 10 : 3
-  const paymentAmount = Math.round(financed / payments)
 
   return (
     <MobileContainer>
       <Header 
-        title="Plan de Pagos" 
+        title="Plan de Financiamiento" 
         showBack={true} 
         onBack={() => onNavigate('checkout')}
       />
 
-      <div className="h-full overflow-y-auto pb-4">
+      <div className="h-full overflow-y-auto bg-gradient-to-b from-gray-50 to-white">
         <div className="p-4 space-y-4">
-          {/* Experience Card */}
-          <div className="bg-white rounded-2xl p-4 shadow-sm">
+          {/* Experience Card - Diseño moderno */}
+          <div className="bg-white rounded-3xl p-5 shadow-lg border border-gray-100">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-blue-100 rounded-2xl flex items-center justify-center shadow-inner">
                 {getEventIcon()}
               </div>
               <div className="flex-1">
-                <h3 className="font-bold text-lg">
-                  {event.type === 'flight' ? 'Vuelo Redondo' : event.artist}
+                <h3 className="font-bold text-lg text-gray-900">
+                  {event.artist || 'Evento'}
                 </h3>
                 <p className="text-gray-600">
-                  {event.type === 'flight' ? 'CDMX → Cancún' : event.tour}
+                  {event.tour || 'Experiencia'}
                 </p>
-                <p className="text-sm text-gray-500">Experiencia seleccionada</p>
+                <p className="text-sm text-purple-600 font-medium mt-1">
+                  {ticket.type} • {ticket.quantity} {ticket.quantity > 1 ? 'boletos' : 'boleto'}
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Total Cost */}
-          <div className="bg-gray-50 rounded-2xl p-6 text-center">
-            <p className="text-gray-600 mb-2">Costo total de la experiencia</p>
-            <p className="text-5xl font-bold">${totalPrice.toLocaleString()}</p>
-            <p className="text-gray-600 text-xl">MXN</p>
+          {/* Total Cost - Diseño futurista */}
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
+            <p className="text-white/80 mb-2 text-center">Costo total de la experiencia</p>
+            <p className="text-5xl font-bold text-center mb-1">${totalPrice.toLocaleString()}</p>
+            <p className="text-white/80 text-center">MXN</p>
           </div>
 
-          {/* Down Payment */}
-          <div className="bg-white rounded-2xl p-4 shadow-sm border-2 border-green-500">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Check className="w-5 h-5 text-green-600" />
+          {/* Down Payment - Diseño limpio */}
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-5 border-2 border-green-400">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
+                  <Check className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="font-bold text-lg">Enganche inicial</p>
+                  <p className="font-bold text-lg text-gray-900">Enganche inicial</p>
                   <p className="text-sm text-gray-600">Pago requerido hoy</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-3xl font-bold">${downPayment.toLocaleString()}</p>
+                <p className="text-3xl font-bold text-gray-900">${downPayment.toLocaleString()}</p>
                 <p className="text-sm text-green-600 font-medium">• Listo</p>
               </div>
             </div>
           </div>
 
           {/* Financed Amount */}
-          <div className="bg-white rounded-2xl p-4 shadow-sm">
+          <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <DollarSign className="w-5 h-5 text-gray-600" />
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
+                  <DollarSign className="w-6 h-6 text-white" />
                 </div>
                 <p className="font-bold text-lg">PagoX financia</p>
               </div>
-              <p className="text-3xl font-bold">${financed.toLocaleString()}</p>
+              <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                ${financed.toLocaleString()}
+              </p>
             </div>
           </div>
 
-          {/* Payment Schedule */}
-          <div className="bg-gray-100 rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Calendar className="w-6 h-6 text-gray-600" />
+          {/* Payment Schedule - Diseño innovador */}
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-6 text-white shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <Calendar className="w-6 h-6 text-purple-400" />
               <p className="font-bold text-lg">Plan de pagos personalizado</p>
             </div>
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div>
-                <p className="text-4xl font-bold">{payments}</p>
-                <p className="text-sm text-gray-600">quincenas</p>
+            <div className="grid grid-cols-3 gap-4 text-center mb-4">
+              <div className="bg-white/10 rounded-2xl p-4 backdrop-blur">
+                <p className="text-4xl font-bold text-purple-400">{payments}</p>
+                <p className="text-sm text-gray-300">quincenas</p>
               </div>
-              <div>
-                <p className="text-3xl font-bold">${paymentAmount}</p>
-                <p className="text-sm text-gray-600">cada una</p>
+              <div className="bg-white/10 rounded-2xl p-4 backdrop-blur">
+                <p className="text-3xl font-bold text-blue-400">${paymentAmount}</p>
+                <p className="text-sm text-gray-300">cada una</p>
               </div>
-              <div>
-                <p className="text-2xl font-bold">30 Nov</p>
-                <p className="text-sm text-gray-600">2025</p>
-                <p className="text-xs text-gray-600">Fecha límite</p>
+              <div className="bg-white/10 rounded-2xl p-4 backdrop-blur">
+                <p className="text-2xl font-bold text-green-400">30 Nov</p>
+                <p className="text-sm text-gray-300">2025</p>
+                <p className="text-xs text-gray-400">Fecha límite</p>
               </div>
             </div>
-            <div className="mt-4 bg-gray-200 rounded-full h-2">
-              <div className="bg-green-500 h-2 rounded-full" style={{ width: '20%' }}></div>
+            <div className="bg-white/20 rounded-full h-2 backdrop-blur">
+              <div className="bg-gradient-to-r from-purple-400 to-blue-400 h-2 rounded-full" style={{ width: '20%' }}></div>
             </div>
           </div>
 
-          {/* Score PagoX */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
+          {/* AI Liquidity Score - Diseño tecnológico */}
+          <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-3xl p-6 border border-purple-200">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-gray-600" />
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Brain className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-lg">Score PagoX</h3>
-                <p className="text-sm text-gray-600">Análisis predictivo</p>
+                <h3 className="font-bold text-lg text-gray-900">IA Score de Liquidez</h3>
+                <p className="text-sm text-gray-600">Análisis predictivo con Machine Learning</p>
               </div>
             </div>
             
-            <div className="bg-gray-50 rounded-xl p-4">
+            <div className="bg-white rounded-2xl p-5 shadow-inner">
               <div className="flex items-center justify-between mb-3">
-                <p className="font-medium">Probabilidad de reventa</p>
                 <div className="flex items-center gap-2">
+                  <Cpu className="w-5 h-5 text-purple-600" />
+                  <p className="font-medium text-gray-700">Probabilidad de reventa</p>
+                </div>
+                <div className="flex items-center gap-3">
                   <div className="flex gap-1">
-                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
+                    <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse delay-75"></div>
+                    <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse delay-150"></div>
                   </div>
-                  <p className="text-3xl font-bold">90%</p>
+                  <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                    {aiScore}%
+                  </p>
                 </div>
               </div>
-              <p className="text-sm text-gray-600">
-                Este score indica la facilidad con la que tu experiencia podría revenderse en nuestro marketplace si tus planes cambian.
+              <div className="bg-gradient-to-r from-purple-600 to-blue-600 h-3 rounded-full overflow-hidden">
+                <div 
+                  className="bg-white h-full rounded-full transition-all duration-1000 ease-out"
+                  style={{ width: `${100 - aiScore}%` }}
+                ></div>
+              </div>
+              <p className="text-sm text-gray-600 mt-3">
+                Nuestro algoritmo de IA analiza +50 variables en tiempo real para calcular la liquidez de tu boleto en el marketplace secundario.
               </p>
             </div>
           </div>
@@ -161,23 +182,23 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
           {/* Action Buttons */}
           <button
             onClick={handleAcceptPlan}
-            className="w-full bg-black text-white py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 hover:bg-gray-900 transition-colors"
+            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
           >
             <Check className="w-5 h-5" />
             Aceptar Plan de Financiamiento
           </button>
 
-          <button className="w-full bg-white text-gray-700 py-4 rounded-full font-medium border border-gray-300 flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+          <button className="w-full bg-white text-gray-700 py-4 rounded-2xl font-medium border-2 border-gray-200 hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
             <X className="w-5 h-5" />
             Rechazar Oferta
           </button>
 
           {/* Legal Notice */}
           <div className="text-center py-4">
-            <p className="text-xs text-gray-600">
+            <p className="text-xs text-gray-500">
               Al aceptar este plan, confirmas que has leído y aceptas nuestros{' '}
-              <span className="text-blue-600 underline">Términos y Condiciones</span> y{' '}
-              <span className="text-blue-600 underline">Política de Privacidad</span>.
+              <span className="text-purple-600 underline">Términos y Condiciones</span> y{' '}
+              <span className="text-purple-600 underline">Política de Privacidad</span>.
             </p>
           </div>
         </div>
