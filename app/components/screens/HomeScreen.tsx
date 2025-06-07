@@ -1,6 +1,6 @@
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import BottomNav from '../BottomNav' // Import agregado
+import BottomNav from '../BottomNav'
 import { Calendar, CreditCard, Check, ArrowRight, ChevronDown, ChevronUp, Sparkles, Plane, Hotel, Music, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 
@@ -16,8 +16,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     <MobileContainer>
       <Header showLogo={false} onNavigate={onNavigate} />
 
-      {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto pb-24">
+      {/* Scrollable Content - se eliminó pb-24 */}
+      <div className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-4">
           {/* Score Card */}
           <div className="p-6 bg-gray-800 text-white rounded-2xl relative overflow-hidden shadow-lg animate-fade-in">
@@ -219,7 +219,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
       
-      {/* BottomNav re-agregado para que sea visible */}
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </MobileContainer>
   )
