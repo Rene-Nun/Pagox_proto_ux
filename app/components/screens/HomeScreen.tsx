@@ -1,4 +1,3 @@
-import MobileContainer from '../MobileContainer'
 import Header from '../Header'
 import BottomNav from '../BottomNav'
 import { Calendar, CreditCard, Check, ArrowRight, ChevronDown, ChevronUp, Sparkles, Plane, Hotel, Music, Eye, EyeOff } from 'lucide-react'
@@ -13,10 +12,11 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [showPlans, setShowPlans] = useState(false)
 
   return (
-    <MobileContainer>
+    // Contenedor principal ajustado para ocupar toda la pantalla y organizar el contenido en columna
+    <div className="h-screen flex flex-col bg-gray-50">
       <Header showLogo={false} onNavigate={onNavigate} />
 
-      {/* Scrollable Content - se eliminó pb-24 */}
+      {/* El contenido es el único elemento que ahora tendrá scroll */}
       <div className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-4">
           {/* Score Card */}
@@ -219,8 +219,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
       
+      {/* El menú ahora se mantiene abajo, fuera del scroll */}
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
-    </MobileContainer>
+    </div>
   )
 }
 
