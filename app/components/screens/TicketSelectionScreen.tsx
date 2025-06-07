@@ -4,7 +4,7 @@ import Header from '../Header'
 import { Plus, Minus, Check, Star } from 'lucide-react'
 
 interface TicketSelectionScreenProps {
-  onNavigate: (screen: string) => void
+  onNavigate: (screen: string, data?: any) => void
   selectedEvent?: any
 }
 
