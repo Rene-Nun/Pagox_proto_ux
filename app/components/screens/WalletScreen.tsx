@@ -71,10 +71,11 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
   }, [purchasedEvent])
 
   return (
-    <div className="h-full flex flex-col bg-gray-50">
+    // Contenedor principal ajustado para ocupar toda la pantalla y organizar el contenido en columna
+    <div className="h-screen flex flex-col bg-gray-50">
       <Header title="Mi Cartera" onNavigate={onNavigate} />
 
-      {/* Scrollable Content - se eliminó pb-24 */}
+      {/* El contenido es el único elemento que ahora tendrá scroll */}
       <div className="flex-1 overflow-y-auto">
         <div className="p-4 space-y-4">
           {/* Header Stats */}
@@ -179,6 +180,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
         </div>
       </div>
       
+      {/* El menú ahora se mantiene abajo, fuera del scroll */}
       <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
     </div>
   )
