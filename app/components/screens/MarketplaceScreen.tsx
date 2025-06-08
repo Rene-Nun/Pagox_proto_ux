@@ -79,7 +79,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
     <MobileContainer className="bg-gray-50">
       <Header title="Marketplace" onNavigate={onNavigate} />
 
-      <div className="flex-1 overflow-y-auto pb-24">
+      <div className="flex-1 overflow-y-auto">
         <div className="p-4">
           {/* Search Bar */}
           <div className="relative mb-6">
@@ -195,7 +195,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           </div>
 
           {/* CTA Banner */}
-          <div className="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
+          <div className="mt-6 mb-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
                 <Sparkles className="w-6 h-6" />
