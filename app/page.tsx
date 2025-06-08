@@ -1,98 +1,44 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import HomeScreen from './components/screens/HomeScreen'
-import PartnerScreen from './components/screens/PartnerScreen'
-import TicketSelectionScreen from './components/screens/TicketSelectionScreen'
-import CheckoutScreen from './components/screens/CheckoutScreen'
-import PaymentPlanScreen from './components/screens/PaymentPlanScreen'
-import WalletScreen from './components/screens/WalletScreen'
-import MarketplaceScreen from './components/screens/MarketplaceScreen'
-import PlansScreen from './components/screens/PlansScreen'
-import ProfileScreen from './components/screens/ProfileScreen'
-import BottomNav from './components/BottomNav'
+import { useState } from 'react';
+import HomeScreen from './components/screens/HomeScreen';
+import WalletScreen from './components/screens/WalletScreen';
+import MarketplaceScreen from './components/screens/MarketplaceScreen';
+import PlansScreen from './components/screens/PlansScreen';
+import ProfileScreen from './components/screens/ProfileScreen'; // Asumo que también tenías una pantalla de perfil
 
+// Este es el componente principal que decide qué pantalla mostrar
 export default function Home() {
-  const [currentScreen, setCurrentScreen] = useState('home')
-  const [activeTab, setActiveTab] = useState('home')
-  const [selectedEvent, setSelectedEvent] = useState(null)
-  const [ticketInfo, setTicketInfo] = useState(null)
-  const [purchasedTicket, setPurchasedTicket] = useState(null)
+  // El estado 'activeScreen' controla la pantalla visible. Empieza en 'Home'.
+  const [activeScreen, setActiveScreen] = useState('Home');
 
-  const handleNavigation = (screen: string, data: any = null) => {
-    setCurrentScreen(screen)
+  // Esta función cambia la pantalla visible. Se la pasamos a otros componentes.
+  const handleNavigate = (screen: string) => {
+    setActiveScreen(screen);
+  };
 
-    if (data) {
-      if (typeof data === 'string') {
-        setActiveTab(data)
-      } else if (data.tab) {
-        setActiveTab(data.tab)
-        if (data.newTicket) {
-          setPurchasedTicket(data)
-        }
-      } else if (data.event && data.ticket) {
-        setSelectedEvent(data.event)
-        setTicketInfo(data.ticket)
-      } else {
-        setSelectedEvent(data)
-      }
-    }
-  }
-
+  // Función para renderizar la pantalla correcta según el estado
   const renderScreen = () => {
-    switch (currentScreen) {
-      case 'home':
-        return <HomeScreen onNavigate={handleNavigation} activeTab={activeTab} />
-      case 'partner':
-        return <PartnerScreen onNavigate={handleNavigation} />
-      case 'ticketSelection':
-        return <TicketSelectionScreen onNavigate={handleNavigation} selectedEvent={selectedEvent} />
-      case 'checkout':
-        return <CheckoutScreen onNavigate={handleNavigation} selectedEvent={selectedEvent} ticketInfo={ticketInfo} />
-      case 'paymentPlan':
-        return <PaymentPlanScreen onNavigate={handleNavigation} activeTab={activeTab} selectedEvent={selectedEvent} ticketInfo={ticketInfo} />
-      case 'wallet':
-        return <WalletScreen onNavigate={handleNavigation} activeTab={activeTab} purchasedEvent={purchasedTicket} />
-      case 'marketplace':
-        return <MarketplaceScreen onNavigate={handleNavigation} activeTab={activeTab} />
-      case 'plans':
-        return <PlansScreen onNavigate={handleNavigation} activeTab={activeTab} />
-      case 'profile':
-        return <ProfileScreen onNavigate={handleNavigation} activeTab={activeTab} />
+    switch (activeScreen) {
+      case 'Home':
+        return <HomeScreen onNavigate={handleNavigate} activeTab="Home" />;
+      case 'Wallet':
+        return <WalletScreen onNavigate={handleNavigate} activeTab="Wallet" />;
+      case 'Marketplace':
+        return <MarketplaceScreen onNavigate={handleNavigate} activeTab="Marketplace" />;
+      case 'Plans':
+        return <PlansScreen onNavigate={handleNavigate} activeTab="Plans" />;
+      case 'Profile':
+        return <ProfileScreen onNavigate={handleNavigate} activeTab="Profile" />;
       default:
-        return <HomeScreen onNavigate={handleNavigation} activeTab={activeTab} />
+        return <HomeScreen onNavigate={handleNavigate} activeTab="Home" />;
     }
-  }
-
-  const screensWithoutBottomNav = ['partner', 'ticketSelection', 'checkout', 'paymentPlan']
-  const showBottomNav = !screensWithoutBottomNav.includes(currentScreen)
+  };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-200 p-4">
-      <div className="w-full max-w-[390px] h-[844px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative">
-        <div className="h-full flex flex-col">
-          <div className="flex-1 overflow-hidden relative">
-            {renderScreen()}
-          </div>
-        </div>
-        
-        {showBottomNav && (
-          <div 
-            className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
-            style={{ 
-              position: 'absolute',
-              bottom: '0px',
-              left: '0px', 
-              right: '0px',
-              borderBottomLeftRadius: '40px',
-              borderBottomRightRadius: '40px',
-              overflow: 'hidden'
-            }}
-          >
-            <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
-          </div>
-        )}
-      </div>
-    </div>
-  )
+    <main>
+      {renderScreen()}
+    </main>
+  );
 }
+
