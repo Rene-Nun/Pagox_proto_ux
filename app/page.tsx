@@ -71,27 +71,15 @@ export default function Home() {
     <div className="flex items-center justify-center min-h-screen bg-gray-200 p-4">
       <div className="w-full max-w-[390px] h-[844px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative">
         <div className="h-full flex flex-col">
-          <div className="flex-1 overflow-hidden relative">
+          <div className="flex-1 overflow-hidden">
             {renderScreen()}
           </div>
+          {showBottomNav && (
+            <div className="bg-white border-t border-gray-200">
+              <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
+            </div>
+          )}
         </div>
-        
-        {showBottomNav && (
-          <div 
-            className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
-            style={{ 
-              position: 'absolute',
-              bottom: '0px',
-              left: '0px', 
-              right: '0px',
-              borderBottomLeftRadius: '40px',
-              borderBottomRightRadius: '40px',
-              overflow: 'hidden'
-            }}
-          >
-            <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
-          </div>
-        )}
       </div>
     </div>
   )
