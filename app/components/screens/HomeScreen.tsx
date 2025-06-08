@@ -17,44 +17,36 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
       <div className="flex-1 overflow-y-auto">
         <div className="px-5 py-6 space-y-6">
-          {/* Score Card - Diseño minimalista con gradiente sutil */}
-          <div className="relative">
-            <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-6 shadow-xl">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/5 to-white/10 rounded-full blur-3xl"></div>
+          {/* Score Card - Diseño más compacto */}
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-4 shadow-lg">
+            <div className="flex justify-between items-center">
+              <div className="flex-1">
+                <p className="text-gray-400 text-xs mb-1">Tu score pagox</p>
+                <div className="flex items-center gap-3 mb-3">
+                  <p className="text-5xl font-light text-white">750</p>
+                  <div className="bg-emerald-500/20 px-2.5 py-1 rounded-full">
+                    <span className="text-emerald-400 text-xs font-medium flex items-center gap-1">
+                      <Check className="w-3 h-3" />
+                      Activo
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex-1 h-1 bg-gray-700 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-gray-400 to-gray-300 rounded-full" style={{ width: '88%' }}></div>
+                  </div>
+                  <span className="text-gray-500 text-xs">850</span>
+                </div>
+                
+                <p className="text-gray-400 text-xs">
+                  Próximamente nuevos productos financieros
+                </p>
+              </div>
               
-              <div className="relative">
-                <div className="flex justify-between items-start mb-6">
-                  <div>
-                    <p className="text-gray-400 text-sm font-light mb-1">Tu score</p>
-                    <div className="flex items-baseline gap-3">
-                      <p className="text-7xl font-extralight text-white">750</p>
-                      <div className="bg-emerald-500/20 backdrop-blur px-3 py-1.5 rounded-full">
-                        <span className="text-emerald-400 text-xs font-medium flex items-center gap-1.5">
-                          <Check className="w-3.5 h-3.5" />
-                          Activo
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 h-1.5 bg-gray-700 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-gray-400 to-gray-300 rounded-full transition-all duration-700" style={{ width: '88%' }}></div>
-                    </div>
-                    <span className="text-gray-400 text-xs font-light">850</span>
-                  </div>
-                  
-                  <p className="text-gray-400 text-xs leading-relaxed">
-                    Desbloquea productos premium y accede al sistema financiero tradicional
-                  </p>
-                </div>
-
-                <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-700/50">
-                  <span className="text-gray-500 text-xs font-mono">PX-2025-0729</span>
-                  <span className="text-white text-sm font-light tracking-wide">MARÍA PÉREZ</span>
-                </div>
+              <div className="text-right">
+                <p className="text-gray-500 text-xs font-mono mb-1">PX-2025-0729</p>
+                <p className="text-white text-sm">MARÍA PÉREZ</p>
               </div>
             </div>
           </div>
@@ -90,7 +82,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               Cumple tus sueños con <span className="font-normal">pagox</span>
             </h2>
             <p className="text-gray-500 text-sm font-light mb-5 leading-relaxed">
-              Arma tu aventura con nuestras plataformas asociadas
+              Descubre experiencias increíbles con nuestros partners
             </p>
             <button
               onClick={() => onNavigate('partner')}
@@ -116,7 +108,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                       <h3 className="text-2xl font-extralight text-white">
                         Ofertas exclusivas
                       </h3>
-                      <p className="text-indigo-200 text-xs">Marketplace premium</p>
+                      <p className="text-indigo-200 text-xs">Las mejores ofertas</p>
                     </div>
                   </div>
                 </div>
@@ -127,7 +119,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
 
               <p className="text-indigo-100 text-sm mb-6 leading-relaxed">
-                Descuentos exclusivos para miembros pagox
+                Aprovecha descuentos increíbles en vuelos, hoteles y eventos
               </p>
 
               <div className="grid grid-cols-3 gap-3 mb-6">
