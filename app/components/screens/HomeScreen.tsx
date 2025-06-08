@@ -75,5 +75,5 @@ const HomeScreen: React.FC<HomeProps> = ({ onNavigate, activeTab }) => {
   );
 };
 
-export default HomeScreen;
+export default HomeScreen; 
 
