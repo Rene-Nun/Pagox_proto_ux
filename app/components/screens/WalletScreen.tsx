@@ -11,7 +11,6 @@ interface WalletScreenProps {
 
 export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: WalletScreenProps) {
   const [tickets, setTickets] = useState<any[]>([
-    // Boletos predeterminados
     {
       artist: 'Coldplay',
       tour: 'Music of the Spheres',
@@ -51,7 +50,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
   ])
 
   useEffect(() => {
-    // Agregar nuevo boleto si viene de aceptar un plan
     if (purchasedEvent?.newTicket) {
       const { event, ticket } = purchasedEvent.newTicket
       const newTicket = {
@@ -62,7 +60,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
         totalPaid: 0,
         totalDebt: ticket.price * ticket.quantity,
         progress: 0,
-        nextPayment: Math.round((ticket.price * ticket.quantity * 0.8) / 3), // Ejemplo de cálculo
+        nextPayment: Math.round((ticket.price * ticket.quantity * 0.8) / 3),
         nextPaymentDate: '01/07/2025',
         unlockDate: event.date || '31/12/2025',
         gradient: event.gradient || 'from-purple-500 to-pink-600',
@@ -76,7 +74,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
     <MobileContainer>
       <Header title="Mi Cartera" onNavigate={onNavigate} />
 
-      {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto bg-gray-50">
         <div className="p-4 space-y-4">
           {/* Header Stats */}
@@ -121,7 +118,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
                   </div>
                 </div>
 
-                {/* Event Details */}
                 <div className="flex items-center gap-4 mt-4 text-white/90 text-sm">
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
@@ -134,7 +130,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
 
               {/* Ticket Body */}
               <div className="p-5 space-y-4">
-                {/* Progress */}
                 <div>
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm font-medium text-gray-700">Progreso de pago</span>
@@ -152,7 +147,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
                   </div>
                 </div>
 
-                {/* Lock Status */}
                 <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-200">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center">
@@ -168,7 +162,6 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
                   </div>
                 </div>
 
-                {/* Next Payment */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-gray-50 rounded-xl p-3">
                     <p className="text-xs text-gray-500 mb-1">Próximo pago</p>
