@@ -69,7 +69,7 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
-      <div className="w-full max-w-[390px] h-screen max-h-[820px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative">
+      <div className="w-full max-w-[390px] h-screen max-h-[780px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative">
         <div className="h-full flex flex-col">
           <div className="flex-1 overflow-hidden">
             {renderScreen()}
