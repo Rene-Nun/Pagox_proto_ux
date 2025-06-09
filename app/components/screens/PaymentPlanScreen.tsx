@@ -163,9 +163,9 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                 </div>
                 <div>
                   <h3 className="font-medium text-white text-lg bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    IA Score de Liquidez
+                    NEXUS Score de Liquidez
                   </h3>
-                  <p className="text-gray-400 text-xs">Análisis predictivo neuronal en tiempo real</p>
+                  <p className="text-gray-400 text-xs">Neural Exchange Underwriting System</p>
                 </div>
               </div>
               
