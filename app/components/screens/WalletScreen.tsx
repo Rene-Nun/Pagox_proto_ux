@@ -146,7 +146,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
             </div>
           </div>
 
-          {/* Completed Tickets */}
+          {/* Completed Tickets - Con QR disponible */}
           {completedTickets.length > 0 && (
             <div>
               <h2 className="text-lg font-light text-black mb-4">Completados</h2>
@@ -205,7 +205,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
             </div>
           )}
 
-          {/* Active Tickets */}
+          {/* Active Tickets - En proceso de pago */}
           {activeTickets.length > 0 && (
             <div className="pb-6">
               <h2 className="text-lg font-light text-black mb-4">Activos</h2>
