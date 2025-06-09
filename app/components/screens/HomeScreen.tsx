@@ -29,18 +29,16 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                     <Shield className="w-4 h-4 text-white/60" />
                     <p className="text-white/60 text-xs uppercase tracking-wider">Tu score pagox</p>
                   </div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <h1 className="text-6xl font-light text-white">750</h1>
-                    <div className="bg-emerald-500/20 px-3 py-1 rounded-full">
-                      <span className="text-emerald-400 text-xs font-medium flex items-center gap-1">
-                        <Check className="w-3 h-3" />
-                        Excelente
-                      </span>
-                    </div>
-                  </div>
+                  <h1 className="text-6xl font-light text-white mb-3">750</h1>
                 </div>
                 
                 <div className="text-right">
+                  <div className="bg-emerald-500/20 px-3 py-1 rounded-full mb-2">
+                    <span className="text-emerald-400 text-xs font-medium flex items-center gap-1">
+                      <Check className="w-3 h-3" />
+                      Excelente
+                    </span>
+                  </div>
                   <p className="text-white/40 text-xs font-mono">PX-2025-0729</p>
                   <p className="text-white text-sm font-medium">MARÍA PÉREZ</p>
                 </div>
