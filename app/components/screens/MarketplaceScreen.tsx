@@ -34,7 +34,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       sellerRating: 4.8,
       score: 92,
       trend: 'up',
-      bgColor: 'from-pink-400 to-purple-500',
+      bgColor: 'bg-purple-500',
       emoji: '✨',
       daysListed: 3,
       category: 'conciertos'
@@ -53,7 +53,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       sellerRating: 4.5,
       score: 88,
       trend: 'down',
-      bgColor: 'from-red-400 to-orange-500',
+      bgColor: 'bg-red-500',
       emoji: '🏎️',
       daysListed: 1,
       category: 'eventos'
@@ -72,7 +72,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       sellerRating: 4.2,
       score: 75,
       trend: 'stable',
-      bgColor: 'from-gray-700 to-black',
+      bgColor: 'bg-gray-800',
       emoji: '🎸',
       daysListed: 5,
       category: 'conciertos'
@@ -91,7 +91,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       sellerRating: 4.9,
       score: 95,
       trend: 'up',
-      bgColor: 'from-blue-400 to-indigo-600',
+      bgColor: 'bg-blue-600',
       emoji: '🎪',
       daysListed: 2,
       category: 'eventos'
@@ -101,23 +101,23 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   const handleScroll = () => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop
-      const cardHeight = window.innerHeight * 0.6
-      const newIndex = Math.round(scrollTop / (cardHeight + 20))
-      setActiveIndex(newIndex)
+      const cardHeight = window.innerHeight * 0.65 + 20 // Altura de card + margin
+      const newIndex = Math.round(scrollTop / cardHeight)
+      setActiveIndex(Math.max(0, Math.min(newIndex, listings.length - 1)))
     }
   }
 
   return (
-    <div className="h-full flex flex-col bg-white">
+    <div className="h-full flex flex-col bg-white relative">
       <Header title="Marketplace" onNavigate={onNavigate} />
       
-      {/* Search Bar - Estilo consistente con HomeScreen */}
-      <div className="px-5 py-3">
+      {/* Search Bar - Sin fondo para transparencia */}
+      <div className="px-5 py-3 relative z-20">
         <div className="relative">
           <input
             type="text"
             placeholder="Buscar eventos..."
-            className="w-full bg-gray-50 rounded-2xl py-3.5 pl-11 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all"
+            className="w-full bg-white/90 backdrop-blur-sm rounded-2xl py-3.5 pl-11 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all border border-gray-200/50"
           />
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
           <button className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 hover:bg-gray-100 rounded-xl transition-colors">
@@ -126,8 +126,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      {/* Filter Pills - Sin fondo, estilo minimalista */}
-      <div className="px-5 pb-3 flex gap-3 overflow-x-auto scrollbar-hide">
+      {/* Filter Pills - Sin fondo, completamente transparente */}
+      <div className="px-5 pb-6 flex gap-3 overflow-x-auto scrollbar-hide relative z-20">
         {filters.map((filter) => (
           <button
             key={filter.id}
@@ -135,7 +135,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
             className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all whitespace-nowrap ${
               activeFilter === filter.id
                 ? 'bg-gray-900 text-white'
-                : 'text-gray-600 hover:text-gray-900'
+                : 'text-gray-600 hover:text-gray-900 bg-white/80 backdrop-blur-sm'
             }`}
           >
             {filter.icon && <filter.icon className="w-3.5 h-3.5" />}
@@ -144,31 +144,62 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         ))}
       </div>
 
-      {/* Card Stack Container */}
+      {/* Card Stack Container - Posicionado para que se vea detrás */}
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5"
+        className="absolute inset-0 top-0 overflow-y-auto snap-y snap-mandatory px-5 pt-32"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {listings.map((listing, index) => {
-          const isActive = index === activeIndex
           const offset = index - activeIndex
+          const isActive = offset === 0
+          const isVisible = Math.abs(offset) <= 2
+          
+          if (!isVisible) return null
+          
+          // Cálculo de la escala y posición para efecto stacked
+          let scale = 1
+          let opacity = 1
+          let translateY = 0
+          let zIndex = 10
+          
+          if (offset === 0) {
+            // Tarjeta activa
+            scale = 1
+            opacity = 1
+            translateY = 0
+            zIndex = 30
+          } else if (Math.abs(offset) === 1) {
+            // Tarjetas adyacentes
+            scale = 0.92
+            opacity = 0.6
+            translateY = offset * 15
+            zIndex = 20
+          } else {
+            // Tarjetas más lejanas
+            scale = 0.85
+            opacity = 0.3
+            translateY = offset * 25
+            zIndex = 10
+          }
           
           return (
             <div
               key={listing.id}
-              className={`h-[60vh] mb-5 snap-center transition-all duration-500`}
+              className="h-[65vh] mb-5 snap-center transition-all duration-500 ease-out"
               style={{
-                transform: `scale(${isActive ? 1 : 0.95}) translateY(${offset * 10}px)`,
-                opacity: Math.abs(offset) > 1 ? 0.5 : 1
+                transform: `scale(${scale}) translateY(${translateY}px)`,
+                opacity,
+                zIndex,
+                marginTop: index === 0 ? '0' : '-320px' // Overlap para efecto stacked
               }}
             >
               <div
-                className={`h-full rounded-3xl overflow-hidden shadow-xl bg-gradient-to-br ${listing.bgColor} relative p-6 flex flex-col`}
+                className={`h-full rounded-3xl overflow-hidden shadow-xl ${listing.bgColor} relative p-6 flex flex-col`}
               >
-                {/* Background decoration */}
-                <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-3xl transform translate-x-24 -translate-y-24"></div>
+                {/* Background decoration - más sutil */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
 
                 {/* Header con emoji y descuento */}
                 <div className="flex justify-between items-start mb-6">
@@ -258,11 +289,11 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         })}
         
         {/* Spacer para ver la última tarjeta completa */}
-        <div className="h-[30vh]"></div>
+        <div className="h-[35vh]"></div>
       </div>
 
-      {/* Page Indicator - Estilo más sutil */}
-      <div className="absolute bottom-24 right-5 flex flex-col gap-1.5">
+      {/* Page Indicator - Ajustado para el nuevo layout */}
+      <div className="absolute bottom-24 right-5 flex flex-col gap-1.5 z-40">
         {listings.map((_, index) => (
           <div
             key={index}
