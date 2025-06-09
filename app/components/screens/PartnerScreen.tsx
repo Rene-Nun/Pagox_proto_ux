@@ -2,12 +2,11 @@ import { useState } from 'react'
 import Header from '../Header'
 import { Calendar, MapPin, Music, Plane, CreditCard, CheckCircle, Clock, TrendingUp, Eye, EyeOff, MoreHorizontal } from 'lucide-react'
 
-interface PlansScreenProps {
-  onNavigate: (screen: string, tab?: string) => void
-  activeTab: string
+interface PartnerScreenProps {
+  onNavigate: (screen: string, event?: any) => void
 }
 
-export default function PlansScreen({ onNavigate, activeTab }: PlansScreenProps) {
+export default function PlansScreen({ onNavigate }: PartnerScreenProps) {
   const [showBalances, setShowBalances] = useState(true)
 
   const activePlans = [
