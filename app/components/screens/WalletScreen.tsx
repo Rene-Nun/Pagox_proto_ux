@@ -70,24 +70,26 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
   useEffect(() => {
     if (purchasedEvent?.newTicket) {
       const { event, ticket } = purchasedEvent.newTicket
+      
       const newTicket = {
         id: Date.now(),
-        title: event.artist || event.title,
-        venue: event.venue,
-        date: event.date,
+        title: event.artist || event.title || 'Evento',
+        venue: event.venue || 'Venue',
+        date: event.date || '31 Dic 2025',
         time: '20:00',
         type: event.type || 'event',
-        ticketType: ticket.type,
+        ticketType: ticket.type || 'General',
         section: 'TBD',
-        seat: 'TBD',
-        quantity: ticket.quantity,
+        seat: 'TBD', 
+        quantity: ticket.quantity || 1,
         totalAmount: ticket.price * ticket.quantity,
-        paidAmount: 0,
-        progress: 0,
-        status: 'locked',
+        paidAmount: 0, // Nuevo boleto empieza sin pagos
+        progress: 0,   // 0% progreso inicial
+        status: 'active', // Siempre empieza como activo
         unlockDate: 'Al completar pago',
         qrCode: `TKT${Date.now()}`
       }
+      
       setTickets(prevTickets => [...prevTickets, newTicket])
     }
   }, [purchasedEvent])
