@@ -1,6 +1,5 @@
-import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, TrendingUp, Check, X, Music, Plane, DollarSign, Zap, Brain, Cpu } from 'lucide-react'
+import { Calendar, Check, X, Music, Plane, DollarSign, Brain, Cpu, Zap, Target, Shield, TrendingUp } from 'lucide-react'
 
 interface PaymentPlanScreenProps {
   onNavigate: (screen: string, data?: any) => void
@@ -37,172 +36,237 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
 
   // Determinar el ícono según el tipo de evento
   const getEventIcon = () => {
-    if (event.type === 'flight') return <Plane className="w-8 h-8 text-blue-600" />
-    return <Music className="w-8 h-8 text-purple-600" />
+    if (event.type === 'flight') return <Plane className="w-6 h-6 text-gray-600" />
+    return <Music className="w-6 h-6 text-gray-600" />
   }
 
   return (
-    <MobileContainer>
+    <div className="h-full flex flex-col bg-white">
       <Header 
         title="Plan de Financiamiento" 
         showBack={true} 
         onBack={() => onNavigate('checkout')}
+        onNavigate={onNavigate}
       />
 
-      <div className="h-full overflow-y-auto bg-gradient-to-b from-gray-50 to-white">
-        <div className="p-4 space-y-4">
-          {/* Experience Card - Diseño moderno */}
-          <div className="bg-white rounded-3xl p-5 shadow-lg border border-gray-100">
+      <div className="flex-1 overflow-y-auto">
+        <div className="px-5 py-6 space-y-6">
+          
+          {/* Experience Card */}
+          <div className="border border-gray-200 rounded-2xl p-5">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-blue-100 rounded-2xl flex items-center justify-center shadow-inner">
+              <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
                 {getEventIcon()}
               </div>
               <div className="flex-1">
-                <h3 className="font-bold text-lg text-gray-900">
+                <h3 className="font-medium text-black text-lg">
                   {event.artist || 'Evento'}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-500 text-sm">
                   {event.tour || 'Experiencia'}
                 </p>
-                <p className="text-sm text-purple-600 font-medium mt-1">
+                <p className="text-xs text-gray-600 mt-1">
                   {ticket.type} • {ticket.quantity} {ticket.quantity > 1 ? 'boletos' : 'boleto'}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Total Cost - Diseño futurista */}
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-6 text-white shadow-xl">
-            <p className="text-white/80 mb-2 text-center">Costo total de la experiencia</p>
-            <p className="text-5xl font-bold text-center mb-1">${totalPrice.toLocaleString()}</p>
-            <p className="text-white/80 text-center">MXN</p>
+          {/* Total Cost */}
+          <div className="bg-gray-50 rounded-2xl p-6 text-center">
+            <p className="text-gray-500 text-sm mb-2">Costo total de la experiencia</p>
+            <p className="text-4xl font-light text-black mb-1">${totalPrice.toLocaleString()}</p>
+            <p className="text-gray-500 text-xs">MXN</p>
           </div>
 
-          {/* Down Payment - Diseño limpio */}
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-5 border-2 border-green-400">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
-                  <Check className="w-6 h-6 text-white" />
+          {/* Payment Breakdown */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-light text-black">Desglose de pagos</h3>
+            
+            {/* Down Payment */}
+            <div className="border border-gray-200 rounded-2xl p-5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+                    <Check className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-black">Enganche inicial</p>
+                    <p className="text-xs text-gray-500">Pago requerido hoy</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-light text-black">${downPayment.toLocaleString()}</p>
+                  <p className="text-xs text-gray-500">({Math.round(downPaymentPercent * 100)}%)</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Financed Amount */}
+            <div className="border border-gray-200 rounded-2xl p-5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                    <DollarSign className="w-5 h-5 text-gray-600" />
+                  </div>
+                  <p className="font-medium text-black">Pagox financia</p>
+                </div>
+                <p className="text-2xl font-light text-black">${financed.toLocaleString()}</p>
+              </div>
+            </div>
+
+            {/* Payment Schedule */}
+            <div className="bg-gray-50 rounded-2xl p-5">
+              <div className="flex items-center gap-3 mb-4">
+                <Calendar className="w-5 h-5 text-gray-600" />
+                <p className="font-medium text-black">Plan de pagos</p>
+              </div>
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div>
+                  <p className="text-2xl font-light text-black">{payments}</p>
+                  <p className="text-xs text-gray-500">quincenas</p>
                 </div>
                 <div>
-                  <p className="font-bold text-lg text-gray-900">Enganche inicial</p>
-                  <p className="text-sm text-gray-600">Pago requerido hoy</p>
+                  <p className="text-2xl font-light text-black">${paymentAmount.toLocaleString()}</p>
+                  <p className="text-xs text-gray-500">cada una</p>
+                </div>
+                <div>
+                  <p className="text-lg font-light text-black">30 Nov</p>
+                  <p className="text-xs text-gray-500">2025</p>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-3xl font-bold text-gray-900">${downPayment.toLocaleString()}</p>
-                <p className="text-sm text-green-600 font-medium">• Listo</p>
-              </div>
             </div>
           </div>
 
-          {/* Financed Amount */}
-          <div className="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
-                  <DollarSign className="w-6 h-6 text-white" />
-                </div>
-                <p className="font-bold text-lg">PagoX financia</p>
-              </div>
-              <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                ${financed.toLocaleString()}
-              </p>
-            </div>
-          </div>
-
-          {/* Payment Schedule - Diseño innovador */}
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-6 text-white shadow-xl">
-            <div className="flex items-center gap-3 mb-4">
-              <Calendar className="w-6 h-6 text-purple-400" />
-              <p className="font-bold text-lg">Plan de pagos personalizado</p>
-            </div>
-            <div className="grid grid-cols-3 gap-4 text-center mb-4">
-              <div className="bg-white/10 rounded-2xl p-4 backdrop-blur">
-                <p className="text-4xl font-bold text-purple-400">{payments}</p>
-                <p className="text-sm text-gray-300">quincenas</p>
-              </div>
-              <div className="bg-white/10 rounded-2xl p-4 backdrop-blur">
-                <p className="text-3xl font-bold text-blue-400">${paymentAmount}</p>
-                <p className="text-sm text-gray-300">cada una</p>
-              </div>
-              <div className="bg-white/10 rounded-2xl p-4 backdrop-blur">
-                <p className="text-2xl font-bold text-green-400">30 Nov</p>
-                <p className="text-sm text-gray-300">2025</p>
-                <p className="text-xs text-gray-400">Fecha límite</p>
-              </div>
-            </div>
-            <div className="bg-white/20 rounded-full h-2 backdrop-blur">
-              <div className="bg-gradient-to-r from-purple-400 to-blue-400 h-2 rounded-full" style={{ width: '20%' }}></div>
-            </div>
-          </div>
-
-          {/* AI Liquidity Score - Diseño tecnológico */}
-          <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-3xl p-6 border border-purple-200">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <Brain className="w-7 h-7 text-white" />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg text-gray-900">IA Score de Liquidez</h3>
-                <p className="text-sm text-gray-600">Análisis predictivo con Machine Learning</p>
-              </div>
-            </div>
+          {/* IA SCORE - FUTURISTA EXTREMO */}
+          <div className="relative bg-black rounded-3xl p-6 overflow-hidden">
+            {/* Holographic Background Effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10"></div>
+            <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-r from-cyan-400/20 to-transparent rounded-full blur-2xl animate-pulse"></div>
+            <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-l from-purple-400/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 border border-cyan-400/30 rounded-full animate-ping"></div>
             
-            <div className="bg-white rounded-2xl p-5 shadow-inner">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <Cpu className="w-5 h-5 text-purple-600" />
-                  <p className="font-medium text-gray-700">Probabilidad de reventa</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
-                    <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse delay-75"></div>
-                    <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse delay-150"></div>
+            {/* Floating Particles */}
+            <div className="absolute top-4 left-8 w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-300"></div>
+            <div className="absolute top-12 right-12 w-1 h-1 bg-purple-400 rounded-full animate-bounce delay-700"></div>
+            <div className="absolute bottom-8 left-16 w-1 h-1 bg-pink-400 rounded-full animate-bounce delay-500"></div>
+            <div className="absolute bottom-16 right-8 w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-900"></div>
+            
+            <div className="relative z-10">
+              {/* Header with Glowing Effect */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="relative">
+                  <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg animate-pulse">
+                    <Brain className="w-7 h-7 text-white" />
                   </div>
-                  <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                    {aiScore}%
-                  </p>
+                  <div className="absolute inset-0 w-12 h-12 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-2xl blur opacity-50 animate-pulse"></div>
+                </div>
+                <div>
+                  <h3 className="font-medium text-white text-lg bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    IA Score de Liquidez
+                  </h3>
+                  <p className="text-gray-400 text-xs">Análisis predictivo neuronal en tiempo real</p>
                 </div>
               </div>
-              <div className="bg-gradient-to-r from-purple-600 to-blue-600 h-3 rounded-full overflow-hidden">
-                <div 
-                  className="bg-white h-full rounded-full transition-all duration-1000 ease-out"
-                  style={{ width: `${100 - aiScore}%` }}
-                ></div>
+              
+              {/* Score Display with Holographic Effect */}
+              <div className="bg-gradient-to-r from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-cyan-400/20 relative">
+                {/* Scanning Lines Effect */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent h-4 animate-pulse"></div>
+                
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Cpu className="w-5 h-5 text-cyan-400 animate-pulse" />
+                    <p className="text-gray-300 text-sm">Probabilidad de reventa</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    {/* Data Processing Animation */}
+                    <div className="flex gap-1">
+                      <div className="w-1 h-8 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse"></div>
+                      <div className="w-1 h-6 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-150"></div>
+                      <div className="w-1 h-10 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-300"></div>
+                      <div className="w-1 h-4 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-450"></div>
+                      <div className="w-1 h-7 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-600"></div>
+                    </div>
+                    
+                    {/* Holographic Score */}
+                    <div className="relative">
+                      <p className="text-5xl font-light bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
+                        {aiScore}%
+                      </p>
+                      <div className="absolute inset-0 text-5xl font-light text-cyan-400/20 blur-sm">
+                        {aiScore}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Futuristic Progress Bar */}
+                <div className="relative h-4 bg-gray-800 rounded-full overflow-hidden mb-4">
+                  <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-600 rounded-full"></div>
+                  <div 
+                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full transition-all duration-2000 ease-out shadow-lg"
+                    style={{ width: `${aiScore}%` }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full animate-pulse"></div>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent rounded-full animate-pulse"></div>
+                </div>
+                
+                {/* Neural Network Visualization */}
+                <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
+                  <span className="flex items-center gap-1">
+                    <Zap className="w-3 h-3 text-cyan-400 animate-pulse" />
+                    Variables: 127
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Target className="w-3 h-3 text-purple-400 animate-pulse" />
+                    Precision: 94.7%
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3 text-pink-400 animate-pulse" />
+                    Confianza: Alta
+                  </span>
+                </div>
+                
+                <p className="text-gray-400 text-xs leading-relaxed">
+                  Red neuronal deep learning analiza patrones de mercado, comportamiento de usuarios, 
+                  liquidez histórica y 124+ variables en tiempo real para predecir valor de reventa.
+                </p>
               </div>
-              <p className="text-sm text-gray-600 mt-3">
-                Nuestro algoritmo de IA analiza +50 variables en tiempo real para calcular la liquidez de tu boleto en el marketplace secundario.
-              </p>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <button
-            onClick={handleAcceptPlan}
-            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
-          >
-            <Check className="w-5 h-5" />
-            Aceptar Plan de Financiamiento
-          </button>
+          <div className="space-y-3">
+            <button
+              onClick={handleAcceptPlan}
+              className="w-full bg-black text-white py-4 rounded-2xl font-medium text-lg hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
+            >
+              <Check className="w-5 h-5" />
+              Aceptar Plan de Financiamiento
+            </button>
 
-          <button className="w-full bg-white text-gray-700 py-4 rounded-2xl font-medium border-2 border-gray-200 hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
-            <X className="w-5 h-5" />
-            Rechazar Oferta
-          </button>
+            <button 
+              onClick={() => onNavigate('checkout')}
+              className="w-full bg-white text-gray-700 py-4 rounded-2xl font-medium border border-gray-200 hover:bg-gray-50 transition-all flex items-center justify-center gap-2"
+            >
+              <X className="w-5 h-5" />
+              Rechazar Oferta
+            </button>
+          </div>
 
           {/* Legal Notice */}
           <div className="text-center py-4">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 leading-relaxed">
               Al aceptar este plan, confirmas que has leído y aceptas nuestros{' '}
-              <span className="text-purple-600 underline">Términos y Condiciones</span> y{' '}
-              <span className="text-purple-600 underline">Política de Privacidad</span>.
+              <span className="text-black underline">Términos y Condiciones</span> y{' '}
+              <span className="text-black underline">Política de Privacidad</span>.
             </p>
           </div>
+
         </div>
       </div>
-    </MobileContainer>
+    </div>
   )
 }
