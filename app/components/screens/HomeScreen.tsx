@@ -17,68 +17,49 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       <div className="flex-1 overflow-y-auto">
         <div className="px-5 py-6 space-y-6">
           
-          {/* Score Pagox - Pasaporte Financiero */}
-          <div className="bg-black rounded-3xl p-6 shadow-xl relative overflow-hidden">
+          {/* Score Pagox - Pasaporte Financiero Compacto */}
+          <div className="bg-black rounded-3xl p-5 shadow-xl relative overflow-hidden">
             {/* Decorative Elements */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/3 rounded-full blur-xl transform -translate-x-12 translate-y-12"></div>
             
             <div className="relative">
-              <div className="flex justify-between items-start mb-6">
+              <div className="flex justify-between items-start mb-4">
                 <div>
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-2 mb-2">
                     <Shield className="w-4 h-4 text-white/60" />
-                    <p className="text-white/60 text-xs uppercase tracking-wider">Pagox Score</p>
+                    <p className="text-white/60 text-xs uppercase tracking-wider">Tu score pagox</p>
                   </div>
-                  <div className="flex items-end gap-4 mb-4">
+                  <div className="flex items-center gap-3 mb-3">
                     <h1 className="text-6xl font-light text-white">750</h1>
-                    <div className="bg-emerald-500/20 px-3 py-1.5 rounded-full mb-2">
+                    <div className="bg-emerald-500/20 px-3 py-1 rounded-full">
                       <span className="text-emerald-400 text-xs font-medium flex items-center gap-1">
                         <Check className="w-3 h-3" />
-                        Activo
+                        Excelente
                       </span>
                     </div>
                   </div>
                 </div>
                 
                 <div className="text-right">
-                  <p className="text-white/40 text-xs font-mono mb-1">PX-2025-0729</p>
+                  <p className="text-white/40 text-xs font-mono">PX-2025-0729</p>
                   <p className="text-white text-sm font-medium">MARÍA PÉREZ</p>
                 </div>
               </div>
               
-              {/* Progress Bar */}
-              <div className="space-y-3 mb-6">
+              {/* Score Range */}
+              <div className="space-y-2 mb-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-white/60 text-xs">Progreso hacia productos premium</span>
-                  <span className="text-white/60 text-xs">850</span>
+                  <span className="text-white/60 text-xs">Rango de score</span>
+                  <span className="text-white/60 text-xs">0 - 850</span>
                 </div>
                 <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-white/40 to-white/60 rounded-full transition-all duration-500" style={{ width: '88%' }}></div>
                 </div>
               </div>
 
-              {/* Benefits Grid */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Zap className="w-4 h-4 text-white/80" />
-                    <span className="text-white text-sm font-medium">Próximos productos</span>
-                  </div>
-                  <p className="text-white/60 text-xs leading-relaxed">
-                    Acceso prioritario a créditos y tarjetas pagox
-                  </p>
-                </div>
-                <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Target className="w-4 h-4 text-white/80" />
-                    <span className="text-white text-sm font-medium">Sistema tradicional</span>
-                  </div>
-                  <p className="text-white/60 text-xs leading-relaxed">
-                    Facilita tu reintegración financiera
-                  </p>
-                </div>
-              </div>
+              <p className="text-white/70 text-xs leading-relaxed">
+                Facilita tu reintegración al sistema financiero tradicional
+              </p>
             </div>
           </div>
 
