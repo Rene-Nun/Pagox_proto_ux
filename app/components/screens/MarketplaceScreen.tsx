@@ -101,7 +101,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   const handleScroll = () => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop
-      const cardHeight = window.innerHeight * 0.55 + 8 // 55vh + 8px margin
+      const cardHeight = window.innerHeight * 0.5 + 8 // 50vh + 8px margin
       const newIndex = Math.round(scrollTop / cardHeight)
       const clampedIndex = Math.max(0, Math.min(newIndex, listings.length - 1))
       
@@ -133,7 +133,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
 
       {/* Filter Pills - Transparente flotante */}
       <div className="absolute top-32 left-0 right-0 px-5 z-30 pointer-events-none">
-        <div className="flex gap-3 overflow-x-auto scrollbar-hide pointer-events-auto mb-12">
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pointer-events-auto">
           {filters.map((filter) => (
             <button
               key={filter.id}
@@ -151,14 +151,13 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      {/* Card Stack Container - Más cerca de las pills */}
-      <div className="pt-36">
-        <div 
-          ref={scrollRef}
-          onScroll={handleScroll}
-          className="h-[calc(100vh-144px)] overflow-y-auto snap-y snap-mandatory px-5"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
+      {/* Card Stack Container - Layout normal con scroll */}
+      <div 
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-40"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
           {listings.map((listing, index) => {
             const offset = index - activeIndex
             
