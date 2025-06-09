@@ -25,14 +25,14 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
       totalAmount: 7350,
       paidAmount: 3675,
       progress: 50,
-      status: 'locked',
+      status: 'active',
       unlockDate: '01 Mar 2025',
       qrCode: 'CLD2025FORO15MAR'
     },
     {
       id: 2,
       title: 'Vuelo CDMX - Cancún',
-      venue: 'Aeromexico',
+      venue: 'Aeroméxico',
       date: '28 Jun 2025',
       time: '14:30',
       type: 'travel',
@@ -41,11 +41,29 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
       seat: 'Ventana',
       quantity: 1,
       totalAmount: 1800,
-      paidAmount: 1800,
-      progress: 100,
-      status: 'unlocked',
-      unlockDate: 'Disponible',
+      paidAmount: 600,
+      progress: 33,
+      status: 'active',
+      unlockDate: 'Al completar pago',
       qrCode: 'AM2025CUN28JUN'
+    },
+    {
+      id: 3,
+      title: 'Bruno Mars - 24K Magic Tour',
+      venue: 'Palacio de los Deportes',
+      date: '15 Nov 2024',
+      time: '21:00',
+      type: 'event',
+      ticketType: 'VIP',
+      section: 'Pista',
+      seat: 'Standing',
+      quantity: 1,
+      totalAmount: 4500,
+      paidAmount: 4500,
+      progress: 100,
+      status: 'completed',
+      unlockDate: 'Disponible',
+      qrCode: 'BM2024PALACIO15NOV'
     }
   ])
 
@@ -82,8 +100,8 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
     return showAmounts ? `$${amount.toLocaleString()}` : '••••'
   }
 
-  const lockedTickets = tickets.filter(t => t.status === 'locked')
-  const unlockedTickets = tickets.filter(t => t.status === 'unlocked')
+  const activeTickets = tickets.filter(t => t.status === 'active')
+  const completedTickets = tickets.filter(t => t.status === 'completed')
 
   return (
     <div className="h-full flex flex-col bg-white">
@@ -114,26 +132,26 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
               <div className="bg-gray-50 rounded-2xl p-5">
                 <div className="flex items-center gap-3 mb-2">
                   <Lock className="w-5 h-5 text-gray-600" />
-                  <span className="text-2xl font-light text-black">{lockedTickets.length}</span>
+                  <span className="text-2xl font-light text-black">{activeTickets.length}</span>
                 </div>
-                <p className="text-xs text-gray-500">En proceso de pago</p>
+                <p className="text-xs text-gray-500">Activos</p>
               </div>
               <div className="bg-gray-50 rounded-2xl p-5">
                 <div className="flex items-center gap-3 mb-2">
                   <Unlock className="w-5 h-5 text-gray-600" />
-                  <span className="text-2xl font-light text-black">{unlockedTickets.length}</span>
+                  <span className="text-2xl font-light text-black">{completedTickets.length}</span>
                 </div>
-                <p className="text-xs text-gray-500">Listos para usar</p>
+                <p className="text-xs text-gray-500">Completados</p>
               </div>
             </div>
           </div>
 
-          {/* Unlocked Tickets */}
-          {unlockedTickets.length > 0 && (
+          {/* Completed Tickets */}
+          {completedTickets.length > 0 && (
             <div>
-              <h2 className="text-lg font-light text-black mb-4">Disponibles</h2>
+              <h2 className="text-lg font-light text-black mb-4">Completados</h2>
               <div className="space-y-4">
-                {unlockedTickets.map((ticket) => {
+                {completedTickets.map((ticket) => {
                   const Icon = getIcon(ticket.type)
 
                   return (
@@ -187,12 +205,12 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
             </div>
           )}
 
-          {/* Locked Tickets */}
-          {lockedTickets.length > 0 && (
+          {/* Active Tickets */}
+          {activeTickets.length > 0 && (
             <div className="pb-6">
-              <h2 className="text-lg font-light text-black mb-4">En proceso</h2>
+              <h2 className="text-lg font-light text-black mb-4">Activos</h2>
               <div className="space-y-4">
-                {lockedTickets.map((ticket) => {
+                {activeTickets.map((ticket) => {
                   const Icon = getIcon(ticket.type)
                   const remaining = ticket.totalAmount - ticket.paidAmount
 
