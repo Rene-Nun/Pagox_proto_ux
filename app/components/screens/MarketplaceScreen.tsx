@@ -122,26 +122,26 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           <input
             type="text"
             placeholder="Buscar eventos..."
-            className="w-full bg-white/70 backdrop-blur-md rounded-2xl py-3.5 pl-11 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all border border-white/30"
+            className="w-full bg-white rounded-2xl py-3.5 pl-11 pr-11 text-sm focus:outline-none focus:ring-2 focus:ring-gray-200 transition-all border border-gray-200"
           />
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <button className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 hover:bg-gray-100/50 rounded-xl transition-colors">
+          <button className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 hover:bg-gray-100 rounded-xl transition-colors">
             <Filter className="w-4 h-4 text-gray-600" />
           </button>
         </div>
       </div>
 
       {/* Filter Pills - Transparente flotante */}
-      <div className="absolute top-32 left-0 right-0 px-5 pb-6 z-30 pointer-events-none">
+      <div className="absolute top-32 left-0 right-0 px-5 pb-8 z-30 pointer-events-none">
         <div className="flex gap-3 overflow-x-auto scrollbar-hide pointer-events-auto">
           {filters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => setActiveFilter(filter.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all whitespace-nowrap backdrop-blur-md ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all whitespace-nowrap ${
                 activeFilter === filter.id
-                  ? 'bg-gray-900/90 text-white'
-                  : 'text-gray-600 hover:text-gray-900 bg-white/70'
+                  ? 'bg-gray-900 text-white'
+                  : 'text-gray-600 hover:text-gray-900 bg-white border border-gray-200'
               }`}
             >
               {filter.icon && <filter.icon className="w-3.5 h-3.5" />}
@@ -155,7 +155,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-44"
+        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-52"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {listings.map((listing, index) => {
