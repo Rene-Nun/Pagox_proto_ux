@@ -154,7 +154,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-40"
+        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-28"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {listings.map((listing, index) => {
