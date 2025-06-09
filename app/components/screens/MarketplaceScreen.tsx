@@ -151,12 +151,12 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      {/* Card Stack Container - Posición exacta que quieres */}
-      <div className="pt-48">
+      {/* Card Stack Container - Más cerca de las pills */}
+      <div className="pt-36">
         <div 
           ref={scrollRef}
           onScroll={handleScroll}
-          className="h-[calc(100vh-192px)] overflow-y-auto snap-y snap-mandatory px-5"
+          className="h-[calc(100vh-144px)] overflow-y-auto snap-y snap-mandatory px-5"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {listings.map((listing, index) => {
