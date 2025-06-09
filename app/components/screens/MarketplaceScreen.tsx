@@ -151,12 +151,12 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      {/* Card Stack Container - Con espacio suficiente */}
-      <div className="pt-80">
+      {/* Card Stack Container - Con espacio suficiente pero altura correcta */}
+      <div className="pt-72">
         <div 
           ref={scrollRef}
           onScroll={handleScroll}
-          className="h-[calc(100vh-320px)] overflow-y-auto snap-y snap-mandatory px-5"
+          className="h-[calc(100vh-288px)] overflow-y-auto snap-y snap-mandatory px-5"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {listings.map((listing, index) => {
@@ -197,7 +197,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
             return (
               <div
                 key={listing.id}
-                className="h-[55vh] mb-2 snap-center transition-all duration-300 ease-out"
+                className="h-[50vh] mb-2 snap-center transition-all duration-300 ease-out"
                 style={{
                   transform: `scale(${scale}) translateY(${translateY}px)`,
                   opacity,
