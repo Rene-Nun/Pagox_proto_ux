@@ -1,5 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
-import Header from '../Header'
+// Asumiendo que Header es un componente válido en tu estructura de archivos
+const Header = ({ title, onNavigate }) => (
+  <header className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
+    <button className="p-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+    <h1 className="text-lg font-semibold">{title}</h1>
+    <div className="w-8"></div>
+  </header>
+);
 import { TrendingUp, TrendingDown, Filter, Search, Star, MapPin, Calendar, Music, Plane, Sparkles, Ticket } from 'lucide-react'
 
 interface MarketplaceScreenProps {
@@ -100,25 +109,28 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
 
   const handleScroll = () => {
     if (scrollRef.current) {
-      const scrollTop = scrollRef.current.scrollTop
-      const cardHeight = window.innerHeight * 0.55 + 8 // 55vh + 8px margin
-      const newIndex = Math.round(scrollTop / cardHeight)
-      const clampedIndex = Math.max(0, Math.min(newIndex, listings.length - 1))
+      const scrollTop = scrollRef.current.scrollTop;
+      // La altura de la tarjeta sigue siendo la misma, 55% del viewport + 8px de margen
+      const cardHeight = window.innerHeight * 0.55 + 8;
+      const newIndex = Math.round(scrollTop / cardHeight);
+      const clampedIndex = Math.max(0, Math.min(newIndex, listings.length - 1));
       
       if (clampedIndex !== activeIndex) {
-        setActiveIndex(clampedIndex)
+        setActiveIndex(clampedIndex);
       }
     }
-  }
+  };
 
   return (
-    <div className="h-full flex flex-col bg-white">
-      {/* Header normal - NO transparente */}
+    // Contenedor principal que ocupa toda la altura y usa flexbox en columna
+    <div className="h-screen flex flex-col bg-white">
+      {/* Header normal, es el primer elemento en el flujo */}
       <Header title="Marketplace" onNavigate={onNavigate} />
       
-      {/* Search Bar - Transparente flotante */}
-      <div className="absolute top-16 left-0 right-0 px-5 py-3 z-30 pointer-events-none">
-        <div className="relative pointer-events-auto">
+      {/* Contenedor para la búsqueda y los filtros. Ya no es absoluto. */}
+      <div className="px-5 pt-4">
+        {/* Barra de búsqueda */}
+        <div className="relative mb-4">
           <input
             type="text"
             placeholder="Buscar eventos..."
@@ -129,11 +141,9 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
             <Filter className="w-4 h-4 text-gray-600" />
           </button>
         </div>
-      </div>
 
-      {/* Filter Pills - Transparente flotante */}
-      <div className="absolute top-32 left-0 right-0 px-5 pb-8 z-30 pointer-events-none">
-        <div className="flex gap-3 overflow-x-auto scrollbar-hide pointer-events-auto">
+        {/* Pills de filtros */}
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-4">
           {filters.map((filter) => (
             <button
               key={filter.id}
@@ -151,44 +161,38 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      {/* Card Stack Container */}
+      {/* Contenedor de las tarjetas. Ocupa el espacio restante y es scrollable. */}
+      {/* Ya no necesita un padding gigante porque los elementos anteriores están en el flujo normal. */}
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        // ----- ÚNICO Y DEFINITIVO CAMBIO AQUÍ -----
-        // Cambié pt-52 por pt-72 para añadir mucho más espacio y evitar el traslape.
-        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-72"
+        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {listings.map((listing, index) => {
           const offset = index - activeIndex
           
-          // Cálculo de efectos stacked
           let scale = 1
           let opacity = 1
           let translateY = 0
           let zIndex = 10
           
           if (offset === 0) {
-            // Tarjeta activa
             scale = 1
             opacity = 1
             translateY = 0
             zIndex = 20
           } else if (Math.abs(offset) === 1) {
-            // Tarjetas adyacentes
             scale = 0.92
             opacity = 0.5
             translateY = offset * 15
             zIndex = 15
           } else if (Math.abs(offset) === 2) {
-            // Tarjetas más lejanas
             scale = 0.85
             opacity = 0.25
             translateY = offset * 30
             zIndex = 10
           } else {
-            // Tarjetas muy lejanas - mostrar pero muy transparentes
             scale = 0.8
             opacity = 0.1
             translateY = offset * 40
@@ -208,10 +212,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
               <div
                 className={`h-full rounded-3xl overflow-hidden shadow-xl ${listing.bgColor} relative p-6 flex flex-col`}
               >
-                {/* Background decoration */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
 
-                {/* Header con emoji y descuento */}
                 <div className="flex justify-between items-start mb-6">
                   <div className="text-5xl">{listing.emoji}</div>
                   <div className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
@@ -219,7 +221,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
                   </div>
                 </div>
 
-                {/* Event Info */}
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
                     <h2 className="text-2xl font-light text-white mb-3 leading-tight">
@@ -240,7 +241,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
                     <p className="text-white/70 text-sm">{listing.venue}</p>
                   </div>
 
-                  {/* Price Section */}
                   <div className="space-y-4">
                     <div>
                       <p className="text-white/60 text-xs uppercase tracking-wider mb-2">Precio actual</p>
@@ -256,7 +256,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
                       </div>
                     </div>
 
-                    {/* Info Grid */}
                     <div className="grid grid-cols-2 gap-4 text-white">
                       <div>
                         <p className="text-white/60 text-xs mb-1">Deuda asumible</p>
@@ -271,7 +270,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
                       </div>
                     </div>
 
-                    {/* Seller & CTA */}
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3 flex-1">
                         <div className="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center">
@@ -298,12 +296,12 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           )
         })}
         
-        {/* Spacer final */}
+        {/* Spacer final para permitir scrollear la última tarjeta hasta el centro */}
         <div className="h-[30vh]"></div>
       </div>
 
-      {/* Page Indicator */}
-      <div className="absolute bottom-24 right-5 flex flex-col gap-1.5 z-40">
+      {/* El indicador de página sigue siendo absoluto al contenedor principal */}
+      <div className="absolute bottom-24 right-5 flex flex-col gap-1.5 z-10">
         {listings.map((_, index) => (
           <div
             key={index}
