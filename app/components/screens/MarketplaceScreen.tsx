@@ -155,9 +155,9 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        // ----- ÚNICO CAMBIO REALIZADO AQUÍ -----
-        // Se cambió pt-52 por pt-60 para dar más espacio arriba y evitar el traslape.
-        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-60"
+        // ----- ÚNICO Y DEFINITIVO CAMBIO AQUÍ -----
+        // Cambié pt-52 por pt-72 para añadir mucho más espacio y evitar el traslape.
+        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-72"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {listings.map((listing, index) => {
