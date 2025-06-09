@@ -101,7 +101,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   const handleScroll = () => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop
-      const cardHeight = window.innerHeight * 0.6 + 16 // 60vh + 16px margin
+      const cardHeight = window.innerHeight * 0.55 + 8 // 55vh + 8px margin
       const newIndex = Math.round(scrollTop / cardHeight)
       const clampedIndex = Math.max(0, Math.min(newIndex, listings.length - 1))
       
@@ -132,7 +132,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       </div>
 
       {/* Filter Pills - Transparente flotante */}
-      <div className="absolute top-32 left-0 right-0 px-5 pb-3 z-30 pointer-events-none">
+      <div className="absolute top-32 left-0 right-0 px-5 pb-6 z-30 pointer-events-none">
         <div className="flex gap-3 overflow-x-auto scrollbar-hide pointer-events-auto">
           {filters.map((filter) => (
             <button
@@ -155,7 +155,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-32"
+        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5 pt-44"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {listings.map((listing, index) => {
@@ -196,7 +196,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           return (
             <div
               key={listing.id}
-              className="h-[60vh] mb-4 snap-center transition-all duration-300 ease-out"
+              className="h-[55vh] mb-2 snap-center transition-all duration-300 ease-out"
               style={{
                 transform: `scale(${scale}) translateY(${translateY}px)`,
                 opacity,
