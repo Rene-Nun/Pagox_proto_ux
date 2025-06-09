@@ -163,7 +163,9 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           style={{ 
             scrollbarWidth: 'none', 
             msOverflowStyle: 'none',
-            paddingTop: '180px' // EXACTAMENTE aquí empieza después de las pills
+            paddingTop: '180px',
+            scrollSnapType: 'y mandatory',
+            scrollBehavior: 'smooth'
           }}
         >
           {listings.map((listing, index) => {
@@ -200,7 +202,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
             return (
               <div
                 key={listing.id}
-                className="h-[58vh] mb-2 snap-center transition-all duration-300 ease-out"
+                className="h-[58vh] mb-2 snap-start transition-all duration-300 ease-out"
                 style={{
                   transform: `scale(${scale}) translateY(${translateY}px)`,
                   opacity,
