@@ -108,11 +108,11 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   }
 
   return (
-    <div className="h-full flex flex-col bg-white relative">
+    <div className="h-full flex flex-col bg-white">
       <Header title="Marketplace" onNavigate={onNavigate} />
       
-      {/* Search Bar - Sin fondo para transparencia */}
-      <div className="px-5 py-3 relative z-20">
+      {/* Search Bar - Con transparencia para efecto de overlay */}
+      <div className="px-5 py-3 relative z-20 bg-white/80 backdrop-blur-sm">
         <div className="relative">
           <input
             type="text"
@@ -126,8 +126,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      {/* Filter Pills - Sin fondo, completamente transparente */}
-      <div className="px-5 pb-6 flex gap-3 overflow-x-auto scrollbar-hide relative z-20">
+      {/* Filter Pills - Con transparencia para efecto de overlay */}
+      <div className="px-5 pb-6 flex gap-3 overflow-x-auto scrollbar-hide relative z-20 bg-white/80 backdrop-blur-sm">
         {filters.map((filter) => (
           <button
             key={filter.id}
@@ -144,11 +144,11 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         ))}
       </div>
 
-      {/* Card Stack Container - Posicionado para que se vea detrás */}
+      {/* Card Stack Container - Posición normal con efecto stacked */}
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="absolute inset-0 top-0 overflow-y-auto snap-y snap-mandatory px-5 pt-32"
+        className="flex-1 overflow-y-auto snap-y snap-mandatory px-5"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {listings.map((listing, index) => {
@@ -191,8 +191,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
               style={{
                 transform: `scale(${scale}) translateY(${translateY}px)`,
                 opacity,
-                zIndex,
-                marginTop: index === 0 ? '0' : '-320px' // Overlap para efecto stacked
+                zIndex
               }}
             >
               <div
