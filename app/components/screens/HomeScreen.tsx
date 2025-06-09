@@ -1,6 +1,5 @@
-import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, CreditCard, Check, ArrowRight, ChevronDown, ChevronUp, Sparkles, Plane, Hotel, Music, Eye, EyeOff, TrendingUp, Users } from 'lucide-react'
+import { Calendar, CreditCard, Check, ArrowRight, ChevronDown, Sparkles, Plane, Hotel, Music, Eye, EyeOff, TrendingUp, Shield, Zap, Target } from 'lucide-react'
 import { useState } from 'react'
 
 interface HomeScreenProps {
@@ -12,50 +11,80 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [showPlans, setShowPlans] = useState(false)
 
   return (
-    <MobileContainer className="bg-white">
+    <div className="h-full flex flex-col bg-white">
       <Header showLogo={false} onNavigate={onNavigate} />
 
       <div className="flex-1 overflow-y-auto">
         <div className="px-5 py-6 space-y-6">
-          {/* Score Card - Diseño compacto y mejor distribuido */}
-          <div className="bg-black rounded-2xl p-5 shadow-lg">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-gray-400 text-xs mb-2">Tu score pagox</p>
-                <div className="flex items-center gap-3 mb-4">
-                  <p className="text-6xl font-light text-white">750</p>
-                  <div className="bg-emerald-500/20 px-3 py-1 rounded-full">
-                    <span className="text-emerald-400 text-xs font-medium flex items-center gap-1">
-                      <Check className="w-3 h-3" />
-                      Activo
-                    </span>
+          
+          {/* Score Pagox - Pasaporte Financiero */}
+          <div className="bg-black rounded-3xl p-6 shadow-xl relative overflow-hidden">
+            {/* Decorative Elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/3 rounded-full blur-xl transform -translate-x-12 translate-y-12"></div>
+            
+            <div className="relative">
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Shield className="w-4 h-4 text-white/60" />
+                    <p className="text-white/60 text-xs uppercase tracking-wider">Pagox Score</p>
+                  </div>
+                  <div className="flex items-end gap-4 mb-4">
+                    <h1 className="text-6xl font-light text-white">750</h1>
+                    <div className="bg-emerald-500/20 px-3 py-1.5 rounded-full mb-2">
+                      <span className="text-emerald-400 text-xs font-medium flex items-center gap-1">
+                        <Check className="w-3 h-3" />
+                        Activo
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              <div className="text-right">
-                <p className="text-gray-500 text-xs font-mono">PX-2025-0729</p>
-                <p className="text-white text-sm mt-1">MARÍA PÉREZ</p>
-              </div>
-            </div>
-            
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="flex-1 h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-gray-600 to-gray-500 rounded-full" style={{ width: '88%' }}></div>
+                
+                <div className="text-right">
+                  <p className="text-white/40 text-xs font-mono mb-1">PX-2025-0729</p>
+                  <p className="text-white text-sm font-medium">MARÍA PÉREZ</p>
                 </div>
-                <span className="text-gray-500 text-xs">850</span>
               </div>
               
-              <p className="text-gray-400 text-xs leading-relaxed">
-                Desbloquea productos futuros y facilita tu regreso al sistema financiero tradicional
-              </p>
+              {/* Progress Bar */}
+              <div className="space-y-3 mb-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-white/60 text-xs">Progreso hacia productos premium</span>
+                  <span className="text-white/60 text-xs">850</span>
+                </div>
+                <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-white/40 to-white/60 rounded-full transition-all duration-500" style={{ width: '88%' }}></div>
+                </div>
+              </div>
+
+              {/* Benefits Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Zap className="w-4 h-4 text-white/80" />
+                    <span className="text-white text-sm font-medium">Próximos productos</span>
+                  </div>
+                  <p className="text-white/60 text-xs leading-relaxed">
+                    Acceso prioritario a créditos y tarjetas pagox
+                  </p>
+                </div>
+                <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Target className="w-4 h-4 text-white/80" />
+                    <span className="text-white text-sm font-medium">Sistema tradicional</span>
+                  </div>
+                  <p className="text-white/60 text-xs leading-relaxed">
+                    Facilita tu reintegración financiera
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Stats Cards - Diseño limpio y moderno */}
+          {/* Quick Stats */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-50 rounded-2xl p-5 group hover:shadow-md transition-all duration-300">
+            <div className="bg-gray-50 rounded-2xl p-5 hover:shadow-md transition-all duration-300">
               <div className="flex justify-between items-start mb-3">
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
                   <Calendar className="w-5 h-5 text-gray-600" />
@@ -66,7 +95,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               <p className="text-xs text-gray-500">Próximo pago</p>
             </div>
 
-            <div className="bg-gray-50 rounded-2xl p-5 group hover:shadow-md transition-all duration-300">
+            <div className="bg-gray-50 rounded-2xl p-5 hover:shadow-md transition-all duration-300">
               <div className="flex justify-between items-start mb-3">
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
                   <CreditCard className="w-5 h-5 text-gray-600" />
@@ -78,7 +107,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* CTA Section - Botón destacado */}
+          {/* Partner CTA */}
           <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-6 border border-gray-100">
             <h2 className="text-xl font-light text-gray-900 mb-2">
               Cumple tus sueños con <span className="font-normal">pagox</span>
@@ -95,8 +124,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </button>
           </div>
 
-          {/* Ofertas Exclusivas - Diseño reajustado */}
-          <div className="relative bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-3xl p-5 overflow-hidden shadow-xl">
+          {/* Marketplace - Verde Esmeralda Statement */}
+          <div className="relative bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-3xl p-5 overflow-hidden shadow-xl">
             <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl transform translate-x-16 -translate-y-16"></div>
             
             <div className="relative">
@@ -109,16 +138,16 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                     <h3 className="text-xl font-light text-white">
                       Marketplace
                     </h3>
-                    <p className="text-indigo-200 text-xs">Las mejores ofertas</p>
+                    <p className="text-emerald-100 text-xs">Las mejores ofertas</p>
                   </div>
                 </div>
-                <div className="bg-white/90 backdrop-blur text-indigo-600 px-3 py-1.5 rounded-xl">
+                <div className="bg-white/90 backdrop-blur text-emerald-600 px-3 py-1.5 rounded-xl">
                   <p className="text-base font-bold">70%</p>
                   <p className="text-xs font-medium -mt-0.5">OFF</p>
                 </div>
               </div>
 
-              <p className="text-indigo-100 text-sm mb-5 leading-relaxed">
+              <p className="text-emerald-50 text-sm mb-5 leading-relaxed">
                 Visita nuestro marketplace de reventa
               </p>
 
@@ -132,21 +161,21 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                     <div className="w-12 h-12 bg-white/15 backdrop-blur rounded-xl flex items-center justify-center mx-auto mb-1.5 hover:bg-white/25 transition-colors">
                       <item.icon className="w-5 h-5 text-white" />
                     </div>
-                    <p className="text-xs text-indigo-100 font-light">{item.label}</p>
+                    <p className="text-xs text-emerald-50 font-light">{item.label}</p>
                   </div>
                 ))}
               </div>
 
               <button 
                 onClick={() => onNavigate('marketplace', 'marketplace')}
-                className="w-full bg-white text-indigo-600 py-3.5 rounded-2xl font-medium hover:bg-gray-50 transition-all duration-300"
+                className="w-full bg-white text-emerald-600 py-3.5 rounded-2xl font-medium hover:bg-gray-50 transition-all duration-300"
               >
                 Ver ofertas
               </button>
             </div>
           </div>
 
-          {/* Planes de Pago - Diseño minimalista expandible */}
+          {/* Active Plans - Con ojo realista */}
           <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm">
             <button
               onClick={() => setShowPlans(!showPlans)}
@@ -166,7 +195,10 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <Eye className={`w-4 h-4 transition-colors ${showPlans ? 'text-gray-600' : 'text-gray-400'}`} />
+                {showPlans ? 
+                  <Eye className="w-4 h-4 text-gray-600" /> : 
+                  <EyeOff className="w-4 h-4 text-gray-400" />
+                }
                 <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${showPlans ? 'rotate-180' : ''}`} />
               </div>
             </button>
@@ -231,8 +263,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             )}
           </div>
+
         </div>
       </div>
-    </MobileContainer>
+    </div>
   )
 }
