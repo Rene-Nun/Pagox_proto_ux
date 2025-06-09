@@ -101,7 +101,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   const handleScroll = () => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop
-      const cardHeight = window.innerHeight * 0.5 + 8
+      const cardHeight = window.innerHeight * 0.58 + 8
       const newIndex = Math.round(scrollTop / cardHeight)
       const clampedIndex = Math.max(0, Math.min(newIndex, listings.length - 1))
       
@@ -190,7 +190,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
           return (
             <div
               key={listing.id}
-              className="h-[50vh] mb-2 snap-center transition-all duration-300 ease-out"
+              className="h-[58vh] mb-2 snap-center transition-all duration-300 ease-out"
               style={{
                 transform: `scale(${scale}) translateY(${translateY}px)`,
                 opacity,
