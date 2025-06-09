@@ -125,96 +125,95 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   return (
     <div className="h-full flex flex-col bg-white">
       <Header title="Marketplace" onNavigate={onNavigate} />
-
-      {/* ---- CAMBIO ESTRUCTURAL CLAVE ---- */}
-      {/* Este contenedor ahora es RELATIVO y contiene tanto los filtros como las tarjetas. */}
-      {/* Esto permite que los filtros floten sobre las tarjetas de forma controlada. */}
+      
       <div className="flex-1 relative">
 
-        {/* El contenedor de las tarjetas AHORA es ABSOLUTO para llenar el espacio y permitir el scroll por detrás */}
+        {/* --- CONTENEDOR DE SCROLL --- */}
+        {/* Aquí está la solución. Se eliminó el spacer y se usa `scrollPaddingTop` */}
+        {/* para decirle al snap-center que deje espacio para los filtros de arriba. */}
         <div 
           ref={scrollRef}
           onScroll={handleScroll}
-          className="absolute inset-0 overflow-y-auto snap-y snap-mandatory"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          className="absolute inset-0 overflow-y-auto snap-y snap-mandatory px-5"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            scrollPaddingTop: '180px', // Espacio para filtros flotantes
+            scrollPaddingBottom: '90px' // Espacio para el menú de navegación inferior
+          }}
         >
-          {/* Este spacer INVISIBLE empuja la primera tarjeta hacia abajo, creando el espacio necesario */}
-          <div className="h-44"></div>
-
-          <div className="px-5">
-            {listings.map((listing, index) => {
-              const offset = index - activeIndex;
-              
-              let scale = 1, opacity = 1, translateY = 0, zIndex = 10;
-              
-              if (offset === 0) {
-                scale = 1; opacity = 1; translateY = 0; zIndex = 20;
-              } else if (Math.abs(offset) === 1) {
-                scale = 0.92; opacity = 0.5; translateY = offset * 15; zIndex = 15;
-              } else if (Math.abs(offset) === 2) {
-                scale = 0.85; opacity = 0.25; translateY = offset * 30; zIndex = 10;
-              } else {
-                scale = 0.8; opacity = 0.1; translateY = offset * 40; zIndex = 5;
-              }
-              
-              return (
-                <div
-                  key={listing.id}
-                  className="h-[55vh] mb-2 snap-center transition-all duration-300 ease-out"
-                  style={{ transform: `scale(${scale}) translateY(${translateY}px)`, opacity, zIndex }}
-                >
-                  <div className={`h-full rounded-3xl overflow-hidden shadow-xl ${listing.bgColor} relative p-6 flex flex-col`}>
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="text-5xl">{listing.emoji}</div>
-                      <div className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                        <span className="text-white text-sm font-bold">-{listing.discount}%</span>
-                      </div>
+          {listings.map((listing, index) => {
+            const offset = index - activeIndex;
+            
+            let scale = 1, opacity = 1, translateY = 0, zIndex = 10;
+            
+            if (offset === 0) {
+              scale = 1; opacity = 1; translateY = 0; zIndex = 20;
+            } else if (Math.abs(offset) === 1) {
+              scale = 0.92; opacity = 0.5; translateY = offset * 15; zIndex = 15;
+            } else if (Math.abs(offset) === 2) {
+              scale = 0.85; opacity = 0.25; translateY = offset * 30; zIndex = 10;
+            } else {
+              scale = 0.8; opacity = 0.1; translateY = offset * 40; zIndex = 5;
+            }
+            
+            return (
+              <div
+                key={listing.id}
+                className="h-[55vh] mb-2 snap-center transition-all duration-300 ease-out"
+                style={{ transform: `scale(${scale}) translateY(${translateY}px)`, opacity, zIndex }}
+              >
+                <div className={`h-full rounded-3xl overflow-hidden shadow-xl ${listing.bgColor} relative p-6 flex flex-col`}>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="text-5xl">{listing.emoji}</div>
+                    <div className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                      <span className="text-white text-sm font-bold">-{listing.discount}%</span>
                     </div>
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div>
-                        <h2 className="text-2xl font-light text-white mb-3 leading-tight">{listing.event}</h2>
-                        <div className="flex items-center gap-4 text-white/80 text-sm mb-2">
-                          <div className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{listing.date}</div>
-                          <div className="flex items-center gap-1.5"><MapPin className="w-4 h-4" />{listing.location}</div>
-                        </div>
-                        <p className="text-white/70 text-sm">{listing.venue}</p>
+                  </div>
+                  <div className="flex-1 flex flex-col justify-between">
+                    <div>
+                      <h2 className="text-2xl font-light text-white mb-3 leading-tight">{listing.event}</h2>
+                      <div className="flex items-center gap-4 text-white/80 text-sm mb-2">
+                        <div className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{listing.date}</div>
+                        <div className="flex items-center gap-1.5"><MapPin className="w-4 h-4" />{listing.location}</div>
                       </div>
-                      <div className="space-y-4">
+                      <p className="text-white/70 text-sm">{listing.venue}</p>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-white/60 text-xs uppercase tracking-wider mb-2">Precio actual</p>
+                        <div className="flex items-baseline gap-3">
+                          <span className="text-4xl font-extralight text-white">${listing.currentPrice.toLocaleString()}</span>
+                          <span className="text-white/40 text-lg line-through">${listing.originalPrice.toLocaleString()}</span>
+                          {listing.trend === 'up' && <TrendingUp className="w-4 h-4 text-green-300" />}
+                          {listing.trend === 'down' && <TrendingDown className="w-4 h-4 text-red-300" />}
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4 text-white">
                         <div>
-                          <p className="text-white/60 text-xs uppercase tracking-wider mb-2">Precio actual</p>
-                          <div className="flex items-baseline gap-3">
-                            <span className="text-4xl font-extralight text-white">${listing.currentPrice.toLocaleString()}</span>
-                            <span className="text-white/40 text-lg line-through">${listing.originalPrice.toLocaleString()}</span>
-                            {listing.trend === 'up' && <TrendingUp className="w-4 h-4 text-green-300" />}
-                            {listing.trend === 'down' && <TrendingDown className="w-4 h-4 text-red-300" />}
-                          </div>
+                          <p className="text-white/60 text-xs mb-1">Deuda asumible</p>
+                          <p className="text-xl font-light">${listing.debt.toLocaleString()}</p>
                         </div>
-                        <div className="grid grid-cols-2 gap-4 text-white">
-                          <div>
-                            <p className="text-white/60 text-xs mb-1">Deuda asumible</p>
-                            <p className="text-xl font-light">${listing.debt.toLocaleString()}</p>
-                          </div>
-                          <div>
-                            <p className="text-white/60 text-xs mb-1">Score vendedor</p>
-                            <div className="flex items-center gap-1"><Star className="w-4 h-4 fill-yellow-400 text-yellow-400" /><span className="text-xl font-light">{listing.sellerRating}</span></div>
-                          </div>
+                        <div>
+                          <p className="text-white/60 text-xs mb-1">Score vendedor</p>
+                          <div className="flex items-center gap-1"><Star className="w-4 h-4 fill-yellow-400 text-yellow-400" /><span className="text-xl font-light">{listing.sellerRating}</span></div>
                         </div>
-                        <div className="flex items-center justify-between gap-4">
-                          <div className="flex items-center gap-3 flex-1">
-                            <div className="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center"><span className="text-white text-sm font-medium">{listing.seller.split(' ').map(n => n[0]).join('')}</span></div>
-                            <div className="text-white"><p className="text-sm font-medium">{listing.seller}</p><p className="text-xs text-white/60">Hace {listing.daysListed} días • Score: {listing.score}</p></div>
-                          </div>
-                          <button className="bg-white text-gray-900 px-6 py-2.5 rounded-full text-sm font-medium hover:bg-gray-100 transition-all">Ver detalles</button>
+                      </div>
+                      <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 flex-1">
+                          <div className="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center"><span className="text-white text-sm font-medium">{listing.seller.split(' ').map(n => n[0]).join('')}</span></div>
+                          <div className="text-white"><p className="text-sm font-medium">{listing.seller}</p><p className="text-xs text-white/60">Hace {listing.daysListed} días • Score: {listing.score}</p></div>
                         </div>
+                        <button className="bg-white text-gray-900 px-6 py-2.5 rounded-full text-sm font-medium hover:bg-gray-100 transition-all">Ver detalles</button>
                       </div>
                     </div>
                   </div>
                 </div>
-              );
-            })}
-            <div className="h-[30vh]"></div>
-          </div>
+              </div>
+            );
+          })}
+          <div className="h-[30vh]"></div>
         </div>
 
         {/* Barra de Búsqueda y Filtros flotando sobre el contenido scrolleable */}
