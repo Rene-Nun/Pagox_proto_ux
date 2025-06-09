@@ -1,3 +1,4 @@
+import MobileContainer from '../MobileContainer'
 import Header from '../Header'
 import { Calendar, CreditCard, Check, ArrowRight, ChevronDown, Sparkles, Plane, Hotel, Music, Eye, EyeOff, TrendingUp, Shield, Zap, Target } from 'lucide-react'
 import { useState } from 'react'
@@ -11,7 +12,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [showPlans, setShowPlans] = useState(false)
 
   return (
-    <div className="h-full flex flex-col bg-white">
+    <MobileContainer className="bg-white">
       <Header showLogo={false} onNavigate={onNavigate} />
 
       <div className="flex-1 overflow-y-auto">
@@ -245,6 +246,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
         </div>
       </div>
-    </div>
+    </MobileContainer>
   )
 }
