@@ -101,7 +101,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
   const handleScroll = () => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop
-      // La altura de la tarjeta + su margen
       const cardHeight = (window.innerHeight * 0.55) + 8 
       const newIndex = Math.floor(scrollTop / cardHeight)
       const clampedIndex = Math.max(0, Math.min(newIndex, listings.length - 1))
@@ -116,7 +115,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
     <div className="h-full flex flex-col bg-white">
       <Header title="Marketplace" onNavigate={onNavigate} />
       
-      {/* Search Bar - Flotante */}
       <div className="absolute top-16 left-0 right-0 px-5 py-3 z-30 pointer-events-none">
         <div className="relative pointer-events-auto">
           <input
@@ -131,7 +129,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      {/* Filter Pills - Flotante */}
       <div className="absolute top-32 left-0 right-0 px-5 pb-8 z-30 pointer-events-none">
         <div className="flex gap-3 overflow-x-auto scrollbar-hide pointer-events-auto">
           {filters.map((filter) => (
@@ -151,11 +148,10 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      {/* Card Stack Container */}
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto snap-y snap-mandatory" // Se quita px-5 para que el spacer ocupe todo el ancho
+        className="flex-1 overflow-y-auto snap-y snap-mandatory"
         style={{ 
           scrollbarWidth: 'none', 
           msOverflowStyle: 'none',
@@ -163,8 +159,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         }}
       >
         {/* === CAMBIO CLAVE AQUÍ === */}
-        {/* Este spacer ahora es más corto para subir las tarjetas */}
-        <div className="h-48"></div>
+        {/* Este espaciador tiene la altura correcta para un diseño estándar. */}
+        <div className="h-52 snap-start"></div>
 
         <div className="px-5">
             {listings.map((listing, index) => {
@@ -252,7 +248,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
         </div>
       </div>
 
-      {/* Page Indicator */}
       <div className="absolute bottom-24 right-5 flex flex-col gap-1.5 z-40">
         {listings.map((_, index) => (
           <div
