@@ -4,6 +4,7 @@ import { Calendar, MapPin, Music, Plane, Eye, EyeOff, ArrowRight, Circle, CheckC
 
 interface PartnerScreenProps {
   onNavigate: (screen: string, event?: any) => void
+  activeTab?: string
 }
 
 export default function PlansScreen({ onNavigate }: PartnerScreenProps) {
