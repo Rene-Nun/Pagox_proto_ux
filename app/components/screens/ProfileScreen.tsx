@@ -124,4 +124,4 @@ export default function ProfileScreen({ onNavigate, activeTab }: ProfileScreenPr
       {/* <BottomNav activeTab={activeTab} onNavigate={onNavigate} /> */}
     </div>
   )
-}
+} 
