@@ -114,7 +114,7 @@ export default function ProfileScreen({ onNavigate, activeTab }: ProfileScreenPr
           {/* App Info */}
           <div className="text-center py-4 border-t border-gray-100">
             <p className="text-xs text-gray-400 mb-2">Pagox v1.0.0</p>
-            <p className="text-xs text-gray-400">Tu pasaporte financiero</p>
+            <p className="text-xs text-gray-400">State of the art finance</p>
           </div>
 
         </div>
