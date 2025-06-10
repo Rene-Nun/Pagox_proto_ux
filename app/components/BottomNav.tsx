@@ -14,22 +14,32 @@ export default function BottomNav({ activeTab, onNavigate }: BottomNavProps) {
   ]
 
   return (
-    <div className="bg-white border-t border-gray-200 safe-area-inset flex-shrink-0">
-      <div className="flex justify-around py-2 pb-4">
+    <div className="bg-white border-t border-gray-100 safe-area-inset flex-shrink-0">
+      <div className="flex justify-around px-5 py-3 pb-6">
         {navItems.map(({ icon: Icon, label, screen, tab }) => (
           <button
             key={tab}
             onClick={() => onNavigate(screen, tab)}
-            className={`flex flex-col items-center p-2 transition-all ${
-              activeTab === tab ? 'text-purple-600' : 'text-gray-500'
-            }`}
+            className="flex flex-col items-center gap-1 transition-all duration-200 min-w-0 flex-1"
           >
-            <div className={`p-2 rounded-xl transition-all ${
-              activeTab === tab ? 'bg-purple-100' : ''
+            <div className={`p-2 rounded-xl transition-all duration-200 ${
+              activeTab === tab 
+                ? 'bg-black' 
+                : 'hover:bg-gray-50'
             }`}>
-              <Icon className="w-5 h-5" />
+              <Icon className={`w-5 h-5 transition-colors duration-200 ${
+                activeTab === tab 
+                  ? 'text-white' 
+                  : 'text-gray-600'
+              }`} />
             </div>
-            <span className="text-xs mt-1 font-medium">{label}</span>
+            <span className={`text-xs font-medium transition-colors duration-200 ${
+              activeTab === tab 
+                ? 'text-black' 
+                : 'text-gray-500'
+            }`}>
+              {label}
+            </span>
           </button>
         ))}
       </div>
