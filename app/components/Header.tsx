@@ -1,4 +1,4 @@
-import { ChevronLeft, Menu, Bell, User } from 'lucide-react'
+import { ChevronLeft, Bell, User } from 'lucide-react'
 
 interface HeaderProps {
   title?: string
@@ -10,33 +10,45 @@ interface HeaderProps {
 
 export default function Header({ title, showBack = false, onBack, showLogo = false, onNavigate }: HeaderProps) {
   return (
-    <div className="bg-white text-gray-900 safe-area-inset border-b border-gray-200">
-      <div className="flex items-center justify-between p-4">
+    <div className="bg-white text-gray-900 safe-area-inset border-b border-gray-100">
+      <div className="flex items-center justify-between px-5 py-4">
         <div className="flex items-center gap-3">
           {showBack ? (
-            <ChevronLeft 
-              className="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity" 
-              onClick={onBack} 
-            />
+            <button 
+              onClick={onBack}
+              className="p-2 hover:bg-gray-50 rounded-full transition-colors -ml-2"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
           ) : (
-            <Menu className="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity" />
+            <div className="flex-1">
+              {showLogo && (
+                <div className="text-xl font-light tracking-wider text-black">PAGOX</div>
+              )}
+              {title && !showLogo && (
+                <h1 className="text-xl font-light text-black">{title}</h1>
+              )}
+              {!title && !showLogo && (
+                <h1 className="text-xl font-light text-black">Inicio</h1>
+              )}
+            </div>
           )}
-          {showLogo && (
-            <div className="text-xl font-bold tracking-wider">PAGOX</div>
-          )}
-          {title && !showLogo && (
-            <span className="text-lg font-medium">{title}</span>
+          {showBack && title && (
+            <h1 className="text-xl font-light text-black">{title}</h1>
           )}
         </div>
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <Bell className="w-5 h-5 cursor-pointer hover:opacity-80 transition-opacity" />
-            <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></div>
-          </div>
-          <User 
-            className="w-5 h-5 cursor-pointer hover:opacity-80 transition-opacity" 
+        
+        <div className="flex items-center gap-2">
+          <button className="relative p-2 hover:bg-gray-50 rounded-full transition-colors">
+            <Bell className="w-5 h-5 text-gray-600" />
+            <div className="absolute top-1.5 right-1.5 w-2 h-2 bg-black rounded-full"></div>
+          </button>
+          <button 
             onClick={() => onNavigate && onNavigate('profile', 'profile')}
-          />
+            className="p-2 hover:bg-gray-50 rounded-full transition-colors"
+          >
+            <User className="w-5 h-5 text-gray-600" />
+          </button>
         </div>
       </div>
     </div>
