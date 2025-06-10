@@ -1,5 +1,4 @@
 import Header from '../Header'
-import BottomNav from '../BottomNav'
 import { User, CreditCard, Bell, Shield, HelpCircle, LogOut, ChevronRight, Award, Check } from 'lucide-react'
 
 interface ProfileScreenProps {
@@ -121,7 +120,8 @@ export default function ProfileScreen({ onNavigate, activeTab }: ProfileScreenPr
         </div>
       </div>
 
-      <BottomNav activeTab={activeTab} onNavigate={onNavigate} />
+      {/* ELIMINAMOS ESTA LÍNEA QUE CAUSABA EL PROBLEMA */}
+      {/* <BottomNav activeTab={activeTab} onNavigate={onNavigate} /> */}
     </div>
   )
 }
