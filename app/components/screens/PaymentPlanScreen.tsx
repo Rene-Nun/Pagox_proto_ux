@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import Header from '../Header'
-import { Calendar, Check, X, Music, Plane, DollarSign, Brain, Cpu, Zap, Target, Shield, TrendingUp } from 'lucide-react'
+import { Calendar, Check, X, Music, Plane, DollarSign, Brain, Cpu, Zap, Target, Shield, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface PaymentPlanScreenProps {
   onNavigate: (screen: string, data?: any) => void
@@ -9,18 +10,6 @@ interface PaymentPlanScreenProps {
 }
 
 export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent, ticketInfo }: PaymentPlanScreenProps) {
-  const handleAcceptPlan = () => {
-    // Pasar toda la información del evento y boleto a la cartera
-    onNavigate('wallet', { 
-      tab: 'wallet', 
-      newTicket: {
-        event: selectedEvent,
-        ticket: ticketInfo,
-        purchaseDate: new Date().toISOString()
-      }
-    })
-  }
-
   // Usar evento y boleto seleccionado
   const event = selectedEvent || { artist: 'Evento', tour: 'Tour', type: 'concert', price: 1500 }
   const ticket = ticketInfo || { type: 'general', quantity: 1, price: 1500 }
@@ -31,8 +20,35 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
   const downPaymentPercent = aiScore > 90 ? 0.15 : 0.20 // Menor enganche para mayor liquidez
   const downPayment = Math.round(totalPrice * downPaymentPercent)
   const financed = totalPrice - downPayment
-  const payments = totalPrice > 5000 ? 6 : 3 // Más pagos para montos mayores
-  const paymentAmount = Math.round(financed / payments)
+  
+  // Determinar el máximo de pagos basado en el monto
+  const maxPayments = totalPrice > 5000 ? 6 : totalPrice > 2000 ? 4 : 3
+  
+  // Estado para el número de pagos seleccionado (inicializar con el máximo)
+  const [selectedPayments, setSelectedPayments] = useState(maxPayments)
+  
+  // Calcular el monto por pago basado en la selección
+  const paymentAmount = Math.round(financed / selectedPayments)
+
+  const handleAcceptPlan = () => {
+    // Pasar toda la información del evento y boleto a la cartera, incluyendo el plan de pagos elegido
+    onNavigate('wallet', { 
+      tab: 'wallet', 
+      newTicket: {
+        event: selectedEvent,
+        ticket: ticketInfo,
+        purchaseDate: new Date().toISOString(),
+        paymentPlan: {
+          totalPayments: selectedPayments,
+          paymentAmount: paymentAmount,
+          downPayment: downPayment
+        }
+      }
+    })
+  }
+
+  // Generar opciones de pago (desde 1 hasta el máximo)
+  const paymentOptions = Array.from({ length: maxPayments }, (_, i) => i + 1)
 
   // Determinar el ícono según el tipo de evento
   const getEventIcon = () => {
@@ -51,7 +67,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
 
       <div className="flex-1 overflow-y-auto">
         <div className="px-5 py-6 space-y-6">
-          
+
           {/* Experience Card */}
           <div className="border border-gray-200 rounded-2xl p-5">
             <div className="flex items-center gap-4">
@@ -82,7 +98,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
           {/* Payment Breakdown */}
           <div className="space-y-4">
             <h3 className="text-lg font-light text-black">Desglose de pagos</h3>
-            
+
             {/* Down Payment */}
             <div className="border border-gray-200 rounded-2xl p-5">
               <div className="flex items-center justify-between">
@@ -115,16 +131,38 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
               </div>
             </div>
 
-            {/* Payment Schedule */}
+            {/* Payment Schedule with Selector */}
             <div className="bg-gray-50 rounded-2xl p-5">
               <div className="flex items-center gap-3 mb-4">
                 <Calendar className="w-5 h-5 text-gray-600" />
                 <p className="font-medium text-black">Plan de pagos</p>
               </div>
+
+              {/* Payment Options Selector */}
+              <div className="mb-4">
+                <p className="text-sm text-gray-600 mb-2">Elige el número de pagos quincenales:</p>
+                <div className="flex flex-wrap gap-2">
+                  {paymentOptions.map((option) => (
+                    <button
+                      key={option}
+                      onClick={() => setSelectedPayments(option)}
+                      className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                        selectedPayments === option
+                          ? 'bg-black text-white shadow-md'
+                          : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                      }`}
+                    >
+                      {option} {option === 1 ? 'pago' : 'pagos'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Payment Details */}
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
-                  <p className="text-2xl font-light text-black">{payments}</p>
-                  <p className="text-xs text-gray-500">quincenas</p>
+                  <p className="text-2xl font-light text-black">{selectedPayments}</p>
+                  <p className="text-xs text-gray-500">{selectedPayments === 1 ? 'quincena' : 'quincenas'}</p>
                 </div>
                 <div>
                   <p className="text-2xl font-light text-black">${paymentAmount.toLocaleString()}</p>
@@ -135,6 +173,26 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   <p className="text-xs text-gray-500">2025</p>
                 </div>
               </div>
+
+              {/* Payment Schedule Preview */}
+              {selectedPayments > 1 && (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <p className="text-xs text-gray-500 mb-2">Calendario de pagos:</p>
+                  <div className="space-y-1">
+                    {Array.from({ length: selectedPayments }, (_, i) => {
+                      const paymentDate = new Date('2025-11-30')
+                      paymentDate.setDate(paymentDate.getDate() + (i * 15)) // Cada 15 días (quincena)
+                      return (
+                        <div key={i} className="flex justify-between text-xs text-gray-600">
+                          <span>Pago {i + 1}</span>
+                          <span>{paymentDate.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' })}</span>
+                          <span>${paymentAmount.toLocaleString()}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -145,13 +203,13 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
             <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-r from-cyan-400/20 to-transparent rounded-full blur-2xl animate-pulse"></div>
             <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-l from-purple-400/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 border border-cyan-400/30 rounded-full animate-ping"></div>
-            
+
             {/* Floating Particles */}
             <div className="absolute top-4 left-8 w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-300"></div>
             <div className="absolute top-12 right-12 w-1 h-1 bg-purple-400 rounded-full animate-bounce delay-700"></div>
             <div className="absolute bottom-8 left-16 w-1 h-1 bg-pink-400 rounded-full animate-bounce delay-500"></div>
             <div className="absolute bottom-16 right-8 w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-900"></div>
-            
+
             <div className="relative z-10">
               {/* Header with Glowing Effect */}
               <div className="flex items-center gap-3 mb-6">
@@ -168,12 +226,12 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   <p className="text-gray-400 text-xs">Neural Exchange Underwriting System</p>
                 </div>
               </div>
-              
+
               {/* Score Display with Holographic Effect */}
               <div className="bg-gradient-to-r from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-cyan-400/20 relative">
                 {/* Scanning Lines Effect */}
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent h-4 animate-pulse"></div>
-                
+
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <Cpu className="w-5 h-5 text-cyan-400 animate-pulse" />
@@ -188,7 +246,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                       <div className="w-1 h-4 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-450"></div>
                       <div className="w-1 h-7 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-600"></div>
                     </div>
-                    
+
                     {/* Holographic Score */}
                     <div className="relative">
                       <p className="text-5xl font-light bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
@@ -200,7 +258,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Futuristic Progress Bar */}
                 <div className="relative h-4 bg-gray-800 rounded-full overflow-hidden mb-4">
                   <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-600 rounded-full"></div>
@@ -212,7 +270,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent rounded-full animate-pulse"></div>
                 </div>
-                
+
                 {/* Neural Network Visualization */}
                 <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
                   <span className="flex items-center gap-1">
@@ -228,7 +286,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                     Confianza: Alta
                   </span>
                 </div>
-                
+
                 <p className="text-gray-400 text-xs leading-relaxed">
                   Red neuronal deep learning analiza patrones de mercado, comportamiento de usuarios, 
                   liquidez histórica y 124+ variables en tiempo real para predecir valor de reventa.
