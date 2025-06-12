@@ -30,6 +30,20 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
   // Calcular el monto por pago basado en la selección
   const paymentAmount = Math.round(financed / selectedPayments)
 
+  // Calcular la fecha del último pago basada en los pagos seleccionados
+  const getLastPaymentDate = () => {
+    const startDate = new Date() // Fecha actual
+    startDate.setDate(startDate.getDate() + 15) // Primer pago en 15 días
+    const lastPaymentDate = new Date(startDate)
+    lastPaymentDate.setDate(lastPaymentDate.getDate() + ((selectedPayments - 1) * 15)) // Agregar quincenas
+    
+    return lastPaymentDate.toLocaleDateString('es-MX', { 
+      day: 'numeric', 
+      month: 'short',
+      year: 'numeric'
+    }).replace('.', '')
+  }
+
   const handleAcceptPlan = () => {
     // Pasar toda la información del evento y boleto a la cartera, incluyendo el plan de pagos elegido
     onNavigate('wallet', { 
@@ -141,12 +155,12 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
               {/* Payment Options Selector */}
               <div className="mb-4">
                 <p className="text-sm text-gray-600 mb-2">Elige el número de pagos quincenales:</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {paymentOptions.map((option) => (
                     <button
                       key={option}
                       onClick={() => setSelectedPayments(option)}
-                      className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                      className={`py-2 rounded-xl text-sm font-medium transition-all ${
                         selectedPayments === option
                           ? 'bg-black text-white shadow-md'
                           : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
@@ -169,8 +183,8 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   <p className="text-xs text-gray-500">cada una</p>
                 </div>
                 <div>
-                  <p className="text-lg font-light text-black">30 Nov</p>
-                  <p className="text-xs text-gray-500">2025</p>
+                  <p className="text-lg font-light text-black">{getLastPaymentDate().split(' ')[0]} {getLastPaymentDate().split(' ')[1]}</p>
+                  <p className="text-xs text-gray-500">{getLastPaymentDate().split(' ')[2]}</p>
                 </div>
               </div>
 
@@ -180,7 +194,9 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   <p className="text-xs text-gray-500 mb-2">Calendario de pagos:</p>
                   <div className="space-y-1">
                     {Array.from({ length: selectedPayments }, (_, i) => {
-                      const paymentDate = new Date('2025-11-30')
+                      const startDate = new Date()
+                      startDate.setDate(startDate.getDate() + 15) // Primer pago en 15 días
+                      const paymentDate = new Date(startDate)
                       paymentDate.setDate(paymentDate.getDate() + (i * 15)) // Cada 15 días (quincena)
                       return (
                         <div key={i} className="flex justify-between text-xs text-gray-600">
