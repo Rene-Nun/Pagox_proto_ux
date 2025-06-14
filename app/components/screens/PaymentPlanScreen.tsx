@@ -65,11 +65,32 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
   
   // Determinar si se aplican intereses (solo 8 pagos)
   const hasInterest = selectedPayments === 8
-  const interestRate = 0.19 // TIA del 19%
+  const annualRate = 0.36 // TIA del 36% anual
   
   // Calcular el monto por pago basado en la selección
-  const financedWithInterest = hasInterest ? financed * (1 + interestRate) : financed
-  const paymentAmount = Math.round(financedWithInterest / selectedPayments)
+  const calculatePaymentAmount = () => {
+    if (!hasInterest) {
+      // Sin interés: división simple
+      return Math.round(financed / selectedPayments)
+    }
+    
+    // Con interés: fórmula estándar del Sistema Francés
+    const quincenasAlAno = 24 // 24 quincenas en un año
+    const tasaQuincenal = annualRate / quincenasAlAno // Tasa quincenal exacta: 36% / 24 = 1.5%
+    const n = selectedPayments // Número de quincenas
+    const P = financed // Monto principal
+    
+    // Fórmula estándar: PMT = P × [r(1+r)^n] / [(1+r)^n - 1]
+    const r = tasaQuincenal
+    const numerador = r * Math.pow(1 + r, n)
+    const denominador = Math.pow(1 + r, n) - 1
+    const cuotaFija = P * (numerador / denominador)
+    
+    return Math.round(cuotaFija)
+  }
+  
+  const paymentAmount = calculatePaymentAmount()
+  const totalFinanced = hasInterest ? paymentAmount * selectedPayments : financed
 
   const handleAcceptPlan = () => {
     // Pasar toda la información del evento y boleto a la cartera, incluyendo el plan de pagos elegido
@@ -84,8 +105,8 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
           paymentAmount: paymentAmount,
           downPayment: downPayment,
           hasInterest: hasInterest,
-          totalFinanced: Math.round(financedWithInterest),
-          interestRate: hasInterest ? interestRate : 0
+          totalFinanced: totalFinanced,
+          interestRate: hasInterest ? annualRate : 0
         }
       }
     })
@@ -186,12 +207,12 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   <div>
                     <p className="font-medium text-black">Pagox financia</p>
                     {hasInterest && (
-                      <p className="text-xs text-orange-600">TIA 19% aplicada</p>
+                      <p className="text-xs text-orange-600">TIA 36% aplicada</p>
                     )}
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-2xl font-light text-black">${Math.round(financedWithInterest).toLocaleString()}</p>
+                  <p className="text-2xl font-light text-black">${totalFinanced.toLocaleString()}</p>
                   {hasInterest && (
                     <p className="text-xs text-gray-500">
                       (${financed.toLocaleString()} + intereses)
@@ -243,7 +264,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                 {hasInterest && (
                   <div className="mt-2 p-2 bg-orange-50 rounded-lg border border-orange-200">
                     <p className="text-xs text-orange-700">
-                      ⚠️ <strong>Intereses aplicados:</strong> Al elegir 8 pagos se aplica una TIA del 19% sobre el monto financiado
+                      ⚠️ <strong>Intereses aplicados:</strong> Al elegir 8 pagos se aplica una TIA del 36% sobre el monto financiado
                     </p>
                   </div>
                 )}
