@@ -21,14 +21,32 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
   const downPayment = Math.round(totalPrice * downPaymentPercent)
   const financed = totalPrice - downPayment
   
-  // Determinar el máximo de pagos basado en el monto
-  const maxPayments = totalPrice > 5000 ? 6 : totalPrice > 2000 ? 4 : 3
+  // Calcular quincenas disponibles basándose en la fecha del evento
+  const calculateMaxPayments = () => {
+    if (!event.date) return 3 // Default si no hay fecha
+    
+    const eventDate = new Date(event.date)
+    const referenceDate = new Date('2025-07-01') // Fecha de referencia fija para demo
+    const timeDiff = eventDate.getTime() - referenceDate.getTime()
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
+    const quincenesDisponibles = Math.floor(daysDiff / 15) // Cada quincena son 15 días
+    
+    // Máximo 8 pagos, mínimo 1
+    return Math.min(Math.max(quincenesDisponibles, 1), 8)
+  }
+  
+  const maxPayments = calculateMaxPayments()
   
   // Estado para el número de pagos seleccionado (inicializar con el máximo)
   const [selectedPayments, setSelectedPayments] = useState(maxPayments)
   
+  // Determinar si se aplican intereses (7-8 pagos)
+  const hasInterest = selectedPayments >= 7
+  const interestRate = 0.36 // TIA del 36%
+  
   // Calcular el monto por pago basado en la selección
-  const paymentAmount = Math.round(financed / selectedPayments)
+  const financedWithInterest = hasInterest ? financed * (1 + interestRate) : financed
+  const paymentAmount = Math.round(financedWithInterest / selectedPayments)
 
   // Calcular la fecha del último pago basada en los pagos seleccionados
   const getLastPaymentDate = () => {
@@ -139,9 +157,21 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
                     <DollarSign className="w-5 h-5 text-gray-600" />
                   </div>
-                  <p className="font-medium text-black">Pagox financia</p>
+                  <div>
+                    <p className="font-medium text-black">Pagox financia</p>
+                    {hasInterest && (
+                      <p className="text-xs text-orange-600">TIA 36% aplicada</p>
+                    )}
+                  </div>
                 </div>
-                <p className="text-2xl font-light text-black">${financed.toLocaleString()}</p>
+                <div className="text-right">
+                  <p className="text-2xl font-light text-black">${Math.round(financedWithInterest).toLocaleString()}</p>
+                  {hasInterest && (
+                    <p className="text-xs text-gray-500">
+                      (${financed.toLocaleString()} + intereses)
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -154,22 +184,43 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
 
               {/* Payment Options Selector */}
               <div className="mb-4">
-                <p className="text-sm text-gray-600 mb-2">Elige el número de pagos quincenales:</p>
+                <p className="text-sm text-gray-600 mb-2">
+                  Elige el número de pagos quincenales:
+                  {maxPayments < 8 && (
+                    <span className="text-xs text-gray-500 block mt-1">
+                      Máximo {maxPayments} pagos disponibles hasta la fecha del evento
+                    </span>
+                  )}
+                </p>
                 <div className="grid grid-cols-3 gap-2">
                   {paymentOptions.map((option) => (
                     <button
                       key={option}
                       onClick={() => setSelectedPayments(option)}
-                      className={`py-2 rounded-xl text-sm font-medium transition-all ${
+                      className={`py-2 rounded-xl text-sm font-medium transition-all relative ${
                         selectedPayments === option
-                          ? 'bg-black text-white shadow-md'
+                          ? option >= 7 
+                            ? 'bg-orange-500 text-white shadow-md'
+                            : 'bg-black text-white shadow-md'
                           : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
                       }`}
                     >
                       {option} {option === 1 ? 'pago' : 'pagos'}
+                      {option >= 7 && (
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-400 rounded-full flex items-center justify-center">
+                          <span className="text-[8px] text-white font-bold">%</span>
+                        </div>
+                      )}
                     </button>
                   ))}
                 </div>
+                {hasInterest && (
+                  <div className="mt-2 p-2 bg-orange-50 rounded-lg border border-orange-200">
+                    <p className="text-xs text-orange-700">
+                      ⚠️ <strong>Intereses aplicados:</strong> Al elegir 7+ pagos se aplica una TIA del 36% sobre el monto financiado
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Payment Details */}
