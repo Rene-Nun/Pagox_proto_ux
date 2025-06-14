@@ -21,11 +21,34 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
   const downPayment = Math.round(totalPrice * downPaymentPercent)
   const financed = totalPrice - downPayment
   
+  // Función para convertir fechas en español a formato JavaScript
+  const parseSpanishDate = (dateString: string) => {
+    if (!dateString) return null
+    
+    const monthMap: { [key: string]: string } = {
+      'enero': 'January', 'febrero': 'February', 'marzo': 'March',
+      'abril': 'April', 'mayo': 'May', 'junio': 'June',
+      'julio': 'July', 'agosto': 'August', 'septiembre': 'September',
+      'octubre': 'October', 'noviembre': 'November', 'diciembre': 'December'
+    }
+    
+    // Convertir "20 de Julio de 2025" a "20 July 2025"
+    let englishDate = dateString.toLowerCase()
+    Object.keys(monthMap).forEach(spanishMonth => {
+      englishDate = englishDate.replace(spanishMonth, monthMap[spanishMonth])
+    })
+    englishDate = englishDate.replace(' de ', ' ').replace(' de ', ' ')
+    
+    return new Date(englishDate)
+  }
+
   // Calcular quincenas disponibles basándose en la fecha del evento
   const calculateMaxPayments = () => {
     if (!event.date) return 3 // Default si no hay fecha
     
-    const eventDate = new Date(event.date)
+    const eventDate = parseSpanishDate(event.date)
+    if (!eventDate || isNaN(eventDate.getTime())) return 3 // Si no se puede parsear la fecha
+    
     const referenceDate = new Date('2025-07-01') // Fecha de referencia fija para demo
     const timeDiff = eventDate.getTime() - referenceDate.getTime()
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
@@ -50,7 +73,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
 
   // Calcular la fecha del último pago basada en los pagos seleccionados
   const getLastPaymentDate = () => {
-    const startDate = new Date() // Fecha actual
+    const startDate = new Date('2025-07-01') // Usar la misma fecha de referencia
     startDate.setDate(startDate.getDate() + 15) // Primer pago en 15 días
     const lastPaymentDate = new Date(startDate)
     lastPaymentDate.setDate(lastPaymentDate.getDate() + ((selectedPayments - 1) * 15)) // Agregar quincenas
@@ -245,7 +268,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   <p className="text-xs text-gray-500 mb-2">Calendario de pagos:</p>
                   <div className="space-y-1">
                     {Array.from({ length: selectedPayments }, (_, i) => {
-                      const startDate = new Date()
+                      const startDate = new Date('2025-07-01') // Usar la misma fecha de referencia
                       startDate.setDate(startDate.getDate() + 15) // Primer pago en 15 días
                       const paymentDate = new Date(startDate)
                       paymentDate.setDate(paymentDate.getDate() + (i * 15)) // Cada 15 días (quincena)
