@@ -63,9 +63,9 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
   // Estado para el número de pagos seleccionado (inicializar con el máximo)
   const [selectedPayments, setSelectedPayments] = useState(maxPayments)
   
-  // Determinar si se aplican intereses (7-8 pagos)
-  const hasInterest = selectedPayments >= 7
-  const interestRate = 0.36 // TIA del 36%
+  // Determinar si se aplican intereses (solo 8 pagos)
+  const hasInterest = selectedPayments === 8
+  const interestRate = 0.19 // TIA del 19%
   
   // Calcular el monto por pago basado en la selección
   const financedWithInterest = hasInterest ? financed * (1 + interestRate) : financed
@@ -183,7 +183,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   <div>
                     <p className="font-medium text-black">Pagox financia</p>
                     {hasInterest && (
-                      <p className="text-xs text-orange-600">TIA 36% aplicada</p>
+                      <p className="text-xs text-orange-600">TIA 19% aplicada</p>
                     )}
                   </div>
                 </div>
@@ -222,14 +222,14 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                       onClick={() => setSelectedPayments(option)}
                       className={`py-2 rounded-xl text-sm font-medium transition-all relative ${
                         selectedPayments === option
-                          ? option >= 7 
+                          ? option === 8 
                             ? 'bg-orange-500 text-white shadow-md'
                             : 'bg-black text-white shadow-md'
                           : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
                       }`}
                     >
                       {option} {option === 1 ? 'pago' : 'pagos'}
-                      {option >= 7 && (
+                      {option === 8 && (
                         <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-400 rounded-full flex items-center justify-center">
                           <span className="text-[8px] text-white font-bold">%</span>
                         </div>
@@ -240,7 +240,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                 {hasInterest && (
                   <div className="mt-2 p-2 bg-orange-50 rounded-lg border border-orange-200">
                     <p className="text-xs text-orange-700">
-                      ⚠️ <strong>Intereses aplicados:</strong> Al elegir 7+ pagos se aplica una TIA del 36% sobre el monto financiado
+                      ⚠️ <strong>Intereses aplicados:</strong> Al elegir 7+ pagos se aplica una TIA del 20% sobre el monto financiado
                     </p>
                   </div>
                 )}
