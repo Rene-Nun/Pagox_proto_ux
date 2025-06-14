@@ -71,6 +71,29 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
   const financedWithInterest = hasInterest ? financed * (1 + interestRate) : financed
   const paymentAmount = Math.round(financedWithInterest / selectedPayments)
 
+  const handleAcceptPlan = () => {
+    // Pasar toda la información del evento y boleto a la cartera, incluyendo el plan de pagos elegido
+    onNavigate('wallet', { 
+      tab: 'wallet', 
+      newTicket: {
+        event: selectedEvent,
+        ticket: ticketInfo,
+        purchaseDate: new Date().toISOString(),
+        paymentPlan: {
+          totalPayments: selectedPayments,
+          paymentAmount: paymentAmount,
+          downPayment: downPayment,
+          hasInterest: hasInterest,
+          totalFinanced: Math.round(financedWithInterest),
+          interestRate: hasInterest ? interestRate : 0
+        }
+      }
+    })
+  }
+
+  // Generar opciones de pago (desde 1 hasta el máximo, pero saltando 7)
+  const paymentOptions = Array.from({ length: maxPayments }, (_, i) => i + 1).filter(option => option !== 7)
+
   // Calcular la fecha del último pago basada en los pagos seleccionados
   const getLastPaymentDate = () => {
     const startDate = new Date('2025-07-01') // Usar la misma fecha de referencia
@@ -84,26 +107,6 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
       year: 'numeric'
     }).replace('.', '')
   }
-
-  const handleAcceptPlan = () => {
-    // Pasar toda la información del evento y boleto a la cartera, incluyendo el plan de pagos elegido
-    onNavigate('wallet', { 
-      tab: 'wallet', 
-      newTicket: {
-        event: selectedEvent,
-        ticket: ticketInfo,
-        purchaseDate: new Date().toISOString(),
-        paymentPlan: {
-          totalPayments: selectedPayments,
-          paymentAmount: paymentAmount,
-          downPayment: downPayment
-        }
-      }
-    })
-  }
-
-  // Generar opciones de pago (desde 1 hasta el máximo, pero saltando 7)
-  const paymentOptions = Array.from({ length: maxPayments }, (_, i) => i + 1).filter(option => option !== 7)
 
   // Determinar el ícono según el tipo de evento
   const getEventIcon = () => {
@@ -240,7 +243,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                 {hasInterest && (
                   <div className="mt-2 p-2 bg-orange-50 rounded-lg border border-orange-200">
                     <p className="text-xs text-orange-700">
-                      ⚠️ <strong>Intereses aplicados:</strong> Al elegir 7+ pagos se aplica una TIA del 20% sobre el monto financiado
+                      ⚠️ <strong>Intereses aplicados:</strong> Al elegir 8 pagos se aplica una TIA del 19% sobre el monto financiado
                     </p>
                   </div>
                 )}
