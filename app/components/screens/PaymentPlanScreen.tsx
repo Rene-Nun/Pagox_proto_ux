@@ -102,8 +102,8 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
     })
   }
 
-  // Generar opciones de pago (desde 1 hasta el máximo)
-  const paymentOptions = Array.from({ length: maxPayments }, (_, i) => i + 1)
+  // Generar opciones de pago (desde 1 hasta el máximo, pero saltando 7)
+  const paymentOptions = Array.from({ length: maxPayments }, (_, i) => i + 1).filter(option => option !== 7)
 
   // Determinar el ícono según el tipo de evento
   const getEventIcon = () => {
