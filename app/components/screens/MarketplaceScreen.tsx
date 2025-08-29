@@ -101,19 +101,19 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
 
   // Convertir boletos revendidos al formato del marketplace
   const convertedResaleListings = resaleListings.map(ticket => {
-    const getEmoji = (type: string) => {
+    const getEmoji = (type: string, title: string) => {
       if (type === 'event') {
-        if (ticket.title.toLowerCase().includes('coldplay')) return '🎵'
-        if (ticket.title.toLowerCase().includes('bruno')) return '🎤'
+        if (title.toLowerCase().includes('coldplay')) return '🎵'
+        if (title.toLowerCase().includes('bruno')) return '🎤'
         return '🎪'
       }
       return '✈️'
     }
 
-    const getBgColor = (type: string) => {
+    const getBgColor = (type: string, title: string) => {
       if (type === 'event') {
-        if (ticket.title.toLowerCase().includes('coldplay')) return 'bg-yellow-500'
-        if (ticket.title.toLowerCase().includes('bruno')) return 'bg-purple-600'
+        if (title.toLowerCase().includes('coldplay')) return 'bg-yellow-500'
+        if (title.toLowerCase().includes('bruno')) return 'bg-purple-600'
         return 'bg-pink-500'
       }
       return 'bg-blue-500'
@@ -137,8 +137,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
       sellerRating: 4.7,
       score: 85,
       trend: 'stable',
-      bgColor: getBgColor(ticket.type),
-      emoji: getEmoji(ticket.type),
+      bgColor: getBgColor(ticket.type, ticket.title),
+      emoji: getEmoji(ticket.type, ticket.title),
       daysListed: 1,
       category: getCategory(ticket.type),
       isResale: true
