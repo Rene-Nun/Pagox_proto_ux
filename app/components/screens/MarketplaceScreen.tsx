@@ -101,46 +101,51 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
 
   // Convertir boletos revendidos al formato del marketplace
   const convertedResaleListings = resaleListings.map(ticket => {
-    const getEmoji = (type: string, title: string) => {
-      if (type === 'event') {
-        if (title.toLowerCase().includes('coldplay')) return '🎵'
-        if (title.toLowerCase().includes('bruno')) return '🎤'
-        return '🎪'
+    // Funciones simplificadas sin dependencias externas
+    let emoji = '🎪'
+    let bgColor = 'bg-gray-600'
+    let category = 'eventos'
+
+    if (ticket.type === 'event') {
+      category = 'conciertos'
+      if (ticket.title && ticket.title.toLowerCase().includes('coldplay')) {
+        emoji = '🎵'
+        bgColor = 'bg-yellow-500'
+      } else if (ticket.title && ticket.title.toLowerCase().includes('bruno')) {
+        emoji = '🎤'
+        bgColor = 'bg-purple-600'
+      } else {
+        emoji = '🎪'
+        bgColor = 'bg-pink-500'
       }
-      return '✈️'
+    } else {
+      emoji = '✈️'
+      bgColor = 'bg-blue-500'
+      category = 'viajes'
     }
 
-    const getBgColor = (type: string, title: string) => {
-      if (type === 'event') {
-        if (title.toLowerCase().includes('coldplay')) return 'bg-yellow-500'
-        if (title.toLowerCase().includes('bruno')) return 'bg-purple-600'
-        return 'bg-pink-500'
-      }
-      return 'bg-blue-500'
-    }
-
-    const getCategory = (type: string) => {
-      return type === 'event' ? 'conciertos' : 'viajes'
-    }
+    const originalPrice = ticket.totalAmount || 0
+    const currentPrice = ticket.resalePrice || ticket.paidAmount || 0
+    const discount = originalPrice > 0 ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0
 
     return {
       id: `resale_${ticket.id}`,
-      event: ticket.title,
-      date: ticket.date,
-      venue: ticket.venue,
+      event: ticket.title || 'Evento',
+      date: ticket.date || 'Fecha TBD',
+      venue: ticket.venue || 'Venue',
       location: 'CDMX',
-      originalPrice: ticket.totalAmount,
-      currentPrice: ticket.resalePrice || ticket.paidAmount,
-      discount: Math.round(((ticket.totalAmount - (ticket.resalePrice || ticket.paidAmount)) / ticket.totalAmount) * 100),
-      debt: ticket.totalAmount - ticket.paidAmount,
+      originalPrice: originalPrice,
+      currentPrice: currentPrice,
+      discount: discount,
+      debt: (ticket.totalAmount || 0) - (ticket.paidAmount || 0),
       seller: 'Tú',
       sellerRating: 4.7,
       score: 85,
       trend: 'stable',
-      bgColor: getBgColor(ticket.type, ticket.title),
-      emoji: getEmoji(ticket.type, ticket.title),
+      bgColor: bgColor,
+      emoji: emoji,
       daysListed: 1,
-      category: getCategory(ticket.type),
+      category: category,
       isResale: true
     }
   })
