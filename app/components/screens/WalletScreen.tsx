@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react'
 import Header from '../Header'
-import { Lock, Unlock, Calendar, MapPin, Music, Plane, Eye, EyeOff, QrCode } from 'lucide-react'
+import { Lock, Unlock, Calendar, MapPin, Music, Plane, Eye, EyeOff, QrCode, DollarSign, X } from 'lucide-react'
 
 interface WalletScreenProps {
   onNavigate: (screen: string, tab?: string) => void
   activeTab: string
   purchasedEvent?: any
+  onResaleTicket?: (ticketData: any) => void
 }
 
-export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: WalletScreenProps) {
+export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, onResaleTicket }: WalletScreenProps) {
   const [showAmounts, setShowAmounts] = useState(true)
+  const [showResaleModal, setShowResaleModal] = useState(false)
+  const [selectedTicket, setSelectedTicket] = useState<any>(null)
+  const [resalePrice, setResalePrice] = useState('')
   const [tickets, setTickets] = useState<any[]>([
     {
       id: 1,
@@ -100,6 +104,34 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
 
   const maskAmount = (amount: number) => {
     return showAmounts ? `$${amount.toLocaleString()}` : '••••'
+  }
+
+  const handleResaleClick = (ticket: any) => {
+    setSelectedTicket(ticket)
+    setResalePrice(ticket.paidAmount.toString())
+    setShowResaleModal(true)
+  }
+
+  const handleResaleConfirm = () => {
+    if (selectedTicket && resalePrice && onResaleTicket) {
+      const resaleData = {
+        ...selectedTicket,
+        resalePrice: parseInt(resalePrice),
+        status: 'for_sale'
+      }
+      
+      // Remover ticket de la wallet
+      setTickets(prevTickets => 
+        prevTickets.filter(t => t.id !== selectedTicket.id)
+      )
+      
+      // Notificar al componente padre
+      onResaleTicket(resaleData)
+      
+      setShowResaleModal(false)
+      setSelectedTicket(null)
+      setResalePrice('')
+    }
   }
 
   const activeTickets = tickets.filter(t => t.status === 'active')
@@ -257,7 +289,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-3 text-xs">
+                      <div className="grid grid-cols-3 gap-3 text-xs mb-4">
                         <div>
                           <p className="text-gray-500 mb-1">Tipo</p>
                           <p className="text-black font-medium">{ticket.ticketType}</p>
@@ -271,6 +303,15 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
                           <p className="text-black font-medium">{ticket.unlockDate}</p>
                         </div>
                       </div>
+
+                      {/* Botón de Reventa */}
+                      <button
+                        onClick={() => handleResaleClick(ticket)}
+                        className="w-full bg-gray-900 text-white py-3 rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors"
+                      >
+                        <DollarSign className="w-4 h-4" />
+                        Poner en reventa
+                      </button>
                     </div>
                   )
                 })}
@@ -280,6 +321,70 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent }: 
 
         </div>
       </div>
+
+      {/* Modal de Reventa */}
+      {showResaleModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50">
+          <div className="bg-white w-full max-w-[390px] rounded-t-3xl p-6 pb-8 transform transition-all duration-300">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-medium text-black">Configurar reventa</h3>
+              <button
+                onClick={() => setShowResaleModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-600" />
+              </button>
+            </div>
+
+            {selectedTicket && (
+              <div className="space-y-6">
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h4 className="font-medium text-black mb-2">{selectedTicket.title}</h4>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <p>Pagado: ${selectedTicket.paidAmount.toLocaleString()}</p>
+                    <p>Restante: ${(selectedTicket.totalAmount - selectedTicket.paidAmount).toLocaleString()}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Precio de venta
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                    <input
+                      type="number"
+                      value={resalePrice}
+                      onChange={(e) => setResalePrice(e.target.value)}
+                      className="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                      placeholder="0"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    El comprador asumirá la deuda restante de ${(selectedTicket.totalAmount - selectedTicket.paidAmount).toLocaleString()}
+                  </p>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowResaleModal(false)}
+                    className="flex-1 bg-gray-100 text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    onClick={handleResaleConfirm}
+                    className="flex-1 bg-gray-900 text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors"
+                    disabled={!resalePrice || parseInt(resalePrice) <= 0}
+                  >
+                    Publicar
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
