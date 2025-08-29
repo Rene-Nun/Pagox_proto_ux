@@ -18,6 +18,9 @@ export default function Home() {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [ticketInfo, setTicketInfo] = useState(null)
   const [purchasedTicket, setPurchasedTicket] = useState(null)
+  
+  // Estado global para boletos en reventa
+  const [forSaleTickets, setForSaleTickets] = useState<any[]>([])
 
   const handleNavigation = (screen: string, data: any = null) => {
     setCurrentScreen(screen)
@@ -39,6 +42,11 @@ export default function Home() {
     }
   }
 
+  // Función para manejar cuando un boleto se pone en reventa
+  const handleResaleTicket = (ticketData: any) => {
+    setForSaleTickets(prevTickets => [...prevTickets, ticketData])
+  }
+
   const renderScreen = () => {
     switch (currentScreen) {
       case 'home':
@@ -52,11 +60,24 @@ export default function Home() {
       case 'paymentPlan':
         return <PaymentPlanScreen onNavigate={handleNavigation} activeTab={activeTab} selectedEvent={selectedEvent} ticketInfo={ticketInfo} />
       case 'wallet':
-        return <WalletScreen onNavigate={handleNavigation} activeTab={activeTab} purchasedEvent={purchasedTicket} />
+        return <WalletScreen 
+          onNavigate={handleNavigation} 
+          activeTab={activeTab} 
+          purchasedEvent={purchasedTicket}
+          onResaleTicket={handleResaleTicket}
+        />
       case 'marketplace':
-        return <MarketplaceScreen onNavigate={handleNavigation} activeTab={activeTab} />
+        return <MarketplaceScreen 
+          onNavigate={handleNavigation} 
+          activeTab={activeTab}
+          resaleListings={forSaleTickets}
+        />
       case 'plans':
-        return <PlansScreen onNavigate={handleNavigation} activeTab={activeTab} />
+        return <PlansScreen 
+          onNavigate={handleNavigation} 
+          activeTab={activeTab}
+          forSaleTickets={forSaleTickets}
+        />
       case 'profile':
         return <ProfileScreen onNavigate={handleNavigation} activeTab={activeTab} />
       default:
