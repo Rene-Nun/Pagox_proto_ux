@@ -38,7 +38,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
       bgColor: 'bg-purple-500',
       emoji: '✨',
       daysListed: 3,
-      category: 'conciertos'
+      category: 'conciertos',
+      isResale: false
     },
     {
       id: 2,
@@ -57,7 +58,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
       bgColor: 'bg-red-500',
       emoji: '🏎️',
       daysListed: 1,
-      category: 'eventos'
+      category: 'eventos',
+      isResale: false
     },
     {
       id: 3,
@@ -76,7 +78,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
       bgColor: 'bg-gray-800',
       emoji: '🎸',
       daysListed: 5,
-      category: 'conciertos'
+      category: 'conciertos',
+      isResale: false
     },
     {
       id: 4,
@@ -95,62 +98,42 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
       bgColor: 'bg-blue-600',
       emoji: '🎪',
       daysListed: 2,
-      category: 'eventos'
+      category: 'eventos',
+      isResale: false
     }
   ]
 
-  // Convertir boletos revendidos al formato del marketplace
-  const convertedResaleListings = resaleListings.map(ticket => {
-    // Funciones simplificadas sin dependencias externas
-    let emoji = '🎪'
-    let bgColor = 'bg-gray-600'
-    let category = 'eventos'
+  // Crear listings de reventa de forma más simple
+  const createResaleListings = () => {
+    if (!resaleListings || resaleListings.length === 0) {
+      return []
+    }
 
-    if (ticket.type === 'event') {
-      category = 'conciertos'
-      if (ticket.title && ticket.title.toLowerCase().includes('coldplay')) {
-        emoji = '🎵'
-        bgColor = 'bg-yellow-500'
-      } else if (ticket.title && ticket.title.toLowerCase().includes('bruno')) {
-        emoji = '🎤'
-        bgColor = 'bg-purple-600'
-      } else {
-        emoji = '🎪'
-        bgColor = 'bg-pink-500'
+    return resaleListings.map((ticket, index) => {
+      return {
+        id: `resale_${index}`,
+        event: ticket.title || 'Evento',
+        date: ticket.date || 'Fecha TBD',
+        venue: ticket.venue || 'Venue',
+        location: 'CDMX',
+        originalPrice: ticket.totalAmount || 0,
+        currentPrice: ticket.resalePrice || ticket.paidAmount || 0,
+        discount: 15,
+        debt: (ticket.totalAmount || 0) - (ticket.paidAmount || 0),
+        seller: 'Tú',
+        sellerRating: 4.7,
+        score: 85,
+        trend: 'stable',
+        bgColor: ticket.type === 'event' ? 'bg-yellow-500' : 'bg-blue-500',
+        emoji: ticket.type === 'event' ? '🎵' : '✈️',
+        daysListed: 1,
+        category: ticket.type === 'event' ? 'conciertos' : 'viajes',
+        isResale: true
       }
-    } else {
-      emoji = '✈️'
-      bgColor = 'bg-blue-500'
-      category = 'viajes'
-    }
+    })
+  }
 
-    const originalPrice = ticket.totalAmount || 0
-    const currentPrice = ticket.resalePrice || ticket.paidAmount || 0
-    const discount = originalPrice > 0 ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0
-
-    return {
-      id: `resale_${ticket.id}`,
-      event: ticket.title || 'Evento',
-      date: ticket.date || 'Fecha TBD',
-      venue: ticket.venue || 'Venue',
-      location: 'CDMX',
-      originalPrice: originalPrice,
-      currentPrice: currentPrice,
-      discount: discount,
-      debt: (ticket.totalAmount || 0) - (ticket.paidAmount || 0),
-      seller: 'Tú',
-      sellerRating: 4.7,
-      score: 85,
-      trend: 'stable',
-      bgColor: bgColor,
-      emoji: emoji,
-      daysListed: 1,
-      category: category,
-      isResale: true
-    }
-  })
-
-  // Combinar listings base con revendidos
+  const convertedResaleListings = createResaleListings()
   const allListings = [...baseListings, ...convertedResaleListings]
 
   const handleScroll = () => {
@@ -210,7 +193,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
           </div>
         </div>
 
-        {/* Área de tarjetas con scroll - POSICIÓN EXACTA */}
+        {/* Área de tarjetas con scroll */}
         <div 
           ref={scrollRef}
           onScroll={handleScroll}
@@ -218,13 +201,12 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
           style={{ 
             scrollbarWidth: 'none', 
             msOverflowStyle: 'none',
-            paddingTop: '180px' // EXACTAMENTE aquí empieza después de las pills
+            paddingTop: '180px'
           }}
         >
           {allListings.map((listing, index) => {
             const offset = index - activeIndex
             
-            // Efectos stacked
             let scale = 1
             let opacity = 1
             let translateY = 0
@@ -265,10 +247,8 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
                 <div className={`h-full rounded-3xl overflow-hidden shadow-xl ${listing.bgColor} relative p-6 flex flex-col ${
                   listing.isResale ? 'ring-2 ring-white/30' : ''
                 }`}>
-                  {/* Decoración de fondo */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
 
-                  {/* Header con emoji y descuento */}
                   <div className="flex justify-between items-start mb-6">
                     <div className="text-5xl">{listing.emoji}</div>
                     <div className="flex items-center gap-2">
@@ -283,7 +263,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
                     </div>
                   </div>
 
-                  {/* Información del evento */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <h2 className="text-2xl font-light text-white mb-3 leading-tight">
@@ -304,7 +283,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
                       <p className="text-white/70 text-sm">{listing.venue}</p>
                     </div>
 
-                    {/* Sección de precios */}
                     <div className="space-y-4">
                       <div>
                         <p className="text-white/60 text-xs uppercase tracking-wider mb-2">Precio actual</p>
@@ -320,7 +298,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
                         </div>
                       </div>
 
-                      {/* Grid de información */}
                       <div className="grid grid-cols-2 gap-4 text-white">
                         <div>
                           <p className="text-white/60 text-xs mb-1">Deuda asumible</p>
@@ -335,7 +312,6 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
                         </div>
                       </div>
 
-                      {/* Vendedor y CTA */}
                       <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-3 flex-1">
                           <div className="w-10 h-10 bg-white/20 backdrop-blur rounded-full flex items-center justify-center">
@@ -362,11 +338,9 @@ export default function MarketplaceScreen({ onNavigate, activeTab, resaleListing
             )
           })}
           
-          {/* Espaciador final */}
           <div className="h-[30vh]"></div>
         </div>
 
-        {/* Indicador de página */}
         <div className="absolute bottom-24 right-5 flex flex-col gap-1.5 z-50">
           {allListings.map((_, index) => (
             <div
