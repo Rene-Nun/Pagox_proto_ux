@@ -5,9 +5,10 @@ import { TrendingUp, TrendingDown, Filter, Search, Star, MapPin, Calendar, Music
 interface MarketplaceScreenProps {
   onNavigate: (screen: string, tab?: string) => void
   activeTab: string
+  resaleListings?: any[]
 }
 
-export default function MarketplaceScreen({ onNavigate, activeTab }: MarketplaceScreenProps) {
+export default function MarketplaceScreen({ onNavigate, activeTab, resaleListings = [] }: MarketplaceScreenProps) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [activeFilter, setActiveFilter] = useState('todos')
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -19,7 +20,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
     { id: 'ofertas', label: 'Súper ofertas', icon: Sparkles },
   ]
 
-  const listings = [
+  const baseListings = [
     {
       id: 1,
       event: 'Taylor Swift - The Eras Tour',
@@ -98,12 +99,61 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
     }
   ]
 
+  // Convertir boletos revendidos al formato del marketplace
+  const convertedResaleListings = resaleListings.map(ticket => {
+    const getEmoji = (type: string) => {
+      if (type === 'event') {
+        if (ticket.title.toLowerCase().includes('coldplay')) return '🎵'
+        if (ticket.title.toLowerCase().includes('bruno')) return '🎤'
+        return '🎪'
+      }
+      return '✈️'
+    }
+
+    const getBgColor = (type: string) => {
+      if (type === 'event') {
+        if (ticket.title.toLowerCase().includes('coldplay')) return 'bg-yellow-500'
+        if (ticket.title.toLowerCase().includes('bruno')) return 'bg-purple-600'
+        return 'bg-pink-500'
+      }
+      return 'bg-blue-500'
+    }
+
+    const getCategory = (type: string) => {
+      return type === 'event' ? 'conciertos' : 'viajes'
+    }
+
+    return {
+      id: `resale_${ticket.id}`,
+      event: ticket.title,
+      date: ticket.date,
+      venue: ticket.venue,
+      location: 'CDMX',
+      originalPrice: ticket.totalAmount,
+      currentPrice: ticket.resalePrice || ticket.paidAmount,
+      discount: Math.round(((ticket.totalAmount - (ticket.resalePrice || ticket.paidAmount)) / ticket.totalAmount) * 100),
+      debt: ticket.totalAmount - ticket.paidAmount,
+      seller: 'Tú',
+      sellerRating: 4.7,
+      score: 85,
+      trend: 'stable',
+      bgColor: getBgColor(ticket.type),
+      emoji: getEmoji(ticket.type),
+      daysListed: 1,
+      category: getCategory(ticket.type),
+      isResale: true
+    }
+  })
+
+  // Combinar listings base con revendidos
+  const allListings = [...baseListings, ...convertedResaleListings]
+
   const handleScroll = () => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop
       const cardHeight = window.innerHeight * 0.58 + 8
       const newIndex = Math.round(scrollTop / cardHeight)
-      const clampedIndex = Math.max(0, Math.min(newIndex, listings.length - 1))
+      const clampedIndex = Math.max(0, Math.min(newIndex, allListings.length - 1))
       
       if (clampedIndex !== activeIndex) {
         setActiveIndex(clampedIndex)
@@ -166,7 +216,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
             paddingTop: '180px' // EXACTAMENTE aquí empieza después de las pills
           }}
         >
-          {listings.map((listing, index) => {
+          {allListings.map((listing, index) => {
             const offset = index - activeIndex
             
             // Efectos stacked
@@ -207,15 +257,24 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
                   zIndex
                 }}
               >
-                <div className={`h-full rounded-3xl overflow-hidden shadow-xl ${listing.bgColor} relative p-6 flex flex-col`}>
+                <div className={`h-full rounded-3xl overflow-hidden shadow-xl ${listing.bgColor} relative p-6 flex flex-col ${
+                  listing.isResale ? 'ring-2 ring-white/30' : ''
+                }`}>
                   {/* Decoración de fondo */}
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
 
                   {/* Header con emoji y descuento */}
                   <div className="flex justify-between items-start mb-6">
                     <div className="text-5xl">{listing.emoji}</div>
-                    <div className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                      <span className="text-white text-sm font-bold">-{listing.discount}%</span>
+                    <div className="flex items-center gap-2">
+                      {listing.isResale && (
+                        <div className="bg-white/90 text-gray-900 px-2 py-1 rounded-full text-xs font-bold">
+                          TU VENTA
+                        </div>
+                      )}
+                      <div className="bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                        <span className="text-white text-sm font-bold">-{listing.discount}%</span>
+                      </div>
                     </div>
                   </div>
 
@@ -288,7 +347,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
                         </div>
                         
                         <button className="bg-white text-gray-900 px-6 py-2.5 rounded-full text-sm font-medium hover:bg-gray-100 transition-all">
-                          Ver detalles
+                          {listing.isResale ? 'Ver mi venta' : 'Ver detalles'}
                         </button>
                       </div>
                     </div>
@@ -304,7 +363,7 @@ export default function MarketplaceScreen({ onNavigate, activeTab }: Marketplace
 
         {/* Indicador de página */}
         <div className="absolute bottom-24 right-5 flex flex-col gap-1.5 z-50">
-          {listings.map((_, index) => (
+          {allListings.map((_, index) => (
             <div
               key={index}
               className={`transition-all duration-300 rounded-full ${
