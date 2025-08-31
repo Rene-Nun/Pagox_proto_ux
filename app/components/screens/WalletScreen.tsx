@@ -110,7 +110,21 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
   const calculateYunusRecommendation = (ticket: any) => {
     if (!ticket) return { price: 0, confidence: 0, trend: 'stable' }
     
-    // Simulación de análisis de Yunus basado en tipo de evento y progreso de pago
+    // Caso específico para el vuelo CDMX - Cancún: recomendar exactamente lo pagado
+    if (ticket.title === 'Vuelo CDMX - Cancún' && ticket.paidAmount === 600) {
+      return {
+        price: 600, // Exactamente lo que ha pagado
+        confidence: 85,
+        trend: 'stable',
+        marketAnalysis: {
+          demand: 'Media',
+          competition: 'Baja',
+          timing: 'Óptimo'
+        }
+      }
+    }
+    
+    // Simulación de análisis de Yunus para otros tickets
     const basePrice = ticket.paidAmount
     const eventMultiplier = ticket.type === 'event' ? 1.2 : 1.1 // Eventos tienen mejor reventa
     const progressBonus = ticket.progress / 100 * 0.3 // Más progreso = mejor precio
