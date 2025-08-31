@@ -319,12 +319,18 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
               {/* Header con Yunus */}
               <div className="flex items-center gap-4 mb-6">
                 <div className="relative">
-                  {/* Yunus Avatar */}
+                  {/* Yunus Avatar - Corrigiendo la ruta de la imagen */}
                   <div className="w-14 h-14 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm">
                     <img 
-                      src="/public/images/yunus.png" 
+                      src="public/images/yunus.png" 
                       alt="Yunus AI"
                       className="w-10 h-10 rounded-full"
+                      onError={(e) => {
+                        // Fallback si la imagen no carga
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.parentElement!.innerHTML = '<span class="text-2xl font-bold text-blue-600">Y</span>';
+                      }}
                     />
                   </div>
                   {/* Indicador de actividad */}
@@ -389,20 +395,6 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                     <span className="text-sm text-gray-700">
                       Este evento tiene {aiScore > 90 ? 'excelente' : 'buena'} probabilidad de reventa
                     </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Plan personalizado */}
-              <div className="bg-black rounded-2xl p-5 mt-4 text-white">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-white/80 text-sm mb-1">Plan recomendado por Yunus</p>
-                    <p className="text-xl font-light">Enganche {Math.round(downPaymentPercent * 100)}%</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-white/80 text-sm mb-1">Ahorro vs. otros planes</p>
-                    <p className="text-lg font-medium text-green-400">-${Math.round(totalPrice * 0.05).toLocaleString()}</p>
                   </div>
                 </div>
               </div>
