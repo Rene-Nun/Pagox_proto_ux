@@ -322,7 +322,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                   {/* Yunus Avatar - Corrigiendo la ruta de la imagen */}
                   <div className="w-14 h-14 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm">
                     <img 
-                      src="./public/images/yunus.png" 
+                      src="images/yunus.png" 
                       alt="Yunus AI"
                       className="w-10 h-10 rounded-full"
                       onError={(e) => {
