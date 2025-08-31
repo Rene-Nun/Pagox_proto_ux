@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Header from '../Header'
-import { Lock, Unlock, Calendar, MapPin, Music, Plane, Eye, EyeOff, QrCode, DollarSign, X } from 'lucide-react'
+import { Lock, Unlock, Calendar, MapPin, Music, Plane, Eye, EyeOff, QrCode, DollarSign, X, TrendingUp, Brain } from 'lucide-react'
 
 interface WalletScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -106,9 +106,35 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
     return showAmounts ? `$${amount.toLocaleString()}` : '••••'
   }
 
+  // Calcular recomendación de precio de Yunus
+  const calculateYunusRecommendation = (ticket: any) => {
+    if (!ticket) return { price: 0, confidence: 0, trend: 'stable' }
+    
+    // Simulación de análisis de Yunus basado en tipo de evento y progreso de pago
+    const basePrice = ticket.paidAmount
+    const eventMultiplier = ticket.type === 'event' ? 1.2 : 1.1 // Eventos tienen mejor reventa
+    const progressBonus = ticket.progress / 100 * 0.3 // Más progreso = mejor precio
+    
+    const recommendedPrice = Math.round(basePrice * eventMultiplier * (1 + progressBonus))
+    const confidence = ticket.type === 'event' ? 88 : 72
+    const trend = recommendedPrice > basePrice ? 'up' : 'stable'
+    
+    return {
+      price: recommendedPrice,
+      confidence,
+      trend,
+      marketAnalysis: {
+        demand: ticket.type === 'event' ? 'Alta' : 'Media',
+        competition: 'Baja',
+        timing: 'Óptimo'
+      }
+    }
+  }
+
   const handleResaleClick = (ticket: any) => {
     setSelectedTicket(ticket)
-    setResalePrice(ticket.paidAmount.toString())
+    const yunusRec = calculateYunusRecommendation(ticket)
+    setResalePrice(yunusRec.price.toString())
     setShowResaleModal(true)
   }
 
@@ -323,7 +349,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
       </div>
 
       {/* Modal de Reventa */}
-      {showResaleModal && (
+      {showResaleModal && selectedTicket && (
         <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50">
           <div className="bg-white w-full max-w-[390px] rounded-t-3xl p-6 pb-8 transform transition-all duration-300">
             <div className="flex items-center justify-between mb-6">
@@ -336,52 +362,113 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
               </button>
             </div>
 
-            {selectedTicket && (
-              <div className="space-y-6">
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <h4 className="font-medium text-black mb-2">{selectedTicket.title}</h4>
-                  <div className="text-sm text-gray-600 space-y-1">
-                    <p>Pagado: ${selectedTicket.paidAmount.toLocaleString()}</p>
-                    <p>Restante: ${(selectedTicket.totalAmount - selectedTicket.paidAmount).toLocaleString()}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Precio de venta
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-                    <input
-                      type="number"
-                      value={resalePrice}
-                      onChange={(e) => setResalePrice(e.target.value)}
-                      className="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                      placeholder="0"
-                    />
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">
-                    El comprador asumirá la deuda restante de ${(selectedTicket.totalAmount - selectedTicket.paidAmount).toLocaleString()}
-                  </p>
-                </div>
-
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => setShowResaleModal(false)}
-                    className="flex-1 bg-gray-100 text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    onClick={handleResaleConfirm}
-                    className="flex-1 bg-gray-900 text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors"
-                    disabled={!resalePrice || parseInt(resalePrice) <= 0}
-                  >
-                    Publicar
-                  </button>
+            <div className="space-y-6">
+              <div className="bg-gray-50 rounded-xl p-4">
+                <h4 className="font-medium text-black mb-2">{selectedTicket.title}</h4>
+                <div className="text-sm text-gray-600 space-y-1">
+                  <p>Pagado: ${selectedTicket.paidAmount.toLocaleString()}</p>
+                  <p>Restante: ${(selectedTicket.totalAmount - selectedTicket.paidAmount).toLocaleString()}</p>
                 </div>
               </div>
-            )}
+
+              {/* Recomendación de Yunus */}
+              <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-5 border border-blue-100">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="relative">
+                    <div className="w-12 h-12 bg-white rounded-full border border-blue-200 flex items-center justify-center shadow-sm">
+                      <img 
+                        src="images/yunus.png" 
+                        alt="Yunus AI"
+                        className="w-8 h-8 rounded-full"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          target.parentElement!.innerHTML = '<span class="text-lg font-bold text-blue-600">Y</span>';
+                        }}
+                      />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-black">Recomendación de Yunus</h4>
+                    <p className="text-sm text-blue-600">Análisis de mercado en tiempo real</p>
+                  </div>
+                </div>
+
+                {(() => {
+                  const yunusRec = calculateYunusRecommendation(selectedTicket)
+                  return (
+                    <div className="space-y-3">
+                      <div className="bg-white rounded-xl p-4 border border-blue-100">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm text-gray-600">Precio óptimo sugerido</span>
+                          <div className="flex items-center gap-1">
+                            <TrendingUp className="w-4 h-4 text-green-500" />
+                            <span className="text-sm font-medium text-green-600">{yunusRec.confidence}% confianza</span>
+                          </div>
+                        </div>
+                        <div className="text-2xl font-light text-black mb-1">
+                          ${yunusRec.price.toLocaleString()}
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          Basado en {yunusRec.marketAnalysis.demand.toLowerCase()} demanda y competencia {yunusRec.marketAnalysis.competition.toLowerCase()}
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-3 text-center text-xs">
+                        <div className="bg-white rounded-lg p-2 border border-blue-100">
+                          <p className="text-gray-500 mb-1">Demanda</p>
+                          <p className="font-medium text-black">{yunusRec.marketAnalysis.demand}</p>
+                        </div>
+                        <div className="bg-white rounded-lg p-2 border border-blue-100">
+                          <p className="text-gray-500 mb-1">Competencia</p>
+                          <p className="font-medium text-black">{yunusRec.marketAnalysis.competition}</p>
+                        </div>
+                        <div className="bg-white rounded-lg p-2 border border-blue-100">
+                          <p className="text-gray-500 mb-1">Timing</p>
+                          <p className="font-medium text-black">{yunusRec.marketAnalysis.timing}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })()}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Precio de venta
+                </label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                  <input
+                    type="number"
+                    value={resalePrice}
+                    onChange={(e) => setResalePrice(e.target.value)}
+                    className="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    placeholder="0"
+                  />
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  El comprador asumirá la deuda restante de ${(selectedTicket.totalAmount - selectedTicket.paidAmount).toLocaleString()}
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowResaleModal(false)}
+                  className="flex-1 bg-gray-100 text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleResaleConfirm}
+                  className="flex-1 bg-gray-900 text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors"
+                  disabled={!resalePrice || parseInt(resalePrice) <= 0}
+                >
+                  Publicar
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
