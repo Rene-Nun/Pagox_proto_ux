@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Header from '../Header'
-import { Calendar, Check, X, Music, Plane, DollarSign, Brain, Cpu, Zap, Target, Shield, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react'
+import { Calendar, Check, X, Music, Plane, DollarSign, Eye, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface PaymentPlanScreenProps {
   onNavigate: (screen: string, data?: any) => void
@@ -310,101 +310,101 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
             </div>
           </div>
 
-          {/* IA SCORE - FUTURISTA EXTREMO */}
-          <div className="relative bg-black rounded-3xl p-6 overflow-hidden">
-            {/* Holographic Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10"></div>
-            <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-r from-cyan-400/20 to-transparent rounded-full blur-2xl animate-pulse"></div>
-            <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-l from-purple-400/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 border border-cyan-400/30 rounded-full animate-ping"></div>
-
-            {/* Floating Particles */}
-            <div className="absolute top-4 left-8 w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-300"></div>
-            <div className="absolute top-12 right-12 w-1 h-1 bg-purple-400 rounded-full animate-bounce delay-700"></div>
-            <div className="absolute bottom-8 left-16 w-1 h-1 bg-pink-400 rounded-full animate-bounce delay-500"></div>
-            <div className="absolute bottom-16 right-8 w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-900"></div>
-
+          {/* YUNUS - DISEÑO MINIMALISTA Y CLARO */}
+          <div className="bg-gray-50 rounded-3xl p-6 relative overflow-hidden">
+            {/* Fondo sutil */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gray-100 rounded-full opacity-50 blur-2xl"></div>
+            
             <div className="relative z-10">
-              {/* Header with Glowing Effect */}
-              <div className="flex items-center gap-3 mb-6">
+              {/* Header con Yunus */}
+              <div className="flex items-center gap-4 mb-6">
                 <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg animate-pulse">
-                    <Brain className="w-7 h-7 text-white" />
+                  {/* Yunus Avatar */}
+                  <div className="w-14 h-14 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm">
+                    <img 
+                      src="/public/images/yunus.png" 
+                      alt="Yunus AI"
+                      className="w-10 h-10 rounded-full"
+                    />
                   </div>
-                  <div className="absolute inset-0 w-12 h-12 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-2xl blur opacity-50 animate-pulse"></div>
+                  {/* Indicador de actividad */}
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
                 </div>
                 <div>
-                  <h3 className="font-medium text-white text-lg bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    NEXUS Score de Liquidez
-                  </h3>
-                  <p className="text-gray-400 text-xs">Neural Exchange Underwriting System</p>
+                  <h3 className="text-xl font-light text-black mb-1">Análisis de Yunus</h3>
+                  <p className="text-sm text-gray-500">Inteligencia Artificial de Pagox</p>
                 </div>
               </div>
 
-              {/* Score Display with Holographic Effect */}
-              <div className="bg-gradient-to-r from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-cyan-400/20 relative">
-                {/* Scanning Lines Effect */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent h-4 animate-pulse"></div>
-
+              {/* Probabilidad de Reventa */}
+              <div className="bg-white rounded-2xl p-5 mb-4 border border-gray-100">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <Cpu className="w-5 h-5 text-cyan-400 animate-pulse" />
-                    <p className="text-gray-300 text-sm">Probabilidad de reventa</p>
+                    <Eye className="w-5 h-5 text-gray-600" />
+                    <span className="text-gray-700 font-medium">Probabilidad de reventa</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    {/* Data Processing Animation */}
-                    <div className="flex gap-1">
-                      <div className="w-1 h-8 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse"></div>
-                      <div className="w-1 h-6 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-150"></div>
-                      <div className="w-1 h-10 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-300"></div>
-                      <div className="w-1 h-4 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-450"></div>
-                      <div className="w-1 h-7 bg-gradient-to-t from-cyan-400 to-purple-400 rounded-full animate-pulse delay-600"></div>
-                    </div>
-
-                    {/* Holographic Score */}
-                    <div className="relative">
-                      <p className="text-5xl font-light bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
-                        {aiScore}%
-                      </p>
-                      <div className="absolute inset-0 text-5xl font-light text-cyan-400/20 blur-sm">
-                        {aiScore}%
-                      </div>
-                    </div>
-                  </div>
+                  <span className="text-3xl font-light text-black">{aiScore}%</span>
                 </div>
-
-                {/* Futuristic Progress Bar */}
-                <div className="relative h-4 bg-gray-800 rounded-full overflow-hidden mb-4">
-                  <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-600 rounded-full"></div>
+                
+                {/* Barra de progreso minimalista */}
+                <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
                   <div 
-                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full transition-all duration-2000 ease-out shadow-lg"
+                    className="bg-black h-2 rounded-full transition-all duration-1000 ease-out"
                     style={{ width: `${aiScore}%` }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-full animate-pulse"></div>
+                  ></div>
+                </div>
+
+                {/* Métricas */}
+                <div className="grid grid-cols-3 gap-4 text-center text-sm">
+                  <div>
+                    <p className="text-gray-500 mb-1">Demanda</p>
+                    <p className="font-medium text-black">Alta</p>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent rounded-full animate-pulse"></div>
+                  <div>
+                    <p className="text-gray-500 mb-1">Liquidez</p>
+                    <p className="font-medium text-black">Rápida</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 mb-1">Riesgo</p>
+                    <p className="font-medium text-black">Bajo</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Explicación clara */}
+              <div className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="space-y-3">
+                  <h4 className="font-medium text-black text-base">¿Cómo funciona?</h4>
+                  <div className="space-y-2 text-sm text-gray-600">
+                    <p>• Yunus analiza la popularidad del evento y ubicación</p>
+                    <p>• Revisa el historial de reventa de eventos similares</p>
+                    <p>• Evalúa fechas, precios y demanda del mercado</p>
+                    <p>• Calcula tu plan de pagos personalizado</p>
+                  </div>
                 </div>
 
-                {/* Neural Network Visualization */}
-                <div className="flex items-center justify-between text-xs text-gray-400 mb-4">
-                  <span className="flex items-center gap-1">
-                    <Zap className="w-3 h-3 text-cyan-400 animate-pulse" />
-                    Variables: 127
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Target className="w-3 h-3 text-purple-400 animate-pulse" />
-                    Precision: 94.7%
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <TrendingUp className="w-3 h-3 text-pink-400 animate-pulse" />
-                    Confianza: Alta
-                  </span>
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-green-600" />
+                    <span className="text-sm text-gray-700">
+                      Este evento tiene {aiScore > 90 ? 'excelente' : 'buena'} probabilidad de reventa
+                    </span>
+                  </div>
                 </div>
+              </div>
 
-                <p className="text-gray-400 text-xs leading-relaxed">
-                  Red neuronal deep learning analiza patrones de mercado, comportamiento de usuarios, 
-                  liquidez histórica y 124+ variables en tiempo real para predecir valor de reventa.
-                </p>
+              {/* Plan personalizado */}
+              <div className="bg-black rounded-2xl p-5 mt-4 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-white/80 text-sm mb-1">Plan recomendado por Yunus</p>
+                    <p className="text-xl font-light">Enganche {Math.round(downPaymentPercent * 100)}%</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-white/80 text-sm mb-1">Ahorro vs. otros planes</p>
+                    <p className="text-lg font-medium text-green-400">-${Math.round(totalPrice * 0.05).toLocaleString()}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
