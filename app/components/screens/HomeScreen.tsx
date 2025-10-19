@@ -1,15 +1,45 @@
+import { useState, useRef } from 'react'
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, CreditCard, Check, ArrowRight, ChevronDown, Sparkles, Plane, Hotel, Music, Eye, EyeOff, TrendingUp, Shield, Zap, Target } from 'lucide-react'
-import { useState } from 'react'
+import TuristaLogo from '../TuristaLogo'
+import { Calendar, CreditCard, Plane, Hotel, Music, ArrowRight, Shield, Eye, EyeOff, ChevronDown, Sparkles, Search } from 'lucide-react'
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void
   activeTab: string
 }
 
+type TabType = 'flights' | 'hotels' | 'events'
+
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
+  const [selectedTab, setSelectedTab] = useState<TabType>('flights')
   const [showPlans, setShowPlans] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const handleTabChange = (tab: TabType) => {
+    setSelectedTab(tab)
+  }
+
+  const handleSearchClick = () => {
+    if (selectedTab === 'flights') {
+      onNavigate('flightSearch')
+    } else if (selectedTab === 'hotels') {
+      onNavigate('hotelSearch')
+    } else if (selectedTab === 'events') {
+      onNavigate('partner')
+    }
+  }
+
+  const getSearchPlaceholder = () => {
+    switch (selectedTab) {
+      case 'flights':
+        return '¿Desde dónde?'
+      case 'hotels':
+        return 'Buscar hoteles'
+      case 'events':
+        return 'Buscar eventos'
+    }
+  }
 
   return (
     <MobileContainer className="bg-white">
@@ -18,53 +48,116 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       <div className="flex-1 overflow-y-auto">
         <div className="px-5 py-6 space-y-6">
           
-          {/* Score Pagox - Pasaporte Financiero Compacto */}
-          <div className="bg-black rounded-3xl p-5 shadow-xl relative overflow-hidden">
-            {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl transform translate-x-16 -translate-y-16"></div>
-            
-            <div className="relative">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Shield className="w-4 h-4 text-white/60" />
-                    <p className="text-white/60 text-xs uppercase tracking-wider">Tu score pagox</p>
+          {/* Hero Section con Tabs */}
+          <div className="space-y-4">
+            {/* Navigation Tabs - 3D Style */}
+            <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-2 shadow-inner">
+              <div className="grid grid-cols-3 gap-2">
+                {/* Vuelos Tab */}
+                <button
+                  onClick={() => handleTabChange('flights')}
+                  className={`relative py-4 rounded-2xl transition-all duration-300 ${
+                    selectedTab === 'flights'
+                      ? 'bg-white shadow-lg scale-105'
+                      : 'bg-transparent hover:bg-white/50'
+                  }`}
+                >
+                  <div className={`w-12 h-12 mx-auto mb-2 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                    selectedTab === 'flights'
+                      ? 'bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/40'
+                      : 'bg-gradient-to-br from-blue-400/20 to-blue-500/20'
+                  }`}>
+                    <Plane className={`w-6 h-6 ${selectedTab === 'flights' ? 'text-white' : 'text-blue-600'}`} />
                   </div>
-                  <h1 className="text-6xl font-light text-white mb-3">750</h1>
-                </div>
-                
-                <div className="text-right">
-                  <div className="bg-emerald-500/20 px-3 py-1 rounded-full mb-2">
-                    <span className="text-emerald-400 text-xs font-medium flex items-center gap-1">
-                      <Check className="w-3 h-3" />
-                      Excelente
-                    </span>
-                  </div>
-                  <p className="text-white/40 text-xs font-mono">PX-2025-0729</p>
-                  <p className="text-white text-sm font-medium">MARÍA PÉREZ</p>
-                </div>
-              </div>
-              
-              {/* Score Range */}
-              <div className="space-y-2 mb-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-white/60 text-xs">Rango de score</span>
-                  <span className="text-white/60 text-xs">0 - 850</span>
-                </div>
-                <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-white/40 to-white/60 rounded-full transition-all duration-500" style={{ width: '88%' }}></div>
-                </div>
-              </div>
+                  <p className={`text-sm transition-all ${
+                    selectedTab === 'flights' ? 'font-bold text-gray-900' : 'font-normal text-gray-600'
+                  }`}>
+                    Vuelos
+                  </p>
+                </button>
 
-              <p className="text-white/70 text-xs leading-relaxed">
-                Facilita tu reintegración al sistema financiero tradicional
-              </p>
+                {/* Hoteles Tab */}
+                <button
+                  onClick={() => handleTabChange('hotels')}
+                  className={`relative py-4 rounded-2xl transition-all duration-300 ${
+                    selectedTab === 'hotels'
+                      ? 'bg-white shadow-lg scale-105'
+                      : 'bg-transparent hover:bg-white/50'
+                  }`}
+                >
+                  <div className={`w-12 h-12 mx-auto mb-2 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                    selectedTab === 'hotels'
+                      ? 'bg-gradient-to-br from-rose-500 to-rose-600 shadow-lg shadow-rose-500/40'
+                      : 'bg-gradient-to-br from-rose-400/20 to-rose-500/20'
+                  }`}>
+                    <Hotel className={`w-6 h-6 ${selectedTab === 'hotels' ? 'text-white' : 'text-rose-600'}`} />
+                  </div>
+                  <p className={`text-sm transition-all ${
+                    selectedTab === 'hotels' ? 'font-bold text-gray-900' : 'font-normal text-gray-600'
+                  }`}>
+                    Hoteles
+                  </p>
+                </button>
+
+                {/* Eventos Tab */}
+                <button
+                  onClick={() => handleTabChange('events')}
+                  className={`relative py-4 rounded-2xl transition-all duration-300 ${
+                    selectedTab === 'events'
+                      ? 'bg-white shadow-lg scale-105'
+                      : 'bg-transparent hover:bg-white/50'
+                  }`}
+                >
+                  <div className={`w-12 h-12 mx-auto mb-2 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                    selectedTab === 'events'
+                      ? 'bg-gradient-to-br from-violet-500 to-violet-600 shadow-lg shadow-violet-500/40'
+                      : 'bg-gradient-to-br from-violet-400/20 to-violet-500/20'
+                  }`}>
+                    <Music className={`w-6 h-6 ${selectedTab === 'events' ? 'text-white' : 'text-violet-600'}`} />
+                  </div>
+                  <p className={`text-sm transition-all ${
+                    selectedTab === 'events' ? 'font-bold text-gray-900' : 'font-normal text-gray-600'
+                  }`}>
+                    Eventos
+                  </p>
+                </button>
+              </div>
+            </div>
+
+            {/* Search Bar */}
+            <button
+              onClick={handleSearchClick}
+              className="w-full bg-white rounded-2xl p-4 shadow-sm border border-gray-200 hover:shadow-md transition-all flex items-center gap-3"
+            >
+              <Search className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-400 font-light">{getSearchPlaceholder()}</span>
+            </button>
+          </div>
+
+          {/* Saldo con Logo Turista */}
+          <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl p-6 shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl transform translate-x-16 -translate-y-16"></div>
+            
+            <div className="relative flex items-center justify-between">
+              <div>
+                <p className="text-emerald-100 text-sm mb-2">Saldo disponible</p>
+                <h2 className="text-4xl font-light text-white mb-1">$3,500</h2>
+                <p className="text-emerald-100 text-xs">Gasolina para tu aventura preaprobada</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3">
+                <TuristaLogo size={48} />
+              </div>
             </div>
           </div>
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-50 rounded-2xl p-5 hover:shadow-md transition-all duration-300">
+          {/* Stats Carousel */}
+          <div 
+            ref={scrollRef}
+            className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {/* Card 1: Próximo pago */}
+            <div className="min-w-[160px] bg-gray-50 rounded-2xl p-5 hover:shadow-md transition-all snap-start">
               <div className="flex justify-between items-start mb-3">
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
                   <Calendar className="w-5 h-5 text-gray-600" />
@@ -75,7 +168,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               <p className="text-xs text-gray-500">Próximo pago</p>
             </div>
 
-            <div className="bg-gray-50 rounded-2xl p-5 hover:shadow-md transition-all duration-300">
+            {/* Card 2: Planes activos */}
+            <div className="min-w-[160px] bg-gray-50 rounded-2xl p-5 hover:shadow-md transition-all snap-start">
               <div className="flex justify-between items-start mb-3">
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
                   <CreditCard className="w-5 h-5 text-gray-600" />
@@ -85,26 +179,23 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               <p className="text-2xl font-light text-gray-900 mb-1">2</p>
               <p className="text-xs text-gray-500">Planes activos</p>
             </div>
+
+            {/* Card 3: Score Pagox */}
+            <div className="min-w-[160px] bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-5 hover:shadow-md transition-all snap-start">
+              <div className="flex justify-between items-start mb-3">
+                <div className="w-10 h-10 bg-white/10 backdrop-blur rounded-xl flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                <div className="bg-emerald-500/20 px-2 py-0.5 rounded-full">
+                  <span className="text-emerald-400 text-xs font-medium">★</span>
+                </div>
+              </div>
+              <p className="text-2xl font-light text-white mb-1">750</p>
+              <p className="text-xs text-white/60">Score Pagox</p>
+            </div>
           </div>
 
-          {/* Partner CTA */}
-          <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-6 border border-gray-100">
-            <h2 className="text-xl font-light text-gray-900 mb-2">
-              Cumple tus sueños con <span className="font-normal">pagox</span>
-            </h2>
-            <p className="text-gray-500 text-sm font-light mb-5 leading-relaxed">
-              Descubre experiencias increíbles con nuestros partners
-            </p>
-            <button
-              onClick={() => onNavigate('partner')}
-              className="w-full bg-gray-900 text-white py-4 rounded-2xl font-light flex items-center justify-center gap-3 hover:bg-gray-800 transition-all duration-300 group"
-            >
-              Explorar experiencias
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-
-          {/* Marketplace - Verde Esmeralda Statement */}
+          {/* Marketplace - Verde Esmeralda */}
           <div className="relative bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-3xl p-5 overflow-hidden shadow-xl">
             <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl transform translate-x-16 -translate-y-16"></div>
             
@@ -115,9 +206,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                     <Sparkles className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-light text-white">
-                      Marketplace
-                    </h3>
+                    <h3 className="text-xl font-light text-white">Marketplace</h3>
                     <p className="text-emerald-100 text-xs">Las mejores ofertas</p>
                   </div>
                 </div>
@@ -155,7 +244,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* Active Plans - Con ojo realista */}
+          {/* Active Plans */}
           <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm">
             <button
               onClick={() => setShowPlans(!showPlans)}
@@ -246,6 +335,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
         </div>
       </div>
+
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </MobileContainer>
   )
 }
