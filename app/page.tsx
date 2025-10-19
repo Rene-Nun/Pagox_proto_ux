@@ -10,6 +10,8 @@ import WalletScreen from './components/screens/WalletScreen'
 import MarketplaceScreen from './components/screens/MarketplaceScreen'
 import PlansScreen from './components/screens/PlansScreen'
 import ProfileScreen from './components/screens/ProfileScreen'
+import FlightSearchScreen from './components/screens/FlightSearchScreen'
+import HotelSearchScreen from './components/screens/HotelSearchScreen'
 import BottomNav from './components/BottomNav'
 
 export default function Home() {
@@ -80,12 +82,16 @@ export default function Home() {
         />
       case 'profile':
         return <ProfileScreen onNavigate={handleNavigation} activeTab={activeTab} />
+      case 'flightSearch':
+        return <FlightSearchScreen onNavigate={handleNavigation} />
+      case 'hotelSearch':
+        return <HotelSearchScreen onNavigate={handleNavigation} />
       default:
         return <HomeScreen onNavigate={handleNavigation} activeTab={activeTab} />
     }
   }
 
-  const screensWithoutBottomNav = ['partner', 'ticketSelection', 'checkout', 'paymentPlan']
+  const screensWithoutBottomNav = ['partner', 'ticketSelection', 'checkout', 'paymentPlan', 'flightSearch', 'hotelSearch']
   const showBottomNav = !screensWithoutBottomNav.includes(currentScreen)
 
   return (
