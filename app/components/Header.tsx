@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { ChevronLeft, Bell, User } from 'lucide-react'
 
 interface HeaderProps {
@@ -23,7 +24,13 @@ export default function Header({ title, showBack = false, onBack, showLogo = fal
           ) : (
             <div className="flex-1">
               {showLogo && (
-                <div className="text-xl font-light tracking-wider text-black">PAGOX</div>
+                <Image
+                  src="/images/TuristaLogo.png"
+                  alt="Logo de Turista"
+                  width={120} // <-- Ajusta este valor al ancho real de tu imagen de logo
+                  height={30} // <-- Ajusta este valor al alto real de tu imagen de logo
+                  priority // Mejora la velocidad de carga de la imagen más importante
+                />
               )}
               {title && !showLogo && (
                 <h1 className="text-xl font-light text-black">{title}</h1>
