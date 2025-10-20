@@ -1,59 +1,72 @@
-import Image from 'next/image' // Asegúrate de que esta importación esté presente
-import { ChevronLeft, Bell, User } from 'lucide-react'
+import React from 'react';
+import { View, Image, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 
-interface HeaderProps {
-  title?: string
-  showBack?: boolean
-  onBack?: () => void
-  onNavigate?: (screen: string, tab?: string) => void
-  // Eliminamos showLogo porque ahora el logo es el estado por defecto
-}
+// Suponiendo que usas un paquete de íconos como lucide-react-native
+// Si usas SVGs o PNGs para el ícono, se ajusta la importación.
+import { User } from 'lucide-react-native'; 
 
-export default function Header({ title, showBack = false, onBack, onNavigate }: HeaderProps) {
+const ICON_SIZE = 28;
+const ICON_CONTAINER_SIZE = 40;
+
+const Header = () => {
   return (
-    <div className="bg-white text-gray-900 safe-area-inset border-b border-gray-100">
-      <div className="flex items-center justify-between px-5 py-4">
-        <div className="flex items-center gap-3">
-          {showBack ? (
-            <button 
-              onClick={onBack}
-              className="p-2 hover:bg-gray-50 rounded-full transition-colors -ml-2"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-          ) : null}
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        {/* 1. Elemento Izquierdo (Placeholder para balancear) */}
+        <View style={styles.sideContainer} />
 
-          {/* ESTA ES LA PARTE QUE CAMBIÓ */}
-          <div className="flex-1">
-            {title ? (
-              // Si hay un título, lo muestra (para otras pantallas)
-              <h1 className="text-xl font-light text-black">{title}</h1>
-            ) : (
-              // Si no hay título, muestra el logo (para la pantalla de inicio)
-              <Image
-                src="/images/TuristaLogo.png"
-                alt="Logo de Turista"
-                width={120} // Ajusta el ancho según tu imagen
-                height={30} // Ajusta el alto según tu imagen
-                priority
-              />
-            )}
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <button className="relative p-2 hover:bg-gray-50 rounded-full transition-colors">
-            <Bell className="w-5 h-5 text-gray-600" />
-            <div className="absolute top-1.5 right-1.5 w-2 h-2 bg-black rounded-full"></div>
-          </button>
-          <button 
-            onClick={() => onNavigate && onNavigate('profile', 'profile')}
-            className="p-2 hover:bg-gray-50 rounded-full transition-colors"
-          >
-            <User className="w-5 h-5 text-gray-600" />
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
+        {/* 2. Logo Centrado */}
+        <View style={styles.centerContainer}>
+          <Image
+            // Asegúrate que la ruta a tu asset sea correcta
+            source={require('../assets/logo_turista_principal.png')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+        </View>
+
+        {/* 3. Elemento Derecho (Ícono de Usuario) */}
+        <View style={[styles.sideContainer, styles.rightAlign]}>
+          <TouchableOpacity style={styles.iconButton}>
+            <User color="#333" size={ICON_SIZE} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  safeArea: {
+    backgroundColor: '#FFFFFF', // O el color de fondo de tu app
+  },
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    height: 60, // Altura estándar para un header
+  },
+  sideContainer: {
+    flex: 1, // Ocupa 1/3 del espacio
+  },
+  centerContainer: {
+    flex: 2, // Ocupa 2/3 del espacio para darle más aire al logo
+    alignItems: 'center', // Centra el logo horizontalmente dentro de su contenedor
+  },
+  rightAlign: {
+    alignItems: 'flex-end', // Alinea el contenido a la derecha
+  },
+  logo: {
+    height: 30,
+    width: 120, // Ajusta el ancho según tu logo
+  },
+  iconButton: {
+    width: ICON_CONTAINER_SIZE,
+    height: ICON_CONTAINER_SIZE,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default Header;
