@@ -132,10 +132,10 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 }`} />
               </button>
             </div>
-            
-            {/* Separador gris sutil - como en Hopper (el de verdad 😂) */}
-            <div className="w-full h-px bg-gray-200 mt-0"></div>
           </div>
+
+          {/* Separador GRUESO más marcado - como en Hopper */}
+          <div className="w-full h-2 bg-gray-100 -mx-5 px-5"></div>
 
           {/* Resto del contenido con espaciado */}
           <div className="space-y-4 pt-6">
@@ -197,39 +197,39 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            {/* Marketplace - VERDE como en Canva */}
+            {/* Marketplace - VERDE con características LADO A LADO y MÁS COMPACTO */}
             <div className="bg-gradient-to-br from-emerald-600 to-green-700 rounded-3xl p-5 shadow-lg">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-lime-400 rounded-2xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-lime-400 rounded-2xl flex items-center justify-center flex-shrink-0">
                   <svg className="w-6 h-6 text-emerald-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-white">Marketplace</h3>
-                  <p className="text-white/80 text-sm">Las mejores ofertas</p>
+                  <h3 className="text-xl font-semibold text-white leading-tight">Marketplace</h3>
+                  <p className="text-white/80 text-xs">Las mejores ofertas</p>
                 </div>
               </div>
 
-              {/* Features con iconos amarillo/lima como en Canva */}
-              <div className="space-y-3 mb-5">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 bg-lime-400 rounded-xl flex items-center justify-center flex-shrink-0">
+              {/* Features LADO A LADO como en Canva */}
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-lime-400 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Clock className="w-5 h-5 text-emerald-800" />
                   </div>
-                  <span className="text-white text-sm font-medium">Compras de último momento</span>
+                  <span className="text-white text-xs font-medium leading-tight">Compras de último momento</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 bg-lime-300 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-lime-300 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Tag className="w-5 h-5 text-emerald-800" />
                   </div>
-                  <span className="text-white text-sm font-medium">Hasta 70% de descuento</span>
+                  <span className="text-white text-xs font-medium leading-tight">Hasta 70% de descuento</span>
                 </div>
               </div>
 
               <button 
                 onClick={() => onNavigate('marketplace', 'marketplace')}
-                className="w-full bg-white text-emerald-700 py-3.5 rounded-2xl font-bold hover:bg-gray-50 transition-all"
+                className="w-full bg-white text-emerald-700 py-3 rounded-2xl font-bold hover:bg-gray-50 transition-all text-base"
               >
                 Ver ofertas
               </button>
