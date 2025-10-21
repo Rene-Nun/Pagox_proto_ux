@@ -42,7 +42,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     <MobileContainer className="bg-white">
       <Header showLogo={true} onNavigate={onNavigate} />
 
-      <div className="flex-1 overflow-y-auto pb-24">
+      <div className="flex-1 overflow-y-auto pb-6">
         <div className="px-5 space-y-0">
           
           {/* Search Bar - Más pegada al header */}
@@ -197,43 +197,41 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            {/* Marketplace - Siguiendo diseño de Canva */}
-            <div className="bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-3xl p-6 shadow-lg">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-white">Marketplace</h3>
-                    <p className="text-blue-100 text-sm">Las mejores ofertas</p>
-                  </div>
+            {/* Marketplace - VERDE como en Canva */}
+            <div className="bg-gradient-to-br from-emerald-600 to-green-700 rounded-3xl p-5 shadow-lg">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-lime-400 rounded-2xl flex items-center justify-center">
+                  <svg className="w-6 h-6 text-emerald-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
                 </div>
-                <div className="bg-emerald-400 text-white px-3 py-1 rounded-lg">
-                  <p className="text-lg font-bold leading-tight">70%</p>
+                <div>
+                  <h3 className="text-xl font-semibold text-white">Marketplace</h3>
+                  <p className="text-white/80 text-sm">Las mejores ofertas</p>
                 </div>
               </div>
 
-              {/* Mini features */}
-              <div className="flex items-center gap-3 mb-5 flex-wrap">
-                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-xl backdrop-blur-sm">
-                  <Clock className="w-4 h-4 text-white" />
-                  <span className="text-white text-xs">Compras de último momento</span>
+              {/* Features con iconos amarillo/lima como en Canva */}
+              <div className="space-y-3 mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 bg-lime-400 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-5 h-5 text-emerald-800" />
+                  </div>
+                  <span className="text-white text-sm font-medium">Compras de último momento</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-xl backdrop-blur-sm">
-                  <Tag className="w-4 h-4 text-white" />
-                  <span className="text-white text-xs">Hasta 70% de descuento</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 bg-lime-300 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Tag className="w-5 h-5 text-emerald-800" />
+                  </div>
+                  <span className="text-white text-sm font-medium">Hasta 70% de descuento</span>
                 </div>
               </div>
 
               <button 
                 onClick={() => onNavigate('marketplace', 'marketplace')}
-                className="w-full bg-white text-blue-600 py-3.5 rounded-xl font-semibold hover:bg-blue-50 transition-all flex items-center justify-center gap-2"
+                className="w-full bg-white text-emerald-700 py-3.5 rounded-2xl font-bold hover:bg-gray-50 transition-all"
               >
                 Ver ofertas
-                <ChevronRight className="w-5 h-5" />
               </button>
             </div>
           </div>
