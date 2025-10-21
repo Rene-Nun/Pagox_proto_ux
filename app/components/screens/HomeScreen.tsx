@@ -66,7 +66,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* Navigation Tabs - Clean design con underline */}
+          {/* Navigation Tabs - Clean design con underline NEGRO */}
           <div className="pb-0">
             <div className="flex items-center justify-around gap-2 relative">
               {/* Vuelos Tab */}
@@ -84,8 +84,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 }`}>
                   Vuelos
                 </p>
-                {/* Underline indicator */}
-                <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-red-500 transition-all duration-300 ${
+                {/* Underline indicator NEGRO */}
+                <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-black transition-all duration-300 ${
                   selectedTab === 'flights' ? 'opacity-100' : 'opacity-0'
                 }`} />
               </button>
@@ -105,8 +105,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 }`}>
                   Hospedaje
                 </p>
-                {/* Underline indicator */}
-                <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-red-500 transition-all duration-300 ${
+                {/* Underline indicator NEGRO */}
+                <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-black transition-all duration-300 ${
                   selectedTab === 'hotels' ? 'opacity-100' : 'opacity-0'
                 }`} />
               </button>
@@ -126,28 +126,15 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 }`}>
                   Eventos
                 </p>
-                {/* Underline indicator */}
-                <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-red-500 transition-all duration-300 ${
+                {/* Underline indicator NEGRO */}
+                <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-black transition-all duration-300 ${
                   selectedTab === 'events' ? 'opacity-100' : 'opacity-0'
                 }`} />
               </button>
             </div>
             
-            {/* Separador ondulado rojo - inspirado en Hopper */}
-            <div className="relative h-4 overflow-hidden">
-              <svg 
-                className="w-full h-full" 
-                viewBox="0 0 400 20" 
-                preserveAspectRatio="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path 
-                  d="M0,10 Q25,0 50,10 T100,10 T150,10 T200,10 T250,10 T300,10 T350,10 T400,10 L400,20 L0,20 Z" 
-                  fill="#ef4444"
-                  opacity="0.9"
-                />
-              </svg>
-            </div>
+            {/* Separador gris sutil - como en Hopper (el de verdad 😂) */}
+            <div className="w-full h-px bg-gray-200 mt-0"></div>
           </div>
 
           {/* Resto del contenido con espaciado */}
