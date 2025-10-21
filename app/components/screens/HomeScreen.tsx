@@ -138,49 +138,66 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* Resto del contenido con espaciado */}
-          <div className="space-y-6 pt-6">
-            {/* Saldo disponible - Card con logo */}
-            <div className="bg-gradient-to-br from-teal-400 to-emerald-500 rounded-3xl p-6 shadow-lg relative overflow-hidden">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <p className="text-white/90 text-sm mb-2">Saldo disponible</p>
-                  <h2 className="text-5xl font-light text-white mb-2">$3,500</h2>
-                  <p className="text-white/80 text-sm">Gasolina para tu aventura preaprobada</p>
-                </div>
-                <div className="ml-4">
+          <div className="space-y-4 pt-6">
+            {/* Saldo disponible - Card simple blanca con logo a la izquierda */}
+            <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+              <div className="flex items-center gap-3">
+                <div className="flex-shrink-0">
                   <img 
                     src="/images/TuristaVector.png" 
                     alt="Turista" 
-                    className="w-20 h-20 object-contain opacity-30"
+                    className="w-12 h-12 object-contain"
                   />
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-3xl font-normal text-gray-900 mb-0.5">$3,500</h2>
+                  <p className="text-gray-600 text-sm leading-tight">Gasolina para tu aventura preaprobada</p>
                 </div>
               </div>
             </div>
 
-            {/* Stats Grid - Exactly as in Canva */}
-            <div className="grid grid-cols-2 gap-4">
+            {/* Stats Grid - Más compacto */}
+            <div className="grid grid-cols-2 gap-3">
               {/* Próximo pago */}
-              <div className="bg-gray-50 rounded-2xl p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-                    <Calendar className="w-5 h-5 text-gray-700" />
+              <div className="bg-gray-50 rounded-2xl p-4">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="w-9 h-9 bg-white rounded-xl flex items-center justify-center">
+                    <Calendar className="w-4 h-4 text-gray-700" />
                   </div>
                   <span className="text-xs text-gray-500">En 12 días</span>
                 </div>
-                <p className="text-3xl font-light text-gray-900 mb-1">$1,825</p>
-                <p className="text-sm text-gray-600">Próximo pago</p>
+                <p className="text-2xl font-light text-gray-900 mb-0.5">$1,825</p>
+                <p className="text-xs text-gray-600">Próximo pago</p>
               </div>
 
               {/* Planes activos */}
-              <div className="bg-gray-50 rounded-2xl p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-                    <CreditCard className="w-5 h-5 text-gray-700" />
+              <div className="bg-gray-50 rounded-2xl p-4">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="w-9 h-9 bg-white rounded-xl flex items-center justify-center">
+                    <CreditCard className="w-4 h-4 text-gray-700" />
                   </div>
                   <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
                 </div>
-                <p className="text-3xl font-light text-gray-900 mb-1">2</p>
-                <p className="text-sm text-gray-600">Planes activos</p>
+                <p className="text-2xl font-light text-gray-900 mb-0.5">2</p>
+                <p className="text-xs text-gray-600">Planes activos</p>
+              </div>
+
+              {/* Score Turista - Tercera card */}
+              <div className="col-span-2 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-4 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 rounded-xl flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-white font-semibold text-sm">Score Turista</p>
+                      <p className="text-gray-400 text-xs">Revisa tu puntuación</p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                </div>
               </div>
             </div>
 
