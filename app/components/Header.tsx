@@ -1,5 +1,4 @@
 import { ChevronLeft, User } from 'lucide-react'
-import Image from 'next/image'
 
 interface HeaderProps {
   title?: string
@@ -39,12 +38,10 @@ export default function Header({ title, showBack = false, onBack, showLogo = fal
         {/* Center - Logo only on Home */}
         {showLogo && (
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <Image 
+            <img 
               src="/images/TuristaLogo.png" 
               alt="Turista" 
-              width={120} 
-              height={40}
-              className="h-8 w-auto"
+              className="h-8 w-auto object-contain"
             />
           </div>
         )}
