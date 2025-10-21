@@ -1,5 +1,3 @@
-import { ChevronLeft, User } from 'lucide-react'
-
 interface HeaderProps {
   title?: string
   showBack?: boolean
@@ -10,7 +8,7 @@ interface HeaderProps {
 
 export default function Header({ title, showBack = false, onBack, showLogo = false, onNavigate }: HeaderProps) {
   return (
-    <div className="bg-white text-gray-900 safe-area-inset border-b border-gray-100">
+    <div className="bg-white text-gray-900 safe-area-inset">
       <div className="flex items-center justify-between px-5 py-4">
         {/* Left Side */}
         <div className="flex items-center gap-3">
