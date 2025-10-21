@@ -157,7 +157,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
 
             {/* Stats Grid - SCROLL HORIZONTAL con 3 cards */}
-            <div className="overflow-x-auto -mx-5 px-5 scrollbar-hide">
+            <div className="overflow-x-auto -mx-5 px-5 overflow-y-hidden" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <style jsx>{`
+                div::-webkit-scrollbar {
+                  display: none;
+                }
+              `}</style>
               <div className="flex gap-3 min-w-min pb-2">
                 {/* Próximo pago */}
                 <div className="bg-gray-50 rounded-2xl p-3.5 min-w-[160px]">
@@ -238,16 +243,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
         </div>
       </div>
-
-      {/* CSS para ocultar scrollbar pero mantener funcionalidad */}
-      <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </MobileContainer>
   )
+}
