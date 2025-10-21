@@ -41,7 +41,7 @@ export default function Header({ title, showBack = false, onBack, showLogo = fal
             <img 
               src="/images/TuristaLogo.png" 
               alt="Turista" 
-              className="h-8 w-auto object-contain"
+              className="h-10 w-auto object-contain"
             />
           </div>
         )}
