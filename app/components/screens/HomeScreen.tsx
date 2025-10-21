@@ -43,7 +43,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
   return (
     <MobileContainer className="bg-white">
-      <Header showLogo={false} onNavigate={onNavigate} />
+      <Header showLogo={true} onNavigate={onNavigate} />
 
       <div className="flex-1 overflow-y-auto">
         <div className="px-5 py-6 space-y-6">
