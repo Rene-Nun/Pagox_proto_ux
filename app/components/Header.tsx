@@ -1,3 +1,6 @@
+import React from 'react'
+import { ChevronLeft, User } from 'lucide-react'
+
 interface HeaderProps {
   title?: string
   showBack?: boolean
