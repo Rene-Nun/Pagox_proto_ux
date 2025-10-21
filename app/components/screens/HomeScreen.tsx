@@ -43,10 +43,10 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       <Header showLogo={true} onNavigate={onNavigate} />
 
       <div className="flex-1 overflow-y-auto pb-6">
-        <div className="px-5 space-y-0">
+        <div className="space-y-0">
           
           {/* Search Bar - Más pegada al header */}
-          <div className="pt-3 pb-4">
+          <div className="pt-3 pb-4 px-5">
             <div className="relative">
               <input
                 type="text"
@@ -67,7 +67,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* Navigation Tabs - Clean design con underline NEGRO */}
-          <div className="pb-0">
+          <div className="pb-0 px-5">
             <div className="flex items-center justify-around gap-2 relative">
               {/* Vuelos Tab */}
               <button
@@ -134,11 +134,11 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* Separador GRUESO más marcado - como en Hopper */}
-          <div className="w-full h-2 bg-gray-100 -mx-5 px-5"></div>
+          {/* Separador COMPLETO de borde a borde - más delgado */}
+          <div className="w-full h-1.5 bg-gray-100"></div>
 
           {/* Resto del contenido con espaciado */}
-          <div className="space-y-4 pt-6">
+          <div className="space-y-4 pt-6 px-5">
             {/* Saldo disponible - Card simple blanca con logo MÁS GRANDE a la izquierda */}
             <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
               <div className="flex items-center gap-3">
@@ -251,4 +251,3 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       `}</style>
     </MobileContainer>
   )
-}
