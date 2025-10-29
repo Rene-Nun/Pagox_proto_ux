@@ -42,7 +42,20 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     <MobileContainer className="bg-[#0e1028]">
       <Header showLogo={true} onNavigate={onNavigate} />
 
-      <div className="flex-1 overflow-y-auto pb-24 bg-[#0e1028]">
+      {/* 1. OCULTAR SCROLLBAR */}
+      <div 
+        className="flex-1 overflow-y-auto pb-4 bg-[#0e1028]" 
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none' 
+        }}
+      >
+        <style jsx>{`
+          div::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
+        
         <div className="bg-[#0e1028]">
           
           {/* Search Bar - Botón azul */}
@@ -187,15 +200,15 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            {/* Stats Grid - SCROLL HORIZONTAL CON PADDING COMPLETO */}
+            {/* 3. STATS GRID - PADDING RIGHT AUMENTADO PARA SCROLL COMPLETO */}
             <div className="-mx-5">
-              <div className="overflow-x-auto px-5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
+              <div className="overflow-x-auto pl-5 pr-5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
                 <style jsx>{`
                   div::-webkit-scrollbar {
                     display: none;
                   }
                 `}</style>
-                <div className="flex gap-3 pb-2">
+                <div className="flex gap-3 pb-2 pr-5">
                   <div className="bg-[#1f203a] rounded-2xl p-3.5 w-[160px] flex-shrink-0 border border-[#2a2b45]">
                     <div className="flex items-start justify-between mb-2">
                       <div className="w-8 h-8 bg-[#0e1028] rounded-xl flex items-center justify-center">
