@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export default function Header({ title, showBack = false, onBack, showLogo = false, onNavigate }: HeaderProps) {
   return (
-    <div className="bg-white text-gray-900 safe-area-inset">
+    <div className="text-white safe-area-inset" style={{ backgroundColor: '#0e1028' }}>
       <div className="flex items-center justify-between px-5 py-4">
         {/* Left Side */}
         <div className="flex items-center gap-3">
@@ -19,18 +19,18 @@ export default function Header({ title, showBack = false, onBack, showLogo = fal
             <>
               <button 
                 onClick={onBack}
-                className="p-2 hover:bg-gray-50 rounded-full transition-colors -ml-2"
+                className="p-2 hover:bg-gray-800 rounded-full transition-colors -ml-2"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               {title && (
-                <h1 className="text-xl font-light text-black">{title}</h1>
+                <h1 className="text-xl font-light text-white">{title}</h1>
               )}
             </>
           ) : (
             <>
               {!showLogo && (
-                <h1 className="text-xl font-light text-black">{title || 'Inicio'}</h1>
+                <h1 className="text-xl font-light text-white">{title || 'Inicio'}</h1>
               )}
             </>
           )}
@@ -51,9 +51,10 @@ export default function Header({ title, showBack = false, onBack, showLogo = fal
         <div className="flex items-center gap-2">
           <button 
             onClick={() => onNavigate && onNavigate('profile', 'profile')}
-            className="p-2 hover:bg-gray-50 rounded-full transition-colors"
+            className="p-2 rounded-full transition-colors"
+            style={{ backgroundColor: '#1f203a' }}
           >
-            <User className="w-5 h-5 text-gray-600" />
+            <User className="w-5 h-5 text-white" />
           </button>
         </div>
       </div>
