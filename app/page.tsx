@@ -102,9 +102,7 @@ export default function Home() {
             {renderScreen()}
           </div>
           {showBottomNav && (
-            <div className="bg-white border-t border-gray-200">
-              <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
-            </div>
+            <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
           )}
         </div>
       </div>
