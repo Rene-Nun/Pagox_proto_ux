@@ -95,16 +95,14 @@ export default function Home() {
   const showBottomNav = !screensWithoutBottomNav.includes(currentScreen)
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-200">
-      <div className="w-full max-w-[390px] h-screen max-h-[780px] bg-white rounded-[40px] shadow-2xl overflow-hidden relative">
-        <div className="h-full flex flex-col">
-          <div className="flex-1 overflow-hidden">
-            {renderScreen()}
-          </div>
-          {showBottomNav && (
-            <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
-          )}
+    <div className="w-full h-screen overflow-hidden" style={{ backgroundColor: '#0e1028' }}>
+      <div className="h-full flex flex-col">
+        <div className="flex-1 overflow-hidden">
+          {renderScreen()}
         </div>
+        {showBottomNav && (
+          <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
+        )}
       </div>
     </div>
   )
