@@ -40,22 +40,31 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
   return (
     <MobileContainer className="bg-[#0e1028]">
+      <style jsx>{`
+        .scroll-container::-webkit-scrollbar {
+          display: none;
+        }
+        .carousel-container::-webkit-scrollbar {
+          display: none;
+        }
+        @keyframes gradient {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        .gradient-animated {
+          animation: gradient 3s ease infinite;
+        }
+      `}</style>
+
       <Header showLogo={true} onNavigate={onNavigate} />
 
-      {/* 1. OCULTAR SCROLLBAR */}
       <div 
-        className="flex-1 overflow-y-auto pb-4 bg-[#0e1028]" 
+        className="scroll-container flex-1 overflow-y-auto pb-4 bg-[#0e1028]" 
         style={{ 
           scrollbarWidth: 'none', 
           msOverflowStyle: 'none' 
         }}
       >
-        <style jsx>{`
-          div::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
-        
         <div className="bg-[#0e1028]">
           
           {/* Search Bar - Botón azul */}
@@ -173,16 +182,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           {/* Contenido */}
           <div className="space-y-4 px-5">
             {/* Saldo disponible - EFECTO CYBERPUNK */}
-            <div className="relative p-[2px] rounded-2xl bg-gradient-to-r from-[#003d90] via-[#0051c7] to-[#003d90] bg-[length:200%_100%]">
-              <style jsx>{`
-                @keyframes gradient {
-                  0%, 100% { background-position: 0% 50%; }
-                  50% { background-position: 100% 50%; }
-                }
-                div {
-                  animation: gradient 3s ease infinite;
-                }
-              `}</style>
+            <div className="gradient-animated relative p-[2px] rounded-2xl bg-gradient-to-r from-[#003d90] via-[#0051c7] to-[#003d90] bg-[length:200%_100%]">
               <div className="bg-[#0e1028] rounded-2xl p-4">
                 <div className="flex items-center gap-3">
                   <div className="flex-shrink-0">
@@ -200,14 +200,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            {/* 3. STATS GRID - PADDING RIGHT AUMENTADO PARA SCROLL COMPLETO */}
+            {/* Stats Grid - SCROLL HORIZONTAL */}
             <div className="-mx-5">
-              <div className="overflow-x-auto pl-5 pr-5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
-                <style jsx>{`
-                  div::-webkit-scrollbar {
-                    display: none;
-                  }
-                `}</style>
+              <div className="carousel-container overflow-x-auto pl-5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
                 <div className="flex gap-3 pb-2 pr-5">
                   <div className="bg-[#1f203a] rounded-2xl p-3.5 w-[160px] flex-shrink-0 border border-[#2a2b45]">
                     <div className="flex items-start justify-between mb-2">
