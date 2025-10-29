@@ -42,7 +42,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     <MobileContainer className="bg-[#0e1028]">
       <Header showLogo={true} onNavigate={onNavigate} />
 
-      <div className="flex-1 overflow-y-auto pb-6">
+      <div className="flex-1 overflow-y-auto pb-24 bg-[#0e1028]">
         <div className="bg-[#0e1028]">
           
           {/* Search Bar - Botón azul */}
@@ -152,8 +152,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* SEPARADOR CENTRADO CON ESPACIO ARRIBA Y ABAJO */}
-          <div className="py-6 px-5">
+          {/* SEPARADOR DE BORDE A BORDE */}
+          <div className="py-6">
             <div className="w-full h-0.5 bg-[#2a2b45]"></div>
           </div>
 
@@ -187,45 +187,47 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            {/* Stats Grid - SCROLL HORIZONTAL */}
-            <div className="overflow-x-auto -mx-5 px-5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
-              <style jsx>{`
-                div::-webkit-scrollbar {
-                  display: none;
-                }
-              `}</style>
-              <div className="flex gap-3 pb-2">
-                <div className="bg-[#1f203a] rounded-2xl p-3.5 min-w-[160px] border border-[#2a2b45]">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="w-8 h-8 bg-[#0e1028] rounded-xl flex items-center justify-center">
-                      <Calendar className="w-4 h-4 text-white" />
+            {/* Stats Grid - SCROLL HORIZONTAL CON PADDING COMPLETO */}
+            <div className="-mx-5">
+              <div className="overflow-x-auto px-5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
+                <style jsx>{`
+                  div::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}</style>
+                <div className="flex gap-3 pb-2">
+                  <div className="bg-[#1f203a] rounded-2xl p-3.5 w-[160px] flex-shrink-0 border border-[#2a2b45]">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="w-8 h-8 bg-[#0e1028] rounded-xl flex items-center justify-center">
+                        <Calendar className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="text-xs text-gray-400">En 12 días</span>
                     </div>
-                    <span className="text-xs text-gray-400">En 12 días</span>
+                    <p className="text-2xl font-light text-white mb-0.5">$1,825</p>
+                    <p className="text-xs text-gray-400">Próximo pago</p>
                   </div>
-                  <p className="text-2xl font-light text-white mb-0.5">$1,825</p>
-                  <p className="text-xs text-gray-400">Próximo pago</p>
-                </div>
 
-                <div className="bg-[#1f203a] rounded-2xl p-3.5 min-w-[160px] border border-[#2a2b45]">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="w-8 h-8 bg-[#0e1028] rounded-xl flex items-center justify-center">
-                      <CreditCard className="w-4 h-4 text-white" />
+                  <div className="bg-[#1f203a] rounded-2xl p-3.5 w-[160px] flex-shrink-0 border border-[#2a2b45]">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="w-8 h-8 bg-[#0e1028] rounded-xl flex items-center justify-center">
+                        <CreditCard className="w-4 h-4 text-white" />
+                      </div>
+                      <div className="w-2 h-2 bg-[#003d90] rounded-full shadow-lg shadow-[#003d90]/50"></div>
                     </div>
-                    <div className="w-2 h-2 bg-[#003d90] rounded-full shadow-lg shadow-[#003d90]/50"></div>
+                    <p className="text-2xl font-light text-white mb-0.5">2</p>
+                    <p className="text-xs text-gray-400">Planes activos</p>
                   </div>
-                  <p className="text-2xl font-light text-white mb-0.5">2</p>
-                  <p className="text-xs text-gray-400">Planes activos</p>
-                </div>
 
-                <div className="bg-[#1f203a] rounded-2xl p-3.5 min-w-[160px] border border-[#2a2b45]">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="w-8 h-8 bg-[#003d90] rounded-xl flex items-center justify-center shadow-lg shadow-[#003d90]/30">
-                      <TrendingUp className="w-4 h-4 text-white" />
+                  <div className="bg-[#1f203a] rounded-2xl p-3.5 w-[160px] flex-shrink-0 border border-[#2a2b45]">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="w-8 h-8 bg-[#003d90] rounded-xl flex items-center justify-center shadow-lg shadow-[#003d90]/30">
+                        <TrendingUp className="w-4 h-4 text-white" />
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-gray-400" />
                     </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                    <p className="text-2xl font-light text-white mb-0.5">750</p>
+                    <p className="text-xs text-gray-400">Score Turista</p>
                   </div>
-                  <p className="text-2xl font-light text-white mb-0.5">750</p>
-                  <p className="text-xs text-gray-400">Score Turista</p>
                 </div>
               </div>
             </div>
