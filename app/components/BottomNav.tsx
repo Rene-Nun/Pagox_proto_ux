@@ -14,7 +14,16 @@ export default function BottomNav({ activeTab, onNavigate }: BottomNavProps) {
   ]
 
   return (
-    <div className="safe-area-inset flex-shrink-0" style={{ backgroundColor: '#0e1028', borderTop: 'none' }}>
+    <div 
+      className="safe-area-inset flex-shrink-0" 
+      style={{ 
+        backgroundColor: '#0e1028', 
+        border: 'none',
+        borderTop: 'none',
+        borderWidth: 0,
+        boxShadow: 'none'
+      }}
+    >
       <div className="flex justify-around px-5 py-2">
         {navItems.map(({ icon: Icon, label, screen, tab }) => (
           <button
