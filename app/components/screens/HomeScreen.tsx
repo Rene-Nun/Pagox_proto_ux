@@ -83,7 +83,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               <span className="text-4xl font-light text-white">
                 {showBalance ? '$3,500' : '•••••'}
               </span>
-              <span className="text-lg text-gray-400 ml-2">USD</span>
+              <span className="text-lg text-gray-400 ml-2">MXN</span>
             </div>
             <div className="text-sm text-gray-400">
               <span className="text-green-400">Usado $1,825</span>
@@ -91,15 +91,15 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* NUEVO: Barra de Yunus AI */}
+          {/* NUEVO: Barra de Yunus AI - Mismo tamaño que search bar */}
           <div className="px-5 pb-4">
             <button 
-              className="w-full bg-[#1f203a] rounded-full px-4 py-3.5 border border-[#2a2b45] hover:border-[#003d90] transition-all flex items-center gap-3"
+              className="w-full bg-[#1f203a] rounded-full px-5 py-3.5 border border-[#2a2b45] hover:border-[#003d90] transition-all flex items-center gap-3"
             >
               <img 
                 src="/images/yunus.png" 
                 alt="Yunus" 
-                className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
               />
               <span className="text-gray-400 text-sm text-left flex-1 overflow-hidden whitespace-nowrap">
                 Usa yunus para explorar, planear o comprar tu Aventura
