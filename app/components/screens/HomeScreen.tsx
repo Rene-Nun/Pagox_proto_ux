@@ -91,20 +91,24 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* NUEVO: Barra de Yunus AI - Mismo tamaño que search bar */}
+          {/* NUEVO: Barra de Yunus AI - MISMO TAMAÑO EXACTO que search bar */}
           <div className="px-5 pb-4">
-            <button 
-              className="w-full bg-[#1f203a] rounded-full px-5 py-3.5 border border-[#2a2b45] hover:border-[#003d90] transition-all flex items-center gap-3"
-            >
-              <img 
-                src="/images/yunus.png" 
-                alt="Yunus" 
-                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
-              />
-              <span className="text-gray-400 text-sm text-left flex-1 overflow-hidden whitespace-nowrap">
-                Usa yunus para explorar, planear o comprar tu Aventura
-              </span>
-            </button>
+            <div className="relative">
+              <button 
+                className="w-full bg-[#1f203a] rounded-full pl-14 pr-5 py-3.5 border border-[#2a2b45] hover:border-[#003d90] transition-all text-left"
+              >
+                <span className="text-gray-400 text-sm overflow-hidden whitespace-nowrap block">
+                  Usa yunus para explorar, planear o comprar tu Aventura
+                </span>
+              </button>
+              <div className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#1f203a] rounded-full flex items-center justify-center border border-[#2a2b45]">
+                <img 
+                  src="/images/yunus.png" 
+                  alt="Yunus" 
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Search Bar - Botón azul */}
