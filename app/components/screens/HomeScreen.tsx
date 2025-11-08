@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, CreditCard, Clock, Tag, ChevronRight, TrendingUp } from 'lucide-react'
+import { Calendar, CreditCard, Clock, Tag, ChevronRight, TrendingUp, Eye } from 'lucide-react'
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -12,6 +12,7 @@ type TabType = 'flights' | 'hotels' | 'events'
 
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [selectedTab, setSelectedTab] = useState<TabType>('flights')
+  const [showBalance, setShowBalance] = useState(true)
 
   const handleTabChange = (tab: TabType) => {
     setSelectedTab(tab)
@@ -67,8 +68,47 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       >
         <div className="bg-[#0e1028]">
           
+          {/* NUEVO: Saldo Total */}
+          <div className="px-5 pt-5 pb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-sm text-gray-400">Saldo Total</h3>
+              <button 
+                onClick={() => setShowBalance(!showBalance)}
+                className="p-1 hover:bg-[#1f203a] rounded-full transition-colors"
+              >
+                <Eye className="w-4 h-4 text-gray-400" />
+              </button>
+            </div>
+            <div className="mb-1">
+              <span className="text-4xl font-light text-white">
+                {showBalance ? '$3,500' : '•••••'}
+              </span>
+              <span className="text-lg text-gray-400 ml-2">USD</span>
+            </div>
+            <div className="text-sm text-gray-400">
+              <span className="text-green-400">Usado $1,825</span>
+              <span className="text-gray-500 mx-2">24 h</span>
+            </div>
+          </div>
+
+          {/* NUEVO: Barra de Yunus AI */}
+          <div className="px-5 pb-4">
+            <button 
+              className="w-full bg-[#1f203a] rounded-full px-4 py-3.5 border border-[#2a2b45] hover:border-[#003d90] transition-all flex items-center gap-3"
+            >
+              <img 
+                src="/images/yunus.png" 
+                alt="Yunus" 
+                className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+              />
+              <span className="text-gray-400 text-sm text-left flex-1 overflow-hidden whitespace-nowrap">
+                Usa yunus para explorar, planear o comprar tu Aventura
+              </span>
+            </button>
+          </div>
+
           {/* Search Bar - Botón azul */}
-          <div className="pt-3 pb-4 px-5">
+          <div className="px-5 pb-4">
             <div className="relative">
               <input
                 type="text"
@@ -181,25 +221,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
           {/* Contenido */}
           <div className="space-y-4 px-5">
-            {/* Saldo disponible - EFECTO CYBERPUNK */}
-            <div className="gradient-animated relative p-[2px] rounded-2xl bg-gradient-to-r from-[#003d90] via-[#0051c7] to-[#003d90] bg-[length:200%_100%]">
-              <div className="bg-[#0e1028] rounded-2xl p-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0">
-                    <img 
-                      src="/images/TuristaVector.png" 
-                      alt="Turista" 
-                      className="w-16 h-16 object-contain"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="text-2xl font-normal text-white mb-0.5">$3,500</h2>
-                    <p className="text-gray-400 text-xs leading-tight">Gasolina para tu aventura preaprobada</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* Stats Grid - SCROLL HORIZONTAL */}
             <div className="-mx-5">
               <div className="carousel-container overflow-x-auto pl-5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
