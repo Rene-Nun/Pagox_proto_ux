@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Lock, Unlock, Calendar, MapPin, Music, Plane, Eye, EyeOff, QrCode, DollarSign, X, TrendingUp, Brain } from 'lucide-react'
+import { Lock, Unlock, Calendar, MapPin, Music, Plane, Eye, EyeOff, QrCode, DollarSign, X, TrendingUp, Sparkles } from 'lucide-react'
 
 interface WalletScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -87,9 +88,9 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
         seat: 'TBD', 
         quantity: ticket.quantity || 1,
         totalAmount: ticket.price * ticket.quantity,
-        paidAmount: 0, // Nuevo boleto empieza sin pagos
-        progress: 0,   // 0% progreso inicial
-        status: 'active', // Siempre empieza como activo
+        paidAmount: 0,
+        progress: 0,
+        status: 'active',
         unlockDate: 'Al completar pago',
         qrCode: `TKT${Date.now()}`
       }
@@ -106,14 +107,12 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
     return showAmounts ? `$${amount.toLocaleString()}` : '••••'
   }
 
-  // Calcular recomendación de precio de Yunus
   const calculateYunusRecommendation = (ticket: any) => {
     if (!ticket) return { price: 0, confidence: 0, trend: 'stable' }
     
-    // Caso específico para el vuelo CDMX - Cancún: recomendar exactamente lo pagado
     if (ticket.title === 'Vuelo CDMX - Cancún' && ticket.paidAmount === 600) {
       return {
-        price: 600, // Exactamente lo que ha pagado
+        price: 600,
         confidence: 85,
         trend: 'stable',
         marketAnalysis: {
@@ -124,10 +123,9 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
       }
     }
     
-    // Simulación de análisis de Yunus para otros tickets
     const basePrice = ticket.paidAmount
-    const eventMultiplier = ticket.type === 'event' ? 1.2 : 1.1 // Eventos tienen mejor reventa
-    const progressBonus = ticket.progress / 100 * 0.3 // Más progreso = mejor precio
+    const eventMultiplier = ticket.type === 'event' ? 1.2 : 1.1
+    const progressBonus = ticket.progress / 100 * 0.3
     
     const recommendedPrice = Math.round(basePrice * eventMultiplier * (1 + progressBonus))
     const confidence = ticket.type === 'event' ? 88 : 72
@@ -160,12 +158,10 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
         status: 'for_sale'
       }
       
-      // Remover ticket de la wallet
       setTickets(prevTickets => 
         prevTickets.filter(t => t.id !== selectedTicket.id)
       )
       
-      // Notificar al componente padre
       onResaleTicket(resaleData)
       
       setShowResaleModal(false)
@@ -178,69 +174,106 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
   const completedTickets = tickets.filter(t => t.status === 'completed')
 
   return (
-    <div className="h-full flex flex-col bg-white">
+    <MobileContainer className="bg-[#0e1028]">
+      <style jsx>{`
+        .scroll-container::-webkit-scrollbar {
+          display: none;
+        }
+        .modal-scroll::-webkit-scrollbar {
+          display: none;
+        }
+        @keyframes slideUp {
+          from {
+            transform: translateY(100%);
+          }
+          to {
+            transform: translateY(0);
+          }
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        .modal-backdrop {
+          animation: fadeIn 0.3s ease-out;
+        }
+        .modal-content {
+          animation: slideUp 0.3s ease-out;
+        }
+      `}</style>
+
       <Header title="Mi Cartera" onNavigate={onNavigate} />
       
-      <div className="flex-1 overflow-y-auto">
-        <div className="px-5 space-y-8">
+      <div className="scroll-container flex-1 overflow-y-auto pb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="px-5 space-y-6">
           
           {/* Overview */}
-          <div className="pt-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="pt-5">
+            <div className="flex items-center justify-between mb-5">
               <div>
-                <h1 className="text-2xl font-light text-black mb-1">Mis boletos</h1>
-                <p className="text-sm text-gray-500">{tickets.length} en total</p>
+                <h1 className="text-2xl font-light text-white mb-1">Mis boletos</h1>
+                <p className="text-sm text-gray-400">{tickets.length} en total</p>
               </div>
               <button
                 onClick={() => setShowAmounts(!showAmounts)}
-                className="p-3 hover:bg-gray-50 rounded-full transition-colors"
+                className="p-2 hover:bg-[#1f203a] rounded-full transition-colors"
               >
                 {showAmounts ? 
-                  <Eye className="w-5 h-5 text-gray-600" /> : 
-                  <EyeOff className="w-5 h-5 text-gray-600" />
+                  <Eye className="w-5 h-5 text-gray-400" /> : 
+                  <EyeOff className="w-5 h-5 text-gray-400" />
                 }
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gray-50 rounded-2xl p-5">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-[#1f203a] rounded-2xl p-4 border border-[#2a2b45]">
                 <div className="flex items-center gap-3 mb-2">
-                  <Lock className="w-5 h-5 text-gray-600" />
-                  <span className="text-2xl font-light text-black">{activeTickets.length}</span>
+                  <div className="w-8 h-8 bg-[#0e1028] rounded-xl flex items-center justify-center">
+                    <Lock className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-2xl font-light text-white">{activeTickets.length}</span>
                 </div>
-                <p className="text-xs text-gray-500">Activos</p>
+                <p className="text-xs text-gray-400">Activos</p>
               </div>
-              <div className="bg-gray-50 rounded-2xl p-5">
+              <div className="bg-[#1f203a] rounded-2xl p-4 border border-[#2a2b45]">
                 <div className="flex items-center gap-3 mb-2">
-                  <Unlock className="w-5 h-5 text-gray-600" />
-                  <span className="text-2xl font-light text-black">{completedTickets.length}</span>
+                  <div className="w-8 h-8 bg-[#003d90] rounded-xl flex items-center justify-center shadow-lg shadow-[#003d90]/30">
+                    <Unlock className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="text-2xl font-light text-white">{completedTickets.length}</span>
                 </div>
-                <p className="text-xs text-gray-500">Completados</p>
+                <p className="text-xs text-gray-400">Completados</p>
               </div>
             </div>
           </div>
 
-          {/* Completed Tickets - Con QR disponible */}
+          {/* Completed Tickets */}
           {completedTickets.length > 0 && (
             <div>
-              <h2 className="text-lg font-light text-black mb-4">Completados</h2>
-              <div className="space-y-4">
+              <h2 className="text-lg font-light text-white mb-4">Completados</h2>
+              <div className="space-y-3">
                 {completedTickets.map((ticket) => {
                   const Icon = getIcon(ticket.type)
 
                   return (
-                    <div key={ticket.id} className="bg-black rounded-2xl p-5 text-white relative overflow-hidden">
+                    <div key={ticket.id} className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-2xl p-5 border border-[#2a2b45] relative overflow-hidden">
                       <div className="absolute top-4 right-4">
-                        <Unlock className="w-5 h-5 text-white/60" />
+                        <div className="w-8 h-8 bg-[#003d90] rounded-full flex items-center justify-center shadow-lg shadow-[#003d90]/30">
+                          <Unlock className="w-4 h-4 text-white" />
+                        </div>
                       </div>
                       
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                      <div className="flex items-start gap-3 mb-4">
+                        <div className="w-10 h-10 bg-[#003d90] rounded-full flex items-center justify-center shadow-lg shadow-[#003d90]/30">
                           <Icon className="w-5 h-5 text-white" />
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-medium text-white mb-1">{ticket.title}</h3>
-                          <div className="flex items-center gap-3 text-xs text-white/70">
+                        <div className="flex-1 pr-10">
+                          <h3 className="font-semibold text-white mb-1">{ticket.title}</h3>
+                          <div className="flex items-center gap-3 text-xs text-gray-400">
                             <span className="flex items-center gap-1">
                               <MapPin className="w-3 h-3" />
                               {ticket.venue}
@@ -253,22 +286,22 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-4 text-xs mb-4">
+                      <div className="grid grid-cols-3 gap-3 text-xs mb-4">
                         <div>
-                          <p className="text-white/60 mb-1">Tipo</p>
+                          <p className="text-gray-400 mb-1">Tipo</p>
                           <p className="text-white font-medium">{ticket.ticketType}</p>
                         </div>
                         <div>
-                          <p className="text-white/60 mb-1">Sección</p>
+                          <p className="text-gray-400 mb-1">Sección</p>
                           <p className="text-white font-medium">{ticket.section}</p>
                         </div>
                         <div>
-                          <p className="text-white/60 mb-1">Asiento</p>
+                          <p className="text-gray-400 mb-1">Asiento</p>
                           <p className="text-white font-medium">{ticket.seat}</p>
                         </div>
                       </div>
 
-                      <button className="w-full bg-white text-black py-3 rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors">
+                      <button className="w-full bg-[#003d90] text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30">
                         <QrCode className="w-4 h-4" />
                         Mostrar código QR
                       </button>
@@ -279,25 +312,25 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
             </div>
           )}
 
-          {/* Active Tickets - En proceso de pago */}
+          {/* Active Tickets */}
           {activeTickets.length > 0 && (
-            <div className="pb-6">
-              <h2 className="text-lg font-light text-black mb-4">Activos</h2>
-              <div className="space-y-4">
+            <div className="pb-4">
+              <h2 className="text-lg font-light text-white mb-4">Activos</h2>
+              <div className="space-y-3">
                 {activeTickets.map((ticket) => {
                   const Icon = getIcon(ticket.type)
                   const remaining = ticket.totalAmount - ticket.paidAmount
 
                   return (
-                    <div key={ticket.id} className="border border-gray-200 rounded-2xl p-5 hover:border-gray-300 transition-colors">
+                    <div key={ticket.id} className="bg-[#1f203a] border border-[#2a2b45] rounded-2xl p-5">
                       <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                            <Icon className="w-5 h-5 text-gray-600" />
+                        <div className="flex items-start gap-3 flex-1">
+                          <div className="w-10 h-10 bg-[#0e1028] rounded-full flex items-center justify-center">
+                            <Icon className="w-5 h-5 text-white" />
                           </div>
-                          <div>
-                            <h3 className="font-medium text-black mb-1">{ticket.title}</h3>
-                            <div className="flex items-center gap-3 text-xs text-gray-500">
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-white mb-1">{ticket.title}</h3>
+                            <div className="flex items-center gap-3 text-xs text-gray-400">
                               <span className="flex items-center gap-1">
                                 <MapPin className="w-3 h-3" />
                                 {ticket.venue}
@@ -309,45 +342,44 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
                             </div>
                           </div>
                         </div>
-                        <Lock className="w-5 h-5 text-gray-400" />
+                        <Lock className="w-5 h-5 text-gray-400 flex-shrink-0" />
                       </div>
 
-                      <div className="bg-gray-50 rounded-xl p-4 mb-4">
+                      <div className="bg-[#0e1028] rounded-xl p-4 mb-4 border border-[#2a2b45]">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-xs text-gray-500">Progreso de pago</span>
-                          <span className="text-xs font-medium text-black">{ticket.progress}%</span>
+                          <span className="text-xs text-gray-400">Progreso de pago</span>
+                          <span className="text-xs font-semibold text-white">{ticket.progress}%</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-1 mb-2">
+                        <div className="w-full bg-[#2a2b45] rounded-full h-2 mb-2">
                           <div 
-                            className="bg-black h-1 rounded-full transition-all duration-500" 
+                            className="bg-gradient-to-r from-[#003d90] to-[#0051c7] h-2 rounded-full transition-all duration-500" 
                             style={{ width: `${ticket.progress}%` }}
                           />
                         </div>
-                        <div className="flex justify-between items-center text-xs text-gray-500">
-                          <span>Pagado: {maskAmount(ticket.paidAmount)}</span>
-                          <span>Restante: {maskAmount(remaining)}</span>
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="text-green-400">Pagado: {maskAmount(ticket.paidAmount)}</span>
+                          <span className="text-gray-400">Restante: {maskAmount(remaining)}</span>
                         </div>
                       </div>
 
                       <div className="grid grid-cols-3 gap-3 text-xs mb-4">
                         <div>
-                          <p className="text-gray-500 mb-1">Tipo</p>
-                          <p className="text-black font-medium">{ticket.ticketType}</p>
+                          <p className="text-gray-400 mb-1">Tipo</p>
+                          <p className="text-white font-medium">{ticket.ticketType}</p>
                         </div>
                         <div>
-                          <p className="text-gray-500 mb-1">Cantidad</p>
-                          <p className="text-black font-medium">{ticket.quantity}</p>
+                          <p className="text-gray-400 mb-1">Cantidad</p>
+                          <p className="text-white font-medium">{ticket.quantity}</p>
                         </div>
                         <div>
-                          <p className="text-gray-500 mb-1">Disponible</p>
-                          <p className="text-black font-medium">{ticket.unlockDate}</p>
+                          <p className="text-gray-400 mb-1">Disponible</p>
+                          <p className="text-white font-medium">{ticket.unlockDate}</p>
                         </div>
                       </div>
 
-                      {/* Botón de Reventa */}
                       <button
                         onClick={() => handleResaleClick(ticket)}
-                        className="w-full bg-gray-900 text-white py-3 rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors"
+                        className="w-full bg-[#003d90] text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
                       >
                         <DollarSign className="w-4 h-4" />
                         Poner en reventa
@@ -364,21 +396,26 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
 
       {/* Modal de Reventa */}
       {showResaleModal && selectedTicket && (
-        <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50">
-          <div className="bg-white w-full max-w-[390px] rounded-t-3xl p-6 pb-8 transform transition-all duration-300">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-medium text-black">Configurar reventa</h3>
+        <>
+          <div 
+            className="modal-backdrop fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setShowResaleModal(false)}
+          />
+          
+          <div className="modal-content modal-scroll fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[90vh] overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-5 py-4 flex items-center justify-between rounded-t-3xl">
+              <h3 className="text-xl font-bold text-gray-900">Configurar reventa</h3>
               <button
                 onClick={() => setShowResaleModal(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
               >
-                <X className="w-5 h-5 text-gray-600" />
+                <X className="w-6 h-6 text-gray-600" />
               </button>
             </div>
 
-            <div className="space-y-6">
-              <div className="bg-gray-50 rounded-xl p-4">
-                <h4 className="font-medium text-black mb-2">{selectedTicket.title}</h4>
+            <div className="px-5 py-5 space-y-5">
+              <div className="bg-gray-50 rounded-2xl p-4 border border-gray-200">
+                <h4 className="font-semibold text-gray-900 mb-2">{selectedTicket.title}</h4>
                 <div className="text-sm text-gray-600 space-y-1">
                   <p>Pagado: ${selectedTicket.paidAmount.toLocaleString()}</p>
                   <p>Restante: ${(selectedTicket.totalAmount - selectedTicket.paidAmount).toLocaleString()}</p>
@@ -386,26 +423,24 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
               </div>
 
               {/* Recomendación de Yunus */}
-              <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-5 border border-blue-100">
+              <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-2xl p-5 border border-[#2a2b45]">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="relative">
-                    <div className="w-12 h-12 bg-white rounded-full border border-blue-200 flex items-center justify-center shadow-sm">
+                    <div className="w-12 h-12 bg-[#003d90] rounded-full flex items-center justify-center shadow-lg shadow-[#003d90]/30">
                       <img 
-                        src="images/yunus.png" 
+                        src="/images/yunus.png" 
                         alt="Yunus AI"
-                        className="w-8 h-8 rounded-full"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          target.parentElement!.innerHTML = '<span class="text-lg font-bold text-blue-600">Y</span>';
-                        }}
+                        className="w-12 h-12 rounded-full object-cover"
                       />
                     </div>
                     <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                   </div>
                   <div>
-                    <h4 className="font-medium text-black">Recomendación de Yunus</h4>
-                    <p className="text-sm text-blue-600">Análisis de mercado en tiempo real</p>
+                    <h4 className="font-semibold text-white flex items-center gap-2">
+                      Recomendación de Yunus
+                      <Sparkles className="w-4 h-4 text-[#003d90]" />
+                    </h4>
+                    <p className="text-sm text-gray-400">Análisis de mercado en tiempo real</p>
                   </div>
                 </div>
 
@@ -413,34 +448,34 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
                   const yunusRec = calculateYunusRecommendation(selectedTicket)
                   return (
                     <div className="space-y-3">
-                      <div className="bg-white rounded-xl p-4 border border-blue-100">
+                      <div className="bg-[#0e1028] rounded-xl p-4 border border-[#2a2b45]">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm text-gray-600">Precio óptimo sugerido</span>
+                          <span className="text-sm text-gray-400">Precio óptimo sugerido</span>
                           <div className="flex items-center gap-1">
-                            <TrendingUp className="w-4 h-4 text-green-500" />
-                            <span className="text-sm font-medium text-green-600">{yunusRec.confidence}% confianza</span>
+                            <TrendingUp className="w-4 h-4 text-green-400" />
+                            <span className="text-sm font-semibold text-green-400">{yunusRec.confidence}% confianza</span>
                           </div>
                         </div>
-                        <div className="text-2xl font-light text-black mb-1">
+                        <div className="text-3xl font-light text-white mb-1">
                           ${yunusRec.price.toLocaleString()}
                         </div>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-400">
                           Basado en {yunusRec.marketAnalysis.demand.toLowerCase()} demanda y competencia {yunusRec.marketAnalysis.competition.toLowerCase()}
                         </p>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-3 text-center text-xs">
-                        <div className="bg-white rounded-lg p-2 border border-blue-100">
-                          <p className="text-gray-500 mb-1">Demanda</p>
-                          <p className="font-medium text-black">{yunusRec.marketAnalysis.demand}</p>
+                      <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div className="bg-[#0e1028] rounded-lg p-3 border border-[#2a2b45]">
+                          <p className="text-gray-400 mb-1">Demanda</p>
+                          <p className="font-semibold text-white">{yunusRec.marketAnalysis.demand}</p>
                         </div>
-                        <div className="bg-white rounded-lg p-2 border border-blue-100">
-                          <p className="text-gray-500 mb-1">Competencia</p>
-                          <p className="font-medium text-black">{yunusRec.marketAnalysis.competition}</p>
+                        <div className="bg-[#0e1028] rounded-lg p-3 border border-[#2a2b45]">
+                          <p className="text-gray-400 mb-1">Competencia</p>
+                          <p className="font-semibold text-white">{yunusRec.marketAnalysis.competition}</p>
                         </div>
-                        <div className="bg-white rounded-lg p-2 border border-blue-100">
-                          <p className="text-gray-500 mb-1">Timing</p>
-                          <p className="font-medium text-black">{yunusRec.marketAnalysis.timing}</p>
+                        <div className="bg-[#0e1028] rounded-lg p-3 border border-[#2a2b45]">
+                          <p className="text-gray-400 mb-1">Timing</p>
+                          <p className="font-semibold text-white">{yunusRec.marketAnalysis.timing}</p>
                         </div>
                       </div>
                     </div>
@@ -449,16 +484,16 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
                   Precio de venta
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                  <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">$</span>
                   <input
                     type="number"
                     value={resalePrice}
                     onChange={(e) => setResalePrice(e.target.value)}
-                    className="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full pl-8 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#003d90] focus:border-transparent text-gray-900"
                     placeholder="0"
                   />
                 </div>
@@ -467,16 +502,16 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
                 </p>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-3 pt-2">
                 <button
                   onClick={() => setShowResaleModal(false)}
-                  className="flex-1 bg-gray-100 text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+                  className="flex-1 bg-gray-100 text-gray-900 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={handleResaleConfirm}
-                  className="flex-1 bg-gray-900 text-white py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors"
+                  className="flex-1 bg-[#003d90] text-white py-3 rounded-xl font-semibold hover:bg-[#0051c7] transition-colors shadow-lg shadow-[#003d90]/30"
                   disabled={!resalePrice || parseInt(resalePrice) <= 0}
                 >
                   Publicar
@@ -484,8 +519,8 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
-    </div>
+    </MobileContainer>
   )
 }
