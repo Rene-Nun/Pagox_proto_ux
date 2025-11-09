@@ -339,7 +339,7 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
                 <div className="relative">
                   <div className="w-14 h-14 bg-[#003d90] rounded-full border border-[#2a2b45] flex items-center justify-center shadow-lg shadow-[#003d90]/30 overflow-hidden">
                     <img 
-                      src="yunus.png" 
+                      src="/images/yunus.png" 
                       alt="Yunus AI"
                       className="w-full h-full object-cover"
                       onError={(e) => {
