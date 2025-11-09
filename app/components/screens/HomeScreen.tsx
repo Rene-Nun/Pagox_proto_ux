@@ -36,6 +36,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     } else if (selectedTab === 'hotels') {
       onNavigate('hotelSearch')
     } else if (selectedTab === 'events') {
+      // CORRECCIÓN PROBLEMA 2: Navegar sin datos precargados
       onNavigate('ticketSelection')
     }
   }
@@ -51,6 +52,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     }
   }
 
+  // CORRECCIÓN PROBLEMA 1: Función para cambiar cards manualmente
   const handleCardClick = (index: number) => {
     setCurrentCardIndex(index)
   }
@@ -166,14 +168,14 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* CARDS ESTILO CAMPAÑA - AUTO CARRUSEL CON TOUCH */}
+          {/* CARDS ESTILO CAMPAÑA - AUTO CARRUSEL CON TOUCH RESPONSIVE */}
           <div className="px-5 pb-2">
             <div className="relative overflow-hidden rounded-3xl">
               <div 
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentCardIndex * 100}%)` }}
               >
-                {/* Card Marketplace */}
+                {/* Card Marketplace - AHORA RESPONDE AL TACTO */}
                 <div 
                   className="w-full flex-shrink-0 cursor-pointer"
                   onClick={() => handleCardClick(0)}
@@ -206,7 +208,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   </div>
                 </div>
 
-                {/* Card Finanzas */}
+                {/* Card Finanzas - AHORA RESPONDE AL TACTO */}
                 <div 
                   className="w-full flex-shrink-0 pl-5 cursor-pointer"
                   onClick={() => handleCardClick(1)}
@@ -241,19 +243,21 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            {/* Indicadores de página */}
+            {/* Indicadores de página - AHORA SON CLICKEABLES */}
             <div className="flex justify-center gap-2 mt-3">
               <button
                 onClick={() => handleCardClick(0)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   currentCardIndex === 0 ? 'bg-[#003d90] w-4' : 'bg-gray-600'
                 }`}
+                aria-label="Ver card de Marketplace"
               />
               <button
                 onClick={() => handleCardClick(1)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   currentCardIndex === 1 ? 'bg-[#003d90] w-4' : 'bg-gray-600'
                 }`}
+                aria-label="Ver card de Finanzas"
               />
             </div>
           </div>
