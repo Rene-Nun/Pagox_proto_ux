@@ -337,8 +337,20 @@ export default function PaymentPlanScreen({ onNavigate, activeTab, selectedEvent
               {/* Header */}
               <div className="flex items-center gap-4 mb-6">
                 <div className="relative">
-                  <div className="w-14 h-14 bg-[#003d90] rounded-full border border-[#2a2b45] flex items-center justify-center shadow-lg shadow-[#003d90]/30">
-                    <span className="text-2xl font-bold text-white">Y</span>
+                  <div className="w-14 h-14 bg-[#003d90] rounded-full border border-[#2a2b45] flex items-center justify-center shadow-lg shadow-[#003d90]/30 overflow-hidden">
+                    <img 
+                      src="yunus.png" 
+                      alt="Yunus AI"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const fallback = document.createElement('span');
+                        fallback.className = 'text-2xl font-bold text-white';
+                        fallback.textContent = 'Y';
+                        target.parentElement!.appendChild(fallback);
+                      }}
+                    />
                   </div>
                   <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#0e1028]"></div>
                 </div>
