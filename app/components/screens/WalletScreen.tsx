@@ -208,8 +208,8 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
 
       <Header title="Mi Cartera" onNavigate={onNavigate} />
       
-      <div className="scroll-container flex-1 overflow-y-auto pb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-        <div className="px-5 space-y-6">
+      <div className="scroll-container flex-1 overflow-y-auto pb-4 bg-[#0e1027]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="px-5 space-y-6 bg-[#0e1027]">
           
           {/* Overview */}
           <div className="pt-5">
