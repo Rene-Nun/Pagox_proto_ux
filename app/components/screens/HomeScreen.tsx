@@ -17,17 +17,17 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [showYunusChat, setShowYunusChat] = useState(false)
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [chatInput, setChatInput] = useState('')
-  const [isAutoPlay, setIsAutoPlay] = useState(true)
+  const [autoRotate, setAutoRotate] = useState(true)
 
-  // Auto-cambio de cards cada 3 segundos - SE PAUSA AL HACER CLICK
+  // Auto-cambio de cards cada 3 segundos SOLO si autoRotate está activo
   useEffect(() => {
-    if (!isAutoPlay) return
-    
+    if (!autoRotate) return
+
     const interval = setInterval(() => {
       setCurrentCardIndex((prev) => (prev === 0 ? 1 : 0))
     }, 3000)
     return () => clearInterval(interval)
-  }, [isAutoPlay])
+  }, [autoRotate])
 
   const handleTabChange = (tab: TabType) => {
     setSelectedTab(tab)
@@ -39,7 +39,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     } else if (selectedTab === 'hotels') {
       onNavigate('hotelSearch')
     } else if (selectedTab === 'events') {
-      // SOLUCIÓN: Solo navegar sin parámetros
+      // Navegar a TicketSelection SIN evento seleccionado
       onNavigate('ticketSelection')
     }
   }
@@ -55,14 +55,28 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     }
   }
 
-  // SOLUCIÓN: Función para cambiar cards manualmente
-  const handleCardClick = (index: number) => {
+  // Manejar clic manual en los indicadores
+  const handleIndicatorClick = (index: number) => {
     setCurrentCardIndex(index)
-    setIsAutoPlay(false) // Pausar autoplay cuando el usuario interactúa
+    setAutoRotate(false) // Detener rotación automática
     
-    // Reactivar autoplay después de 5 segundos
+    // Reactivar rotación después de 5 segundos de inactividad
     setTimeout(() => {
-      setIsAutoPlay(true)
+      setAutoRotate(true)
+    }, 5000)
+  }
+
+  // Manejar swipe en las cards
+  const handleCardSwipe = (direction: 'left' | 'right') => {
+    if (direction === 'left') {
+      setCurrentCardIndex(1)
+    } else {
+      setCurrentCardIndex(0)
+    }
+    setAutoRotate(false)
+    
+    setTimeout(() => {
+      setAutoRotate(true)
     }, 5000)
   }
 
@@ -177,19 +191,32 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* CARDS ESTILO CAMPAÑA - AUTO CARRUSEL */}
+          {/* CARDS ESTILO CAMPAÑA - AUTO CARRUSEL CON INTERACCIÓN */}
           <div className="px-5 pb-2">
-            <div className="relative overflow-hidden rounded-3xl">
+            <div 
+              className="relative overflow-hidden rounded-3xl"
+              onTouchStart={(e) => {
+                const touchStart = e.touches[0].clientX
+                const handleTouchEnd = (endEvent: TouchEvent) => {
+                  const touchEnd = endEvent.changedTouches[0].clientX
+                  const diff = touchStart - touchEnd
+                  
+                  if (Math.abs(diff) > 50) { // Mínimo 50px de swipe
+                    handleCardSwipe(diff > 0 ? 'left' : 'right')
+                  }
+                  
+                  document.removeEventListener('touchend', handleTouchEnd)
+                }
+                document.addEventListener('touchend', handleTouchEnd)
+              }}
+            >
               <div 
                 className="flex transition-transform duration-500 ease-in-out"
                 style={{ transform: `translateX(-${currentCardIndex * 100}%)` }}
               >
                 {/* Card Marketplace */}
                 <div className="w-full flex-shrink-0">
-                  <div 
-                    onClick={() => handleCardClick(0)}
-                    className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl h-[170px] flex items-center cursor-pointer active:scale-[0.98] transition-transform"
-                  >
+                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl h-[170px] flex items-center">
                     <div className="flex items-center justify-between w-full">
                       <div className="flex-1 pr-3">
                         <h3 className="text-lg font-bold text-white mb-2">Marketplace</h3>
@@ -197,10 +224,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                           Ofertas con hasta 70% de descuento y compras de último momento
                         </p>
                         <button 
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            onNavigate('marketplace', 'marketplace')
-                          }}
+                          onClick={() => onNavigate('marketplace', 'marketplace')}
                           className="bg-[#003d90] text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
                         >
                           Ver ofertas
@@ -219,10 +243,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
                 {/* Card Finanzas */}
                 <div className="w-full flex-shrink-0 pl-5">
-                  <div 
-                    onClick={() => handleCardClick(1)}
-                    className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl h-[170px] flex items-center cursor-pointer active:scale-[0.98] transition-transform"
-                  >
+                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl h-[170px] flex items-center">
                     <div className="flex items-center justify-between w-full">
                       <div className="flex-1 pr-3">
                         <h3 className="text-lg font-bold text-white mb-2">Pagos y Finanzas</h3>
@@ -230,10 +251,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                           Consulta tu próximo pago, revisa tus planes activos y conoce tu Score Turista
                         </p>
                         <button 
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            setShowFinanceModal(true)
-                          }}
+                          onClick={() => setShowFinanceModal(true)}
                           className="bg-[#003d90] text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
                         >
                           Ver detalles
@@ -252,16 +270,16 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            {/* Indicadores de página */}
+            {/* Indicadores de página - AHORA INTERACTIVOS */}
             <div className="flex justify-center gap-2 mt-3">
               <button
-                onClick={() => handleCardClick(0)}
+                onClick={() => handleIndicatorClick(0)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   currentCardIndex === 0 ? 'bg-[#003d90] w-4' : 'bg-gray-600'
                 }`}
               />
               <button
-                onClick={() => handleCardClick(1)}
+                onClick={() => handleIndicatorClick(1)}
                 className={`w-2 h-2 rounded-full transition-all ${
                   currentCardIndex === 1 ? 'bg-[#003d90] w-4' : 'bg-gray-600'
                 }`}
@@ -393,6 +411,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           />
           
           <div className="modal-content fixed inset-0 bg-[#0e1028] z-50 flex flex-col">
+            
             <div className="flex items-center justify-between px-5 py-4 border-b border-[#2a2b45]">
               <div className="flex items-center gap-3">
                 <img 
