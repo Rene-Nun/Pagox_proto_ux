@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, CreditCard, ChevronRight, TrendingUp, Eye, X } from 'lucide-react'
+import { Calendar, CreditCard, ChevronRight, TrendingUp, Eye, EyeOff, X } from 'lucide-react'
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -104,14 +104,18 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         <div className="bg-[#0e1028]">
           
           {/* Saldo Total */}
-          <div className="px-5 pt-5 pb-4">
+          <div className="px-5 pt-4 pb-3">
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-sm text-gray-400">Saldo Total</h3>
+              <h3 className="text-sm text-gray-400">Gasolina disponible para tu próxima aventura</h3>
               <button 
                 onClick={() => setShowBalance(!showBalance)}
                 className="p-1 hover:bg-[#1f203a] rounded-full transition-colors"
               >
-                <Eye className="w-4 h-4 text-gray-400" />
+                {showBalance ? (
+                  <Eye className="w-4 h-4 text-gray-400" />
+                ) : (
+                  <EyeOff className="w-4 h-4 text-gray-400" />
+                )}
               </button>
             </div>
             <div className="mb-1">
@@ -127,7 +131,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* Barra de Yunus AI */}
-          <div className="px-5 pb-4">
+          <div className="px-5 pb-3">
             <div className="relative">
               <button 
                 className="w-full bg-[#1f203a] rounded-full pl-14 pr-5 py-3.5 border border-[#2a2b45] hover:border-[#003d90] transition-all text-left"
@@ -147,7 +151,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* CARDS ESTILO CAMPAÑA - AUTO CARRUSEL */}
-          <div className="px-5 pb-2">
+          <div className="px-5 pb-1">
             <div className="relative overflow-hidden rounded-3xl">
               <div 
                 className="flex transition-transform duration-500 ease-in-out"
@@ -155,16 +159,16 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               >
                 {/* Card Marketplace */}
                 <div className="w-full flex-shrink-0">
-                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 pr-4">
-                        <h3 className="text-xl font-bold text-white mb-2">Marketplace</h3>
-                        <p className="text-sm text-gray-400 leading-relaxed mb-4">
-                          Descubre ofertas exclusivas con hasta 70% de descuento y aprovecha las compras de último momento
+                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-4 border border-[#2a2b45] shadow-xl h-[160px] flex items-center">
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex-1 pr-3">
+                        <h3 className="text-lg font-bold text-white mb-1.5">Marketplace</h3>
+                        <p className="text-xs text-gray-400 leading-relaxed mb-3">
+                          Ofertas con hasta 70% de descuento y compras de último momento
                         </p>
                         <button 
                           onClick={() => onNavigate('marketplace', 'marketplace')}
-                          className="bg-[#003d90] text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
+                          className="bg-[#003d90] text-white px-5 py-2 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
                         >
                           Ver ofertas
                         </button>
@@ -182,16 +186,16 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
                 {/* Card Finanzas */}
                 <div className="w-full flex-shrink-0 pl-5">
-                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 pr-4">
-                        <h3 className="text-xl font-bold text-white mb-2">Pagos y Finanzas</h3>
-                        <p className="text-sm text-gray-400 leading-relaxed mb-4">
+                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-4 border border-[#2a2b45] shadow-xl h-[160px] flex items-center">
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex-1 pr-3">
+                        <h3 className="text-lg font-bold text-white mb-1.5">Pagos y Finanzas</h3>
+                        <p className="text-xs text-gray-400 leading-relaxed mb-3">
                           Consulta tu próximo pago, revisa tus planes activos y conoce tu Score Turista
                         </p>
                         <button 
                           onClick={() => setShowFinanceModal(true)}
-                          className="bg-[#003d90] text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
+                          className="bg-[#003d90] text-white px-5 py-2 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
                         >
                           Ver detalles
                         </button>
@@ -210,7 +214,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
 
             {/* Indicadores de página */}
-            <div className="flex justify-center gap-2 mt-3">
+            <div className="flex justify-center gap-2 mt-2">
               <button
                 onClick={() => setCurrentCardIndex(0)}
                 className={`w-2 h-2 rounded-full transition-all ${
@@ -227,12 +231,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* SEPARADOR DE BORDE A BORDE */}
-          <div className="py-6">
+          <div className="py-4">
             <div className="w-full h-0.5 bg-[#2a2b45]"></div>
           </div>
 
           {/* Search Bar - Botón azul */}
-          <div className="px-5 pb-4">
+          <div className="px-5 pb-3">
             <div className="relative">
               <input
                 type="text"
@@ -258,7 +262,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               {/* Vuelos Tab */}
               <button
                 onClick={() => handleTabChange('flights')}
-                className={`flex-1 flex flex-col items-center gap-2 py-4 px-3 transition-all duration-300 rounded-2xl border ${
+                className={`flex-1 flex flex-col items-center gap-1.5 py-3 px-3 transition-all duration-300 rounded-2xl border ${
                   selectedTab === 'flights' 
                     ? 'bg-[#1f203a] border-[#003d90] shadow-lg shadow-[#003d90]/20' 
                     : 'bg-[#1f203a] border-[#2a2b45]'
@@ -278,14 +282,14 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   Vuelos
                 </p>
                 {selectedTab === 'flights' && (
-                  <div className="w-8 h-1 bg-white rounded-full mt-1"></div>
+                  <div className="w-8 h-1 bg-white rounded-full"></div>
                 )}
               </button>
 
               {/* Hoteles Tab */}
               <button
                 onClick={() => handleTabChange('hotels')}
-                className={`flex-1 flex flex-col items-center gap-2 py-4 px-3 transition-all duration-300 rounded-2xl border ${
+                className={`flex-1 flex flex-col items-center gap-1.5 py-3 px-3 transition-all duration-300 rounded-2xl border ${
                   selectedTab === 'hotels' 
                     ? 'bg-[#1f203a] border-[#003d90] shadow-lg shadow-[#003d90]/20' 
                     : 'bg-[#1f203a] border-[#2a2b45]'
@@ -305,14 +309,14 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   Hospedaje
                 </p>
                 {selectedTab === 'hotels' && (
-                  <div className="w-8 h-1 bg-white rounded-full mt-1"></div>
+                  <div className="w-8 h-1 bg-white rounded-full"></div>
                 )}
               </button>
 
               {/* Eventos Tab */}
               <button
                 onClick={() => handleTabChange('events')}
-                className={`flex-1 flex flex-col items-center gap-2 py-4 px-3 transition-all duration-300 rounded-2xl border ${
+                className={`flex-1 flex flex-col items-center gap-1.5 py-3 px-3 transition-all duration-300 rounded-2xl border ${
                   selectedTab === 'events' 
                     ? 'bg-[#1f203a] border-[#003d90] shadow-lg shadow-[#003d90]/20' 
                     : 'bg-[#1f203a] border-[#2a2b45]'
@@ -332,7 +336,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   Eventos
                 </p>
                 {selectedTab === 'events' && (
-                  <div className="w-8 h-1 bg-white rounded-full mt-1"></div>
+                  <div className="w-8 h-1 bg-white rounded-full"></div>
                 )}
               </button>
             </div>
