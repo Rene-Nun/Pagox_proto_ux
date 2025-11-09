@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, CreditCard, ChevronRight, TrendingUp, Eye, EyeOff, X } from 'lucide-react'
+import { Calendar, CreditCard, ChevronRight, TrendingUp, Eye, EyeOff, X, Send, Sparkles } from 'lucide-react'
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -14,7 +14,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [selectedTab, setSelectedTab] = useState<TabType>('flights')
   const [showBalance, setShowBalance] = useState(true)
   const [showFinanceModal, setShowFinanceModal] = useState(false)
+  const [showYunusChat, setShowYunusChat] = useState(false)
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
+  const [chatInput, setChatInput] = useState('')
 
   // Auto-cambio de cards cada 3 segundos
   useEffect(() => {
@@ -49,6 +51,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     }
   }
 
+  const quickPrompts = [
+    "Busca planes con mi presupuesto en mi ciudad",
+    "Recomiéndame hoteles para mi próximo destino",
+    "Ayúdame a planear unas vacaciones sorpresa"
+  ]
+
   return (
     <MobileContainer className="bg-[#0e1028]">
       <style jsx>{`
@@ -59,6 +67,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           display: none;
         }
         .modal-scroll::-webkit-scrollbar {
+          display: none;
+        }
+        .chat-scroll::-webkit-scrollbar {
           display: none;
         }
         @keyframes gradient {
@@ -104,7 +115,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         <div className="bg-[#0e1028]">
           
           {/* Saldo Total */}
-          <div className="px-5 pt-4 pb-3">
+          <div className="px-5 pt-5 pb-5">
             <div className="flex items-center gap-2 mb-2">
               <h3 className="text-sm text-gray-400">Gasolina disponible para tu próxima aventura</h3>
               <button 
@@ -131,9 +142,10 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* Barra de Yunus AI */}
-          <div className="px-5 pb-3">
+          <div className="px-5 pb-5">
             <div className="relative">
               <button 
+                onClick={() => setShowYunusChat(true)}
                 className="w-full bg-[#1f203a] rounded-full pl-14 pr-5 py-3.5 border border-[#2a2b45] hover:border-[#003d90] transition-all text-left"
               >
                 <span className="text-gray-400 text-sm overflow-hidden whitespace-nowrap block">
@@ -151,7 +163,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* CARDS ESTILO CAMPAÑA - AUTO CARRUSEL */}
-          <div className="px-5 pb-1">
+          <div className="px-5 pb-2">
             <div className="relative overflow-hidden rounded-3xl">
               <div 
                 className="flex transition-transform duration-500 ease-in-out"
@@ -159,16 +171,16 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               >
                 {/* Card Marketplace */}
                 <div className="w-full flex-shrink-0">
-                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-4 border border-[#2a2b45] shadow-xl h-[160px] flex items-center">
+                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl h-[170px] flex items-center">
                     <div className="flex items-center justify-between w-full">
                       <div className="flex-1 pr-3">
-                        <h3 className="text-lg font-bold text-white mb-1.5">Marketplace</h3>
-                        <p className="text-xs text-gray-400 leading-relaxed mb-3">
+                        <h3 className="text-lg font-bold text-white mb-2">Marketplace</h3>
+                        <p className="text-xs text-gray-400 leading-relaxed mb-4">
                           Ofertas con hasta 70% de descuento y compras de último momento
                         </p>
                         <button 
                           onClick={() => onNavigate('marketplace', 'marketplace')}
-                          className="bg-[#003d90] text-white px-5 py-2 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
+                          className="bg-[#003d90] text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
                         >
                           Ver ofertas
                         </button>
@@ -186,16 +198,16 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
                 {/* Card Finanzas */}
                 <div className="w-full flex-shrink-0 pl-5">
-                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-4 border border-[#2a2b45] shadow-xl h-[160px] flex items-center">
+                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl h-[170px] flex items-center">
                     <div className="flex items-center justify-between w-full">
                       <div className="flex-1 pr-3">
-                        <h3 className="text-lg font-bold text-white mb-1.5">Pagos y Finanzas</h3>
-                        <p className="text-xs text-gray-400 leading-relaxed mb-3">
+                        <h3 className="text-lg font-bold text-white mb-2">Pagos y Finanzas</h3>
+                        <p className="text-xs text-gray-400 leading-relaxed mb-4">
                           Consulta tu próximo pago, revisa tus planes activos y conoce tu Score Turista
                         </p>
                         <button 
                           onClick={() => setShowFinanceModal(true)}
-                          className="bg-[#003d90] text-white px-5 py-2 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
+                          className="bg-[#003d90] text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
                         >
                           Ver detalles
                         </button>
@@ -214,7 +226,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
 
             {/* Indicadores de página */}
-            <div className="flex justify-center gap-2 mt-2">
+            <div className="flex justify-center gap-2 mt-3">
               <button
                 onClick={() => setCurrentCardIndex(0)}
                 className={`w-2 h-2 rounded-full transition-all ${
@@ -231,12 +243,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* SEPARADOR DE BORDE A BORDE */}
-          <div className="py-4">
+          <div className="py-5">
             <div className="w-full h-0.5 bg-[#2a2b45]"></div>
           </div>
 
           {/* Search Bar - Botón azul */}
-          <div className="px-5 pb-3">
+          <div className="px-5 pb-4">
             <div className="relative">
               <input
                 type="text"
@@ -344,6 +356,98 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
         </div>
       </div>
+
+      {/* MODAL DE CHAT YUNUS */}
+      {showYunusChat && (
+        <>
+          {/* Backdrop oscuro */}
+          <div 
+            className="modal-backdrop fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={() => setShowYunusChat(false)}
+          />
+          
+          {/* Contenido del chat - PANTALLA COMPLETA */}
+          <div className="modal-content fixed inset-0 bg-[#0e1028] z-50 flex flex-col">
+            
+            {/* Header del chat */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[#2a2b45]">
+              <div className="flex items-center gap-3">
+                <img 
+                  src="/images/yunus.png" 
+                  alt="Yunus" 
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <div>
+                  <h2 className="text-lg font-semibold text-white">Yunus AI</h2>
+                  <p className="text-xs text-gray-400">Tu asistente de viajes</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setShowYunusChat(false)}
+                className="p-2 hover:bg-[#1f203a] rounded-full transition-colors"
+              >
+                <X className="w-6 h-6 text-white" />
+              </button>
+            </div>
+
+            {/* Área de mensajes */}
+            <div className="flex-1 overflow-y-auto px-5 py-6 chat-scroll" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {/* Mensaje de bienvenida */}
+              <div className="flex items-start gap-3 mb-6">
+                <img 
+                  src="/images/yunus.png" 
+                  alt="Yunus" 
+                  className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                />
+                <div className="bg-[#1f203a] rounded-2xl rounded-tl-none px-4 py-3 max-w-[80%]">
+                  <p className="text-sm text-white leading-relaxed">
+                    ¡Hola! Soy Yunus, tu asistente de viajes. ¿En qué puedo ayudarte hoy? 
+                  </p>
+                </div>
+              </div>
+
+              {/* Sugerencias rápidas */}
+              <div className="space-y-2 mb-6">
+                <p className="text-xs text-gray-400 mb-3 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  Sugerencias para empezar
+                </p>
+                {quickPrompts.map((prompt, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setChatInput(prompt)}
+                    className="w-full bg-[#1f203a] hover:bg-[#2a2b45] border border-[#2a2b45] hover:border-[#003d90] rounded-xl px-4 py-3 text-left transition-all"
+                  >
+                    <p className="text-sm text-white">{prompt}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Input de mensaje */}
+            <div className="border-t border-[#2a2b45] px-5 py-4">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  placeholder="Escribe tu mensaje..."
+                  className="w-full bg-[#1f203a] rounded-full px-5 py-3.5 pr-14 text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#003d90] border border-[#2a2b45]"
+                />
+                <button 
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#003d90] rounded-full flex items-center justify-center hover:bg-[#0051c7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={!chatInput.trim()}
+                >
+                  <Send className="w-5 h-5 text-white" />
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-2 text-center">
+                Yunus puede cometer errores. Verifica información importante.
+              </p>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* MODAL / BOTTOM SHEET DE FINANZAS */}
       {showFinanceModal && (
