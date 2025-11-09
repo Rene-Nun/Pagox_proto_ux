@@ -36,7 +36,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     } else if (selectedTab === 'hotels') {
       onNavigate('hotelSearch')
     } else if (selectedTab === 'events') {
-      // SOLUCIÓN PROBLEMA 2: Navegar sin parámetros adicionales
       onNavigate('ticketSelection')
     }
   }
@@ -52,16 +51,15 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     }
   }
 
+  const handleCardClick = (index: number) => {
+    setCurrentCardIndex(index)
+  }
+
   const quickPrompts = [
     "Busca planes con mi presupuesto en mi ciudad",
     "Recomiéndame hoteles para mi próximo destino",
     "Ayúdame a planear unas vacaciones sorpresa"
   ]
-
-  // SOLUCIÓN PROBLEMA 1: Función para cambiar de card manualmente
-  const handleCardClick = (index: number) => {
-    setCurrentCardIndex(index)
-  }
 
   return (
     <MobileContainer className="bg-[#0e1028]">
@@ -243,7 +241,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            {/* Indicadores de página - AHORA CON FUNCIONALIDAD */}
+            {/* Indicadores de página */}
             <div className="flex justify-center gap-2 mt-3">
               <button
                 onClick={() => handleCardClick(0)}
@@ -378,16 +376,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       {/* MODAL DE CHAT YUNUS */}
       {showYunusChat && (
         <>
-          {/* Backdrop oscuro */}
           <div 
             className="modal-backdrop fixed inset-0 bg-black bg-opacity-50 z-40"
             onClick={() => setShowYunusChat(false)}
           />
           
-          {/* Contenido del chat - PANTALLA COMPLETA */}
           <div className="modal-content fixed inset-0 bg-[#0e1028] z-50 flex flex-col">
-            
-            {/* Header del chat */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-[#2a2b45]">
               <div className="flex items-center gap-3">
                 <img 
@@ -408,9 +402,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </button>
             </div>
 
-            {/* Área de mensajes */}
             <div className="flex-1 overflow-y-auto px-5 py-6 chat-scroll" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              {/* Mensaje de bienvenida */}
               <div className="flex items-start gap-3 mb-6">
                 <img 
                   src="/images/yunus.png" 
@@ -424,7 +416,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
               </div>
 
-              {/* Sugerencias rápidas */}
               <div className="space-y-2 mb-6">
                 <p className="text-xs text-gray-400 mb-3 flex items-center gap-2">
                   <Sparkles className="w-4 h-4" />
@@ -442,7 +433,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </div>
             </div>
 
-            {/* Input de mensaje */}
             <div className="border-t border-[#2a2b45] px-5 py-4">
               <div className="relative">
                 <input
@@ -467,19 +457,15 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </>
       )}
 
-      {/* MODAL / BOTTOM SHEET DE FINANZAS */}
+      {/* MODAL DE FINANZAS */}
       {showFinanceModal && (
         <>
-          {/* Backdrop oscuro */}
           <div 
             className="modal-backdrop fixed inset-0 bg-black bg-opacity-50 z-40"
             onClick={() => setShowFinanceModal(false)}
           />
           
-          {/* Contenido del modal */}
           <div className="modal-content modal-scroll fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[85vh] overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            
-            {/* Header del modal */}
             <div className="sticky top-0 bg-white border-b border-gray-200 px-5 py-4 flex items-center justify-between rounded-t-3xl">
               <h2 className="text-xl font-bold text-gray-900">Pagos y Finanzas</h2>
               <button 
@@ -490,11 +476,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </button>
             </div>
 
-            {/* Contenido del modal */}
             <div className="px-5 py-5 space-y-4">
-              {/* Primera fila - 2 cards */}
               <div className="grid grid-cols-2 gap-3">
-                {/* Próximo pago */}
                 <div className="bg-[#1f203a] rounded-2xl p-4 border border-[#2a2b45]">
                   <div className="flex items-start justify-between mb-3">
                     <div className="w-10 h-10 bg-[#0e1028] rounded-xl flex items-center justify-center">
@@ -506,7 +489,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   <p className="text-sm text-gray-400">Próximo pago</p>
                 </div>
 
-                {/* Planes activos */}
                 <div className="bg-[#1f203a] rounded-2xl p-4 border border-[#2a2b45]">
                   <div className="flex items-start justify-between mb-3">
                     <div className="w-10 h-10 bg-[#0e1028] rounded-xl flex items-center justify-center">
@@ -519,7 +501,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
               </div>
 
-              {/* Segunda fila - 1 card */}
               <div className="bg-[#1f203a] rounded-2xl p-4 border border-[#2a2b45]">
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-10 h-10 bg-[#003d90] rounded-xl flex items-center justify-center shadow-lg shadow-[#003d90]/30">
@@ -536,7 +517,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
               </div>
 
-              {/* Información adicional */}
               <div className="bg-[#1f203a] rounded-2xl p-5 border border-[#2a2b45]">
                 <h3 className="text-lg font-semibold text-white mb-3">Resumen Financiero</h3>
                 <div className="space-y-3">
@@ -560,3 +540,4 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       )}
     </MobileContainer>
   )
+}
