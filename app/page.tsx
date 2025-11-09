@@ -27,6 +27,12 @@ export default function Home() {
   const handleNavigation = (screen: string, data: any = null) => {
     setCurrentScreen(screen)
 
+    // IMPORTANTE: Resetear selectedEvent cuando se navega a ticketSelection sin datos
+    if (screen === 'ticketSelection' && !data) {
+      setSelectedEvent(null)
+      setTicketInfo(null)
+    }
+
     if (data) {
       if (typeof data === 'string') {
         setActiveTab(data)
