@@ -174,7 +174,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
   const completedTickets = tickets.filter(t => t.status === 'completed')
 
   return (
-    <MobileContainer className="bg-[#0e1028]">
+    <MobileContainer className="bg-[#0e1027]">
       <style jsx>{`
         .scroll-container::-webkit-scrollbar {
           display: none;
@@ -232,7 +232,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-[#1f203a] rounded-2xl p-4 border border-[#2a2b45]">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 bg-[#0e1028] rounded-xl flex items-center justify-center">
+                  <div className="w-8 h-8 bg-[#0e1027] rounded-xl flex items-center justify-center">
                     <Lock className="w-4 h-4 text-white" />
                   </div>
                   <span className="text-2xl font-light text-white">{activeTickets.length}</span>
@@ -260,7 +260,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
                   const Icon = getIcon(ticket.type)
 
                   return (
-                    <div key={ticket.id} className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-2xl p-5 border border-[#2a2b45] relative overflow-hidden">
+                    <div key={ticket.id} className="bg-gradient-to-br from-[#1f203a] to-[#0e1027] rounded-2xl p-5 border border-[#2a2b45] relative overflow-hidden">
                       <div className="absolute top-4 right-4">
                         <div className="w-8 h-8 bg-[#003d90] rounded-full flex items-center justify-center shadow-lg shadow-[#003d90]/30">
                           <Unlock className="w-4 h-4 text-white" />
@@ -325,7 +325,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
                     <div key={ticket.id} className="bg-[#1f203a] border border-[#2a2b45] rounded-2xl p-5">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-start gap-3 flex-1">
-                          <div className="w-10 h-10 bg-[#0e1028] rounded-full flex items-center justify-center">
+                          <div className="w-10 h-10 bg-[#0e1027] rounded-full flex items-center justify-center">
                             <Icon className="w-5 h-5 text-white" />
                           </div>
                           <div className="flex-1">
@@ -345,7 +345,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
                         <Lock className="w-5 h-5 text-gray-400 flex-shrink-0" />
                       </div>
 
-                      <div className="bg-[#0e1028] rounded-xl p-4 mb-4 border border-[#2a2b45]">
+                      <div className="bg-[#0e1027] rounded-xl p-4 mb-4 border border-[#2a2b45]">
                         <div className="flex justify-between items-center mb-2">
                           <span className="text-xs text-gray-400">Progreso de pago</span>
                           <span className="text-xs font-semibold text-white">{ticket.progress}%</span>
@@ -423,7 +423,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
               </div>
 
               {/* Recomendación de Yunus */}
-              <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-2xl p-5 border border-[#2a2b45]">
+              <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1027] rounded-2xl p-5 border border-[#2a2b45]">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="relative">
                     <div className="w-12 h-12 bg-[#003d90] rounded-full flex items-center justify-center shadow-lg shadow-[#003d90]/30">
@@ -448,7 +448,7 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
                   const yunusRec = calculateYunusRecommendation(selectedTicket)
                   return (
                     <div className="space-y-3">
-                      <div className="bg-[#0e1028] rounded-xl p-4 border border-[#2a2b45]">
+                      <div className="bg-[#0e1027] rounded-xl p-4 border border-[#2a2b45]">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm text-gray-400">Precio óptimo sugerido</span>
                           <div className="flex items-center gap-1">
@@ -465,15 +465,15 @@ export default function WalletScreen({ onNavigate, activeTab, purchasedEvent, on
                       </div>
 
                       <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                        <div className="bg-[#0e1028] rounded-lg p-3 border border-[#2a2b45]">
+                        <div className="bg-[#0e1027] rounded-lg p-3 border border-[#2a2b45]">
                           <p className="text-gray-400 mb-1">Demanda</p>
                           <p className="font-semibold text-white">{yunusRec.marketAnalysis.demand}</p>
                         </div>
-                        <div className="bg-[#0e1028] rounded-lg p-3 border border-[#2a2b45]">
+                        <div className="bg-[#0e1027] rounded-lg p-3 border border-[#2a2b45]">
                           <p className="text-gray-400 mb-1">Competencia</p>
                           <p className="font-semibold text-white">{yunusRec.marketAnalysis.competition}</p>
                         </div>
-                        <div className="bg-[#0e1028] rounded-lg p-3 border border-[#2a2b45]">
+                        <div className="bg-[#0e1027] rounded-lg p-3 border border-[#2a2b45]">
                           <p className="text-gray-400 mb-1">Timing</p>
                           <p className="font-semibold text-white">{yunusRec.marketAnalysis.timing}</p>
                         </div>
