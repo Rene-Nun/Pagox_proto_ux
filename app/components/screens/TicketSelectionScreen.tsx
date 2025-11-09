@@ -164,8 +164,8 @@ export default function TicketSelectionScreen({ onNavigate, selectedEvent }: Tic
         onNavigate={onNavigate}
       />
 
-      <div className="scroll-container flex-1 overflow-y-auto pb-24 bg-[#0e1028]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-        <div className="px-5 pt-5">
+      <div className="scroll-container flex-1 overflow-y-auto bg-[#0e1028]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        <div className="px-5 pt-5 pb-32">
           {/* Event Info */}
           <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-2xl p-5 mb-5 border border-[#2a2b45]">
             <h2 className="font-bold text-2xl text-white mb-2">{currentEvent.artist} - {currentEvent.tour}</h2>
@@ -265,7 +265,7 @@ export default function TicketSelectionScreen({ onNavigate, selectedEvent }: Tic
       </div>
 
       {/* Fixed Continue Button */}
-      <div className="absolute bottom-0 left-0 right-0 bg-[#0e1028] border-t border-[#2a2b45] p-5">
+      <div className="fixed bottom-0 left-0 right-0 max-w-[400px] mx-auto bg-[#0e1028] border-t border-[#2a2b45] p-5 z-10">
         <button
           onClick={() => onNavigate('checkout', { 
             event: currentEvent, 
