@@ -52,6 +52,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         .cards-carousel::-webkit-scrollbar {
           display: none;
         }
+        .modal-scroll::-webkit-scrollbar {
+          display: none;
+        }
         @keyframes gradient {
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
@@ -364,12 +367,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           />
           
           {/* Contenido del modal */}
-          <div className="modal-content fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[85vh] overflow-y-auto">
-            <style jsx>{`
-              div::-webkit-scrollbar {
-                display: none;
-              }
-            `}</style>
+          <div className="modal-content modal-scroll fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[85vh] overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             
             {/* Header del modal */}
             <div className="sticky top-0 bg-white border-b border-gray-200 px-5 py-4 flex items-center justify-between rounded-t-3xl">
@@ -383,7 +381,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
 
             {/* Contenido del modal */}
-            <div className="px-5 py-5 space-y-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className="px-5 py-5 space-y-4">
               {/* Primera fila - 2 cards */}
               <div className="grid grid-cols-2 gap-3">
                 {/* Próximo pago */}
