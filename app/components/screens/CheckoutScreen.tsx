@@ -187,25 +187,10 @@ export default function CheckoutScreen({ onNavigate, selectedEvent, ticketInfo }
                 <div className="flex items-center gap-3">
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
                     method.highlight 
-                      ? 'bg-white' 
+                      ? 'bg-white text-[#003d90]' 
                       : 'bg-[#2a2b45] text-gray-400'
                   }`}>
-                    {method.highlight ? (
-                      <img 
-                        src="/images/TuristaVector.png" 
-                        alt="Turista"
-                        className="w-8 h-8 object-contain"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const fallback = document.createElement('div');
-                          fallback.innerHTML = '<svg class="w-6 h-6 text-[#003d90]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>';
-                          target.parentElement!.appendChild(fallback);
-                        }}
-                      />
-                    ) : (
-                      <method.icon className="w-6 h-6" />
-                    )}
+                    <method.icon className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
