@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, CreditCard, Clock, Tag, ChevronRight, TrendingUp, Eye, X } from 'lucide-react'
+import { Calendar, CreditCard, ChevronRight, TrendingUp, Eye, X } from 'lucide-react'
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -14,6 +14,15 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [selectedTab, setSelectedTab] = useState<TabType>('flights')
   const [showBalance, setShowBalance] = useState(true)
   const [showFinanceModal, setShowFinanceModal] = useState(false)
+  const [currentCardIndex, setCurrentCardIndex] = useState(0)
+
+  // Auto-cambio de cards cada 3 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentCardIndex((prev) => (prev === 0 ? 1 : 0))
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleTabChange = (tab: TabType) => {
     setSelectedTab(tab)
@@ -44,9 +53,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     <MobileContainer className="bg-[#0e1028]">
       <style jsx>{`
         .scroll-container::-webkit-scrollbar {
-          display: none;
-        }
-        .carousel-container::-webkit-scrollbar {
           display: none;
         }
         .cards-carousel::-webkit-scrollbar {
@@ -138,6 +144,91 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 />
               </div>
             </div>
+          </div>
+
+          {/* CARDS ESTILO CAMPAÑA - AUTO CARRUSEL */}
+          <div className="px-5 pb-2">
+            <div className="relative overflow-hidden rounded-3xl">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentCardIndex * 100}%)` }}
+              >
+                {/* Card Marketplace */}
+                <div className="w-full flex-shrink-0">
+                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 pr-4">
+                        <h3 className="text-xl font-bold text-white mb-2">Marketplace</h3>
+                        <p className="text-sm text-gray-400 leading-relaxed mb-4">
+                          Descubre ofertas exclusivas con hasta 70% de descuento y aprovecha las compras de último momento
+                        </p>
+                        <button 
+                          onClick={() => onNavigate('marketplace', 'marketplace')}
+                          className="bg-[#003d90] text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
+                        >
+                          Ver ofertas
+                        </button>
+                      </div>
+                      <div className="flex-shrink-0">
+                        <img 
+                          src="/images/MarketplaceIcon.png" 
+                          alt="Marketplace" 
+                          className="w-20 h-20 object-contain"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Finanzas */}
+                <div className="w-full flex-shrink-0 pl-5">
+                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 pr-4">
+                        <h3 className="text-xl font-bold text-white mb-2">Pagos y Finanzas</h3>
+                        <p className="text-sm text-gray-400 leading-relaxed mb-4">
+                          Consulta tu próximo pago, revisa tus planes activos y conoce tu Score Turista
+                        </p>
+                        <button 
+                          onClick={() => setShowFinanceModal(true)}
+                          className="bg-[#003d90] text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
+                        >
+                          Ver detalles
+                        </button>
+                      </div>
+                      <div className="flex-shrink-0">
+                        <img 
+                          src="/images/PlansIcon.png" 
+                          alt="Finanzas" 
+                          className="w-20 h-20 object-contain"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Indicadores de página */}
+            <div className="flex justify-center gap-2 mt-3">
+              <button
+                onClick={() => setCurrentCardIndex(0)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  currentCardIndex === 0 ? 'bg-[#003d90] w-4' : 'bg-gray-600'
+                }`}
+              />
+              <button
+                onClick={() => setCurrentCardIndex(1)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  currentCardIndex === 1 ? 'bg-[#003d90] w-4' : 'bg-gray-600'
+                }`}
+              />
+            </div>
+          </div>
+
+          {/* SEPARADOR DE BORDE A BORDE */}
+          <div className="py-6">
+            <div className="w-full h-0.5 bg-[#2a2b45]"></div>
           </div>
 
           {/* Search Bar - Botón azul */}
@@ -244,113 +335,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   <div className="w-8 h-1 bg-white rounded-full mt-1"></div>
                 )}
               </button>
-            </div>
-          </div>
-
-          {/* SEPARADOR DE BORDE A BORDE */}
-          <div className="py-6">
-            <div className="w-full h-0.5 bg-[#2a2b45]"></div>
-          </div>
-
-          {/* Contenido */}
-          <div className="space-y-4 px-5">
-            {/* Stats Grid - SCROLL HORIZONTAL */}
-            <div className="-mx-5">
-              <div className="carousel-container overflow-x-auto pl-5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
-                <div className="flex gap-3 pb-2 pr-5">
-                  <div className="bg-[#1f203a] rounded-2xl p-3.5 w-[160px] flex-shrink-0 border border-[#2a2b45]">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="w-8 h-8 bg-[#0e1028] rounded-xl flex items-center justify-center">
-                        <Calendar className="w-4 h-4 text-white" />
-                      </div>
-                      <span className="text-xs text-gray-400">En 12 días</span>
-                    </div>
-                    <p className="text-2xl font-light text-white mb-0.5">$1,825</p>
-                    <p className="text-xs text-gray-400">Próximo pago</p>
-                  </div>
-
-                  <div className="bg-[#1f203a] rounded-2xl p-3.5 w-[160px] flex-shrink-0 border border-[#2a2b45]">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="w-8 h-8 bg-[#0e1028] rounded-xl flex items-center justify-center">
-                        <CreditCard className="w-4 h-4 text-white" />
-                      </div>
-                      <div className="w-2 h-2 bg-[#003d90] rounded-full shadow-lg shadow-[#003d90]/50"></div>
-                    </div>
-                    <p className="text-2xl font-light text-white mb-0.5">2</p>
-                    <p className="text-xs text-gray-400">Planes activos</p>
-                  </div>
-
-                  <div className="bg-[#1f203a] rounded-2xl p-3.5 w-[160px] flex-shrink-0 border border-[#2a2b45]">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="w-8 h-8 bg-[#003d90] rounded-xl flex items-center justify-center shadow-lg shadow-[#003d90]/30">
-                        <TrendingUp className="w-4 h-4 text-white" />
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    </div>
-                    <p className="text-2xl font-light text-white mb-0.5">750</p>
-                    <p className="text-xs text-gray-400">Score Turista</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* NUEVAS CARDS ESTILO CAMPAÑA - CARRUSEL HORIZONTAL */}
-            <div className="-mx-5">
-              <div className="cards-carousel overflow-x-auto pl-5" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}>
-                <div className="flex gap-3 pb-2 pr-5">
-                  
-                  {/* Card Marketplace */}
-                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 w-[320px] flex-shrink-0 border border-[#2a2b45] shadow-xl">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-white mb-2">Marketplace</h3>
-                        <p className="text-sm text-gray-400 leading-relaxed mb-4">
-                          Descubre ofertas exclusivas con hasta 70% de descuento y aprovecha las compras de último momento
-                        </p>
-                        <button 
-                          onClick={() => onNavigate('marketplace', 'marketplace')}
-                          className="bg-[#003d90] text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
-                        >
-                          Ver ofertas
-                        </button>
-                      </div>
-                      <div className="ml-4 flex-shrink-0">
-                        <img 
-                          src="/images/MarketplaceIcon.png" 
-                          alt="Marketplace" 
-                          className="w-24 h-24 object-contain"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card Finanzas */}
-                  <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 w-[320px] flex-shrink-0 border border-[#2a2b45] shadow-xl">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-white mb-2">Pagos y Finanzas</h3>
-                        <p className="text-sm text-gray-400 leading-relaxed mb-4">
-                          Consulta tu próximo pago, revisa tus planes activos y conoce tu Score Turista
-                        </p>
-                        <button 
-                          onClick={() => setShowFinanceModal(true)}
-                          className="bg-[#003d90] text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-[#0051c7] transition-all shadow-lg shadow-[#003d90]/30"
-                        >
-                          Ver detalles
-                        </button>
-                      </div>
-                      <div className="ml-4 flex-shrink-0">
-                        <img 
-                          src="/images/PlansIcon.png" 
-                          alt="Finanzas" 
-                          className="w-24 h-24 object-contain"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
             </div>
           </div>
 
