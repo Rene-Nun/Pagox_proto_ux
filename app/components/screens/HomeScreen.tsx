@@ -192,9 +192,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* CARDS ESTILO CAMPAÑA - AUTO CARRUSEL CON INTERACCIÓN */}
-          <div className="px-5 pb-2">
+          <div className="pb-2">
             <div 
-              className="relative overflow-hidden rounded-3xl"
+              className="relative overflow-hidden"
               onTouchStart={(e) => {
                 const touchStart = e.touches[0].clientX
                 const handleTouchEnd = (endEvent: TouchEvent) => {
