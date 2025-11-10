@@ -19,8 +19,6 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0e1028" />
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#0e1028" />
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0e1028" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Turista" />
