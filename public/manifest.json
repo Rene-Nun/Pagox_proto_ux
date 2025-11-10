@@ -1,0 +1,11 @@
+{
+  "name": "Turista - Tu Pasaporte Financiero",
+  "short_name": "Turista",
+  "description": "Financia tus experiencias con planes de pago flexibles",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1028",
+  "theme_color": "#003d90",
+  "orientation": "portrait",
+  "scope": "/"
+}
