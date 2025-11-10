@@ -215,7 +215,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 style={{ transform: `translateX(-${currentCardIndex * 100}%)` }}
               >
                 {/* Card Marketplace */}
-                <div className="w-full flex-shrink-0">
+                <div className="w-full flex-shrink-0 px-5">
                   <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl h-[170px] flex items-center">
                     <div className="flex items-center justify-between w-full">
                       <div className="flex-1 pr-3">
@@ -242,7 +242,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
 
                 {/* Card Finanzas */}
-                <div className="w-full flex-shrink-0 pl-5">
+                <div className="w-full flex-shrink-0 px-5">
                   <div className="bg-gradient-to-br from-[#1f203a] to-[#0e1028] rounded-3xl p-5 border border-[#2a2b45] shadow-xl h-[170px] flex items-center">
                     <div className="flex items-center justify-between w-full">
                       <div className="flex-1 pr-3">
