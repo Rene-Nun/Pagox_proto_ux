@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import MobileContainer from '../MobileContainer'
 import Header from '../Header'
-import { Calendar, CreditCard, ChevronRight, TrendingUp, Eye, EyeOff, X, Send, Sparkles } from 'lucide-react'
+import { Calendar, CreditCard, ChevronRight, TrendingUp, X, Send, Sparkles } from 'lucide-react'
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -12,7 +12,6 @@ type TabType = 'flights' | 'hotels' | 'events'
 
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [selectedTab, setSelectedTab] = useState<TabType>('flights')
-  const [showBalance, setShowBalance] = useState(true)
   const [showFinanceModal, setShowFinanceModal] = useState(false)
   const [showYunusChat, setShowYunusChat] = useState(false)
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
@@ -39,7 +38,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     } else if (selectedTab === 'hotels') {
       onNavigate('hotelSearch')
     } else if (selectedTab === 'events') {
-      // Navegar a TicketSelection SIN evento seleccionado
       onNavigate('ticketSelection')
     }
   }
@@ -58,9 +56,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   // Manejar clic manual en los indicadores
   const handleIndicatorClick = (index: number) => {
     setCurrentCardIndex(index)
-    setAutoRotate(false) // Detener rotación automática
+    setAutoRotate(false)
     
-    // Reactivar rotación después de 5 segundos de inactividad
     setTimeout(() => {
       setAutoRotate(true)
     }, 5000)
@@ -143,35 +140,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       >
         <div className="bg-[#0e1028]">
           
-          {/* Saldo Total */}
-          <div className="px-5 pt-5 pb-5">
-            <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-sm text-gray-400">Gasolina disponible para tu próxima aventura</h3>
-              <button 
-                onClick={() => setShowBalance(!showBalance)}
-                className="p-1 hover:bg-[#1f203a] rounded-full transition-colors"
-              >
-                {showBalance ? (
-                  <Eye className="w-4 h-4 text-gray-400" />
-                ) : (
-                  <EyeOff className="w-4 h-4 text-gray-400" />
-                )}
-              </button>
-            </div>
-            <div className="mb-1">
-              <span className="text-4xl font-light text-white">
-                {showBalance ? '$3,500' : '•••••'}
-              </span>
-              <span className="text-lg text-gray-400 ml-2">MXN</span>
-            </div>
-            <div className="text-sm text-gray-400">
-              <span className="text-green-400">Usado $1,825</span>
-              <span className="text-gray-500 mx-2">24 h</span>
-            </div>
-          </div>
-
           {/* Barra de Yunus AI */}
-          <div className="px-5 pb-5">
+          <div className="px-5 pt-5 pb-5">
             <div className="relative">
               <button 
                 onClick={() => setShowYunusChat(true)}
@@ -201,7 +171,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   const touchEnd = endEvent.changedTouches[0].clientX
                   const diff = touchStart - touchEnd
                   
-                  if (Math.abs(diff) > 50) { // Mínimo 50px de swipe
+                  if (Math.abs(diff) > 50) {
                     handleCardSwipe(diff > 0 ? 'left' : 'right')
                   }
                   
