@@ -12,9 +12,11 @@ type ScreenType = 'profile' | 'chat' | 'discover'
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void
+  // AGREGE ESTA LÍNEA PARA CORREGIR EL ERROR DE BUILD:
+  activeTab?: string 
 }
 
-export default function HomeScreen({ onNavigate }: HomeScreenProps) {
+export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   // Estado principal: Qué pantalla estamos viendo. Iniciamos en 'chat' (centro)
   const [currentScreen, setCurrentScreen] = useState<ScreenType>('chat')
   const [chatInput, setChatInput] = useState('')
