@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import Head from 'next/head'
-import MobileContainer from '../MobileContainer'
 import { Send, User, ShoppingBag } from 'lucide-react'
 
 interface HomeScreenProps {
@@ -19,59 +17,92 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   ]
 
   return (
-    // Usamos h-[100dvh] para altura dinámica real en móviles
-    <div className="fixed inset-0 w-full h-[100dvh] bg-black flex flex-col overflow-hidden">
-      <Head>
-        {/* ESTO MATA LAS LINEAS BLANCAS/AZULES EN LOS BORDES */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-      </Head>
-
+    <div className="fixed inset-0 w-full h-full bg-black flex flex-col overflow-hidden">
       <style jsx global>{`
-        /* MATAR EL REBOTE AZUL DE ANDROID */
-        html, body, #root, .next-app {
+        /* Eliminar overscroll y líneas de colores */
+        html, body {
           background-color: #000000 !important;
-          overscroll-behavior: none !important;
+          overscroll-behavior-y: none !important;
+          overscroll-behavior-x: none !important;
           overflow: hidden !important;
-          width: 100%;
-          height: 100%;
+          position: fixed !important;
+          width: 100% !important;
+          height: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+        
+        /* Forzar tema negro en meta tags */
+        body::before {
+          content: '';
+          position: fixed;
+          top: -100px;
+          left: 0;
+          right: 0;
+          height: 100px;
+          background: #000000;
+          z-index: 9999;
+        }
+        
+        body::after {
+          content: '';
+          position: fixed;
+          bottom: -100px;
+          left: 0;
+          right: 0;
+          height: 100px;
+          background: #000000;
+          z-index: 9999;
+        }
+
+        /* Deshabilitar scroll bounce */
+        * {
+          -webkit-overflow-scrolling: auto !important;
+          overscroll-behavior: none !important;
         }
       `}</style>
 
-      {/* Header con padding-top extra para respetar el 'notch' o barra de estado */}
-      <div className="px-4 pt-8 pb-2 flex items-center justify-between flex-shrink-0 z-20 bg-black">
-        <button className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors">
+      {/* Header */}
+      <div className="px-4 pt-8 pb-2 flex items-center justify-between flex-shrink-0 bg-black">
+        <button 
+          onClick={() => onNavigate('profile')}
+          className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors"
+        >
           <User className="w-5 h-5 text-gray-300" />
         </button>
-        <button className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors">
+        <button 
+          onClick={() => onNavigate('wallet')}
+          className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors"
+        >
           <ShoppingBag className="w-5 h-5 text-gray-300" />
         </button>
       </div>
 
       {/* Contenido Central */}
-      <div className="flex-1 flex flex-col px-5 pt-4 z-10">
+      <div className="flex-1 px-5 pt-4 overflow-y-auto" style={{ 
+        WebkitOverflowScrolling: 'touch',
+        overscrollBehavior: 'none'
+      }}>
         <div className="animate-fade-in">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 border-none">
-               <img 
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
+              <img 
                 src="/images/yunus.png" 
-                alt="Y" 
+                alt="Yunus" 
                 className="w-full h-full object-cover"
-                onError={(e) => {e.currentTarget.style.display='none'}} 
               />
             </div>
             <h2 className="text-2xl font-medium text-white tracking-tight">Yunus</h2>
           </div>
 
-          <div className="mb-6 pr-2">
+          <div className="mb-6">
             <p className="text-[17px] text-gray-200 leading-relaxed font-light">
               Hola. Tu próxima aventura empieza aquí. <br/>
               Dime a dónde quieres ir o qué se te antoja, y yo armo el plan perfecto para ti.
             </p>
           </div>
 
-          <div className="flex flex-col items-start gap-2.5">
+          <div className="flex flex-col items-start gap-2.5 pb-32">
             {suggestions.map((suggestion, index) => (
               <button
                 key={index}
@@ -85,18 +116,18 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
 
-      {/* Barra Inferior - Padding bottom extra para la barra de gestos */}
-      <div className="flex-shrink-0 px-4 pb-8 pt-2 bg-black z-20 w-full safe-area-bottom">
+      {/* Input fijo abajo */}
+      <div className="flex-shrink-0 px-4 pb-8 pt-2 bg-black w-full">
         <div className="relative">
           <input
             type="text"
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             placeholder="Escribe a Yunus..."
-            className="w-full bg-[#1a1b26] rounded-full pl-5 pr-12 py-4 text-white placeholder-gray-500 text-[16px] focus:outline-none focus:ring-1 focus:ring-[#5b5fc7]"
+            className="w-full bg-[#1a1b26] rounded-full pl-5 pr-12 py-4 text-white placeholder-gray-500 text-[16px] focus:outline-none focus:ring-1 focus:ring-[#5b5fc7] border-0"
           />
           <button 
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-[#5b5fc7] rounded-full flex items-center justify-center active:bg-[#6b6fd7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-[#5b5fc7] rounded-full flex items-center justify-center active:bg-[#6b6fd7] transition-colors disabled:opacity-50"
             disabled={!chatInput.trim()}
           >
             <Send className="w-4 h-4 text-white" />
@@ -106,6 +137,22 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           Yunus analiza tu perfil para ofrecerte el mejor plan de pagos.
         </p>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.3s ease-out;
+        }
+      `}</style>
     </div>
   )
 }
