@@ -12,7 +12,6 @@ import PlansScreen from './components/screens/PlansScreen'
 import ProfileScreen from './components/screens/ProfileScreen'
 import FlightSearchScreen from './components/screens/FlightSearchScreen'
 import HotelSearchScreen from './components/screens/HotelSearchScreen'
-import BottomNav from './components/BottomNav'
 
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState('home')
@@ -20,7 +19,7 @@ export default function Home() {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [ticketInfo, setTicketInfo] = useState(null)
   const [purchasedTicket, setPurchasedTicket] = useState(null)
-  
+
   // Estado global para boletos en reventa
   const [forSaleTickets, setForSaleTickets] = useState<any[]>([])
 
@@ -97,18 +96,12 @@ export default function Home() {
     }
   }
 
-  const screensWithoutBottomNav = ['partner', 'ticketSelection', 'checkout', 'paymentPlan', 'flightSearch', 'hotelSearch']
-  const showBottomNav = !screensWithoutBottomNav.includes(currentScreen)
-
   return (
-    <div className="w-full h-screen overflow-hidden" style={{ backgroundColor: '#0e1028' }}>
+    <div className="w-full h-screen overflow-hidden bg-black">
       <div className="h-full flex flex-col">
         <div className="flex-1 overflow-hidden">
           {renderScreen()}
         </div>
-        {showBottomNav && (
-          <BottomNav activeTab={activeTab} onNavigate={handleNavigation} />
-        )}
       </div>
     </div>
   )
