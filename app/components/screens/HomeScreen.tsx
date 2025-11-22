@@ -11,7 +11,6 @@ interface HomeScreenProps {
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [chatInput, setChatInput] = useState('')
 
-  // EMOJIS ELIMINADOS
   const suggestions = [
     "Escapada barata de fin de semana",
     "Vuelos a Cancún a meses",
@@ -20,15 +19,28 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   ]
 
   return (
-    <div className="fixed inset-0 bg-black flex flex-col overflow-hidden">
+    // Usamos h-[100dvh] para altura dinámica real en móviles
+    <div className="fixed inset-0 w-full h-[100dvh] bg-black flex flex-col overflow-hidden">
       <Head>
+        {/* ESTO MATA LAS LINEAS BLANCAS/AZULES EN LOS BORDES */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
       </Head>
 
-      {/* Header Superior - SIN BORDES, SOLO COLOR DE FONDO */}
-      <div className="px-4 pt-6 pb-2 flex items-center justify-between flex-shrink-0 z-20 bg-black">
+      <style jsx global>{`
+        /* MATAR EL REBOTE AZUL DE ANDROID */
+        html, body, #root, .next-app {
+          background-color: #000000 !important;
+          overscroll-behavior: none !important;
+          overflow: hidden !important;
+          width: 100%;
+          height: 100%;
+        }
+      `}</style>
+
+      {/* Header con padding-top extra para respetar el 'notch' o barra de estado */}
+      <div className="px-4 pt-8 pb-2 flex items-center justify-between flex-shrink-0 z-20 bg-black">
         <button className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors">
           <User className="w-5 h-5 text-gray-300" />
         </button>
@@ -39,11 +51,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
       {/* Contenido Central */}
       <div className="flex-1 flex flex-col px-5 pt-4 z-10">
-        
         <div className="animate-fade-in">
           <div className="flex items-center gap-3 mb-3">
-            {/* Logo sin borde extra, solo el contenedor */}
-            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
+            <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 border-none">
                <img 
                 src="/images/yunus.png" 
                 alt="Y" 
@@ -61,7 +71,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </p>
           </div>
 
-          {/* Chips SIN EMOJIS y SIN BORDES (Flat) */}
           <div className="flex flex-col items-start gap-2.5">
             {suggestions.map((suggestion, index) => (
               <button
@@ -76,10 +85,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
 
-      {/* Barra Inferior - SIN LINEAS DIVISORIAS, FUNDIDA CON EL NEGRO */}
-      <div className="flex-shrink-0 px-4 pb-8 pt-2 bg-black z-20 w-full">
+      {/* Barra Inferior - Padding bottom extra para la barra de gestos */}
+      <div className="flex-shrink-0 px-4 pb-8 pt-2 bg-black z-20 w-full safe-area-bottom">
         <div className="relative">
-          {/* Input sin borde, solo fondo */}
           <input
             type="text"
             value={chatInput}
