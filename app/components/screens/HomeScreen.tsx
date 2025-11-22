@@ -62,8 +62,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         }
       `}</style>
 
-      {/* Header */}
-      <div className="px-4 pt-8 pb-2 flex items-center justify-between flex-shrink-0 bg-black">
+      {/* Header - más arriba, respetando la status bar */}
+      <div className="px-4 pt-3 pb-3 flex items-center justify-between flex-shrink-0 bg-black">
         <button 
           onClick={() => onNavigate('profile')}
           className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors"
@@ -79,12 +79,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       </div>
 
       {/* Contenido Central */}
-      <div className="flex-1 px-5 pt-4 overflow-y-auto" style={{ 
+      <div className="flex-1 px-5 pt-2 overflow-y-auto" style={{ 
         WebkitOverflowScrolling: 'touch',
         overscrollBehavior: 'none'
       }}>
         <div className="animate-fade-in">
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
               <img 
                 src="/images/yunus.png" 
