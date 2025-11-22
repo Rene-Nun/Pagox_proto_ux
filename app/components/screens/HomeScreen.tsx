@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Send, User, ShoppingBag, Heart, MapPin, Calendar } from 'lucide-react'
 
 interface HomeScreenProps {
@@ -10,6 +10,25 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [chatInput, setChatInput] = useState('')
   const [activeFilter, setActiveFilter] = useState('Para ti')
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  // Iniciar en la pantalla del chat (índice 1)
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      const containerWidth = scrollContainerRef.current.offsetWidth
+      scrollContainerRef.current.scrollLeft = containerWidth
+    }
+  }, [])
+
+  // Función para navegar a la pantalla de Discover
+  const goToDiscover = () => {
+    if (scrollContainerRef.current) {
+      const containerWidth = scrollContainerRef.current.offsetWidth
+      scrollContainerRef.current.scrollTo({
+        left: containerWidth * 2,
+        behavior: 'smooth'
+      })
+    }
+  }
 
   const suggestions = [
     "Escapada barata de fin de semana",
@@ -83,14 +102,15 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         }
       `}</style>
 
-      {/* Contenedor de 3 pantallas con scroll snap */}
+      {/* Contenedor de 3 pantallas con scroll snap mejorado */}
       <div 
         ref={scrollContainerRef}
-        className="flex h-full w-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory"
+        className="flex h-full w-full overflow-x-scroll overflow-y-hidden snap-x snap-mandatory"
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
-          WebkitOverflowScrolling: 'touch'
+          WebkitOverflowScrolling: 'touch',
+          scrollBehavior: 'smooth'
         }}
       >
         {/* Pantalla Izquierda - Vacía por ahora */}
@@ -99,7 +119,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
 
         {/* Pantalla Central - CHAT (Tu código intacto) */}
-        <div className="min-w-full h-full snap-center snap-always bg-black flex flex-col">
+        <div className="min-w-full h-full snap-center bg-black flex flex-col touch-pan-y">
           {/* Header */}
           <div className="px-4 pt-3 pb-3 flex items-center justify-between flex-shrink-0 bg-black">
             <button 
@@ -109,18 +129,22 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               <User className="w-5 h-5 text-gray-300" />
             </button>
             <button 
-              onClick={() => onNavigate('wallet')}
-              className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors"
+              onClick={goToDiscover}
+              className="w-10 h-10 rounded-full bg-[#5b5fc7] flex items-center justify-center active:bg-[#6b6fd7] transition-colors"
             >
-              <ShoppingBag className="w-5 h-5 text-gray-300" />
+              <ShoppingBag className="w-5 h-5 text-white" />
             </button>
           </div>
 
           {/* Contenido Central */}
-          <div className="flex-1 px-5 pt-2 overflow-y-auto" style={{ 
-            WebkitOverflowScrolling: 'touch',
-            overscrollBehavior: 'none'
-          }}>
+          <div 
+            className="flex-1 px-5 pt-2 overflow-y-auto" 
+            style={{ 
+              WebkitOverflowScrolling: 'touch',
+              overscrollBehavior: 'contain',
+              touchAction: 'pan-y'
+            }}
+          >
             <div className="animate-fade-in">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
@@ -178,7 +202,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
 
         {/* Pantalla Derecha - DISCOVER */}
-        <div className="min-w-full h-full snap-center bg-black flex flex-col">
+        <div className="min-w-full h-full snap-center bg-black flex flex-col touch-pan-y">
           {/* Header con filtros */}
           <div className="flex-shrink-0 px-4 pt-3 pb-3 bg-black">
             <h1 className="text-2xl font-semibold text-white mb-4">Descubre</h1>
@@ -200,7 +224,16 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* Feed de destinos */}
-          <div className="flex-1 overflow-y-auto px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div 
+            className="flex-1 overflow-y-auto px-4" 
+            style={{ 
+              scrollbarWidth: 'none', 
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch',
+              overscrollBehavior: 'contain',
+              touchAction: 'pan-y'
+            }}
+          >
             <div className="space-y-4 pb-8">
               {destinations.map((dest) => (
                 <div
