@@ -36,7 +36,14 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         .animate-fade-in {
           animation: fadeIn 0.3s ease-out;
         }
+        /* Forzar fondo negro en todo el contenedor */
+        body, html, #root {
+          background-color: #000000 !important;
+        }
       `}</style>
+
+      {/* Fondo negro absoluto */}
+      <div className="absolute inset-0 bg-black -z-10"></div>
 
       {/* Header minimalista con botones más pequeños */}
       <div className="px-4 py-3 flex items-center justify-between">
