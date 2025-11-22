@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Send, User, ShoppingBag, Heart, MapPin, Calendar } from 'lucide-react'
+import { Send, User, ShoppingBag, Heart, Calendar } from 'lucide-react'
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -9,26 +9,10 @@ interface HomeScreenProps {
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [chatInput, setChatInput] = useState('')
   const [activeFilter, setActiveFilter] = useState('Para ti')
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
-
-  // Iniciar en la pantalla del chat (índice 1)
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-      const containerWidth = scrollContainerRef.current.offsetWidth
-      scrollContainerRef.current.scrollLeft = containerWidth
-    }
-  }, [])
-
-  // Función para navegar a la pantalla de Discover
-  const goToDiscover = () => {
-    if (scrollContainerRef.current) {
-      const containerWidth = scrollContainerRef.current.offsetWidth
-      scrollContainerRef.current.scrollTo({
-        left: containerWidth * 2,
-        behavior: 'smooth'
-      })
-    }
-  }
+  const [currentScreen, setCurrentScreen] = useState(1) // 0: izquierda, 1: chat, 2: discover
+  const containerRef = useRef<HTMLDivElement>(null)
+  const touchStartX = useRef(0)
+  const touchEndX = useRef(0)
 
   const suggestions = [
     "Escapada barata de fin de semana",
@@ -82,6 +66,32 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     }
   ]
 
+  const goToDiscover = () => {
+    setCurrentScreen(2)
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    const diffX = touchStartX.current - touchEndX.current
+    const minSwipeDistance = 50
+
+    // Swipe left (siguiente pantalla)
+    if (diffX > minSwipeDistance && currentScreen < 2) {
+      setCurrentScreen(currentScreen + 1)
+    }
+    // Swipe right (pantalla anterior)
+    else if (diffX < -minSwipeDistance && currentScreen > 0) {
+      setCurrentScreen(currentScreen - 1)
+    }
+  }
+
   return (
     <div className="fixed inset-0 w-full h-full bg-black overflow-hidden">
       <style jsx global>{`
@@ -95,31 +105,27 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           margin: 0 !important;
           padding: 0 !important;
         }
-
-        * {
-          -webkit-overflow-scrolling: auto !important;
-          overscroll-behavior: none !important;
-        }
       `}</style>
 
-      {/* Contenedor de 3 pantallas con scroll snap mejorado */}
+      {/* Contenedor con transición */}
       <div 
-        ref={scrollContainerRef}
-        className="flex h-full w-full overflow-x-scroll overflow-y-hidden snap-x snap-mandatory"
+        ref={containerRef}
+        className="flex h-full transition-transform duration-300 ease-out"
         style={{
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          WebkitOverflowScrolling: 'touch',
-          scrollBehavior: 'smooth'
+          transform: `translateX(-${currentScreen * 100}vw)`,
+          width: '300vw'
         }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
-        {/* Pantalla Izquierda - Vacía por ahora */}
-        <div className="min-w-full h-full snap-center bg-black">
+        {/* Pantalla Izquierda - Vacía */}
+        <div className="w-screen h-full flex-shrink-0 bg-black">
           {/* Placeholder vacío */}
         </div>
 
-        {/* Pantalla Central - CHAT (Tu código intacto) */}
-        <div className="min-w-full h-full snap-center bg-black flex flex-col touch-pan-y">
+        {/* Pantalla Central - CHAT */}
+        <div className="w-screen h-full flex-shrink-0 bg-black flex flex-col">
           {/* Header */}
           <div className="px-4 pt-3 pb-3 flex items-center justify-between flex-shrink-0 bg-black">
             <button 
@@ -137,14 +143,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* Contenido Central */}
-          <div 
-            className="flex-1 px-5 pt-2 overflow-y-auto" 
-            style={{ 
-              WebkitOverflowScrolling: 'touch',
-              overscrollBehavior: 'contain',
-              touchAction: 'pan-y'
-            }}
-          >
+          <div className="flex-1 px-5 pt-2 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <div className="animate-fade-in">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
@@ -202,7 +201,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
 
         {/* Pantalla Derecha - DISCOVER */}
-        <div className="min-w-full h-full snap-center bg-black flex flex-col touch-pan-y">
+        <div className="w-screen h-full flex-shrink-0 bg-black flex flex-col">
           {/* Header con filtros */}
           <div className="flex-shrink-0 px-4 pt-3 pb-3 bg-black">
             <h1 className="text-2xl font-semibold text-white mb-4">Descubre</h1>
@@ -224,16 +223,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           {/* Feed de destinos */}
-          <div 
-            className="flex-1 overflow-y-auto px-4" 
-            style={{ 
-              scrollbarWidth: 'none', 
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch',
-              overscrollBehavior: 'contain',
-              touchAction: 'pan-y'
-            }}
-          >
+          <div className="flex-1 overflow-y-auto px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <div className="space-y-4 pb-8">
               {destinations.map((dest) => (
                 <div
@@ -289,9 +279,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         }
         .animate-fade-in {
           animation: fadeIn 0.3s ease-out;
-        }
-        .active-scale-98:active {
-          transform: scale(0.98);
         }
       `}</style>
     </div>
