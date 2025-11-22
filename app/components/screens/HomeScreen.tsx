@@ -40,11 +40,11 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
       {/* Header minimalista con botones más pequeños */}
       <div className="px-4 py-3 flex items-center justify-between">
-        <button className="w-9 h-9 rounded-full bg-[#1f1f2e] flex items-center justify-center hover:bg-[#2a2a3e] transition-colors">
-          <User className="w-5 h-5 text-gray-300" />
+        <button className="w-9 h-9 rounded-full bg-[#27283a] flex items-center justify-center hover:bg-[#34354a] transition-colors">
+          <User className="w-5 h-5 text-white" />
         </button>
-        <button className="w-9 h-9 rounded-full bg-[#1f1f2e] flex items-center justify-center hover:bg-[#2a2a3e] transition-colors">
-          <ShoppingBag className="w-5 h-5 text-gray-300" />
+        <button className="w-9 h-9 rounded-full bg-[#27283a] flex items-center justify-center hover:bg-[#34354a] transition-colors">
+          <ShoppingBag className="w-5 h-5 text-white" />
         </button>
       </div>
 
@@ -64,7 +64,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
 
         <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <p className="text-[15px] text-gray-300 leading-relaxed">
+          <p className="text-[15px] text-white leading-relaxed">
             ¡Tu aventura te espera! Puedo ayudarte a encontrar vuelos, hoteles, eventos y mucho más. ¿Qué te gustaría hacer hoy?
           </p>
         </div>
@@ -75,23 +75,23 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             <button
               key={index}
               onClick={() => setChatInput(suggestion)}
-              className="w-full bg-[#1a1a28] hover:bg-[#242433] border border-[#2a2a3e] hover:border-[#3a3a4e] rounded-2xl px-4 py-3.5 text-left transition-all"
+              className="w-full bg-[#27283a] hover:bg-[#34354a] border border-[#3a3b4f] rounded-2xl px-4 py-3.5 text-left transition-all"
             >
-              <p className="text-[15px] text-gray-200">{suggestion}</p>
+              <p className="text-[15px] text-white">{suggestion}</p>
             </button>
           ))}
         </div>
       </div>
 
       {/* Input fijo en la parte inferior */}
-      <div className="absolute bottom-0 left-0 right-0 bg-black border-t border-[#2a2a3e] px-4 py-4">
+      <div className="absolute bottom-0 left-0 right-0 bg-black border-t border-[#3a3b4f] px-4 py-4">
         <div className="relative">
           <input
             type="text"
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             placeholder="Pregunta a Yunus..."
-            className="w-full bg-[#1a1a28] rounded-full px-5 py-3 pr-12 text-white placeholder-gray-500 text-[15px] focus:outline-none focus:ring-1 focus:ring-[#4a4a5e] border border-[#2a2a3e]"
+            className="w-full bg-[#27283a] rounded-full px-5 py-3 pr-12 text-white placeholder-gray-400 text-[15px] focus:outline-none focus:ring-1 focus:ring-[#5b5fc7] border border-[#3a3b4f]"
           />
           <button 
             className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 bg-[#5b5fc7] rounded-full flex items-center justify-center hover:bg-[#6b6fd7] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -100,7 +100,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             <Send className="w-4 h-4 text-white" />
           </button>
         </div>
-        <p className="text-xs text-gray-600 mt-2.5 text-center">
+        <p className="text-xs text-gray-500 mt-2.5 text-center">
           Yunus puede cometer errores. Verifica información importante.
         </p>
       </div>
