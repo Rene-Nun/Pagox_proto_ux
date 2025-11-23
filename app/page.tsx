@@ -76,7 +76,6 @@ export default function Home() {
         return <MarketplaceScreen 
           onNavigate={handleNavigation} 
           activeTab={activeTab}
-          resaleListings={forSaleTickets}
         />
       case 'profile':
         return <ProfileScreen onNavigate={handleNavigation} activeTab={activeTab} />
