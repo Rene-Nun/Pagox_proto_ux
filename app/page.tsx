@@ -8,7 +8,6 @@ import CheckoutScreen from './components/screens/CheckoutScreen'
 import PaymentPlanScreen from './components/screens/PaymentPlanScreen'
 import WalletScreen from './components/screens/WalletScreen'
 import MarketplaceScreen from './components/screens/MarketplaceScreen'
-import PlansScreen from './components/screens/PlansScreen'
 import ProfileScreen from './components/screens/ProfileScreen'
 import FlightSearchScreen from './components/screens/FlightSearchScreen'
 import HotelSearchScreen from './components/screens/HotelSearchScreen'
@@ -78,11 +77,6 @@ export default function Home() {
           onNavigate={handleNavigation} 
           activeTab={activeTab}
           resaleListings={forSaleTickets}
-        />
-      case 'plans':
-        return <PlansScreen 
-          onNavigate={handleNavigation} 
-          forSaleTickets={forSaleTickets}
         />
       case 'profile':
         return <ProfileScreen onNavigate={handleNavigation} activeTab={activeTab} />
