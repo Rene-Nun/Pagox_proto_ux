@@ -2,13 +2,13 @@ import { useState } from 'react'
 import Header from '../Header'
 import { Calendar, MapPin, Music, Plane, Eye, EyeOff, ArrowRight, Circle, CheckCircle2, ShoppingCart } from 'lucide-react'
 
-interface PartnerScreenProps {
+interface PlansScreenProps {
   onNavigate: (screen: string, event?: any) => void
   activeTab?: string
   forSaleTickets?: any[]
 }
 
-export default function PlansScreen({ onNavigate, forSaleTickets = [] }: PartnerScreenProps) {
+export default function PlansScreen({ onNavigate, forSaleTickets = [] }: PlansScreenProps) {
   const [showAmounts, setShowAmounts] = useState(true)
 
   // Simulación: reducir pagos cuando un boleto se pone en venta
@@ -260,7 +260,7 @@ export default function PlansScreen({ onNavigate, forSaleTickets = [] }: Partner
 
           {/* Completed Plans */}
           {completedPlans.length > 0 && (
-                          <div className="pb-6">
+            <div className="pb-6">
               <h2 className="text-lg font-light text-black mb-4">Completados</h2>
               <div className="space-y-3">
                 {completedPlans.map((plan) => {
