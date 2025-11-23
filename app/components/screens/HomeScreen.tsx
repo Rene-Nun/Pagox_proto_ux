@@ -415,15 +415,17 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
         {/* PANTALLA CENTRAL - CHAT */}
         <div className="w-screen h-full flex-shrink-0 bg-black flex flex-col relative">
-          {/* Header FIJO - NAVEGACIÓN DESACTIVADA */}
+          {/* Header FIJO */}
           <div className="absolute top-0 left-0 right-0 z-10 px-4 pt-3 pb-3 flex items-center justify-between bg-black/95 backdrop-blur-sm">
             <button 
-              className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors cursor-default"
+              onClick={() => setCurrentScreen(0)}
+              className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors"
             >
               <User className="w-5 h-5 text-gray-300" />
             </button>
             <button 
-              className="w-10 h-10 rounded-full bg-[#5b5fc7] flex items-center justify-center active:bg-[#6b6fd7] transition-colors cursor-default"
+              onClick={goToDiscover}
+              className="w-10 h-10 rounded-full bg-[#5b5fc7] flex items-center justify-center active:bg-[#6b6fd7] transition-colors"
             >
               <ShoppingBag className="w-5 h-5 text-white" />
             </button>
@@ -431,8 +433,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
           {/* Contenido Central */}
           <div className="flex-1 px-5 overflow-y-auto" style={{ paddingTop: '4.5rem', paddingBottom: '7rem', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {/* CORRECCIÓN: Contenido SIEMPRE VISIBLE */}
-            <div className="transition-opacity duration-300 opacity-100">
+            <div className={`transition-opacity duration-300 ${isFocused ? 'opacity-0 pointer-events-none h-0 overflow-hidden' : 'opacity-100'}`}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 shadow-[0_0_20px_8px_rgba(255,255,255,0.3)]">
                   <img 
