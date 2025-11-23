@@ -130,7 +130,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
   return (
     <div className="fixed inset-0 w-full h-full bg-black overflow-hidden">
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{__html: `
         html, body {
           background-color: #000000 !important;
           overscroll-behavior: none !important;
@@ -141,7 +141,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           margin: 0 !important;
           padding: 0 !important;
         }
-      `}</style>
+      `}} />
 
       <div 
         ref={containerRef}
@@ -284,7 +284,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       )}
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{__html: `
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -320,7 +320,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         .animate-shimmer {
           animation: shimmer 2s infinite;
         }
-      `}</style>
+      `}} />
     </div>
   )
 }/* PANTALLA IZQUIERDA - PERFIL */}
