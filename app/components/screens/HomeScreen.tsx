@@ -13,11 +13,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [currentScreen, setCurrentScreen] = useState(1)
   const [resaleModalOpen, setResaleModalOpen] = useState(false)
   const [selectedTicket, setSelectedTicket] = useState<any>(null)
-  const [messages, setMessages] = useState<Array<{role: 'user' | 'assistant', content: string}>>([])
   const containerRef = useRef<HTMLDivElement>(null)
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const suggestions = [
     "Escapada barata de fin de semana",
@@ -183,33 +181,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const openResaleModal = (adventure: any) => {
     setSelectedTicket(adventure)
     setResaleModalOpen(true)
-  }
-
-  const handleSendMessage = () => {
-    if (!chatInput.trim()) return
-    
-    setMessages(prev => [...prev, { role: 'user', content: chatInput }])
-    setChatInput('')
-    
-    // Simular respuesta (aquí conectarías tu API)
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: '¡Perfecto! Déjame buscar las mejores opciones para ti...' 
-      }])
-    }, 1000)
-  }
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setChatInput(suggestion)
-    setMessages(prev => [...prev, { role: 'user', content: suggestion }])
-    
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'Excelente elección. Estoy analizando las mejores opciones disponibles para ti.' 
-      }])
-    }, 1000)
   }
 
   return (
@@ -444,160 +415,94 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
         {/* PANTALLA CENTRAL - CHAT */}
         <div className="w-screen h-full flex-shrink-0 bg-black flex flex-col relative">
-          {/* Header FIJO - SIEMPRE VISIBLE */}
-          <div className="absolute top-0 left-0 right-0 z-20 px-4 pt-3 pb-3 bg-black/95 backdrop-blur-sm border-b border-[#1a1b26]">
-            <div className="flex items-center justify-between">
-              <button 
-                onClick={() => setCurrentScreen(0)}
-                className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors"
-              >
-                <User className="w-5 h-5 text-gray-300" />
-              </button>
-              
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 shadow-[0_0_15px_5px_rgba(255,255,255,0.25)]">
+          {/* Header FIJO */}
+          <div className="absolute top-0 left-0 right-0 z-10 px-4 pt-3 pb-3 flex items-center justify-between bg-black/95 backdrop-blur-sm">
+            <button 
+              onClick={() => setCurrentScreen(0)}
+              className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors"
+            >
+              <User className="w-5 h-5 text-gray-300" />
+            </button>
+            <button 
+              onClick={goToDiscover}
+              className="w-10 h-10 rounded-full bg-[#5b5fc7] flex items-center justify-center active:bg-[#6b6fd7] transition-colors"
+            >
+              <ShoppingBag className="w-5 h-5 text-white" />
+            </button>
+          </div>
+
+          {/* Contenido Central */}
+          <div className="flex-1 px-5 overflow-y-auto" style={{ paddingTop: '4.5rem', paddingBottom: '7rem', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className={`transition-opacity duration-300 ${isFocused ? 'opacity-0 pointer-events-none h-0 overflow-hidden' : 'opacity-100'}`}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 shadow-[0_0_20px_8px_rgba(255,255,255,0.3)]">
                   <img 
                     src="/images/yunus.png" 
                     alt="Yunus" 
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div>
-                  <h2 className="text-base font-semibold text-white">Yunus</h2>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
-                    <span className="text-xs text-gray-400">En línea</span>
-                  </div>
-                </div>
+                <h2 className="text-2xl font-medium text-white tracking-tight">Yunus</h2>
               </div>
 
-              <button 
-                onClick={goToDiscover}
-                className="w-10 h-10 rounded-full bg-[#5b5fc7] flex items-center justify-center active:bg-[#6b6fd7] transition-colors"
-              >
-                <ShoppingBag className="w-5 h-5 text-white" />
-              </button>
+              <div className="mb-6">
+                <p className="text-[17px] text-gray-200 leading-relaxed font-light">
+                  Hola. Tu próxima aventura empieza aquí. <br/>
+                  Dime a dónde quieres ir o qué se te antoja, y yo armo el plan perfecto para ti.
+                </p>
+              </div>
+
+              <div className="flex flex-col items-start gap-2.5">
+                {suggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setChatInput(suggestion)}
+                    className="w-auto max-w-full bg-[#1a1b26] active:bg-[#27283a] rounded-2xl px-5 py-3 text-left transition-all active:scale-95"
+                  >
+                    <p className="text-[14px] text-gray-300 font-normal">{suggestion}</p>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Contenido del Chat - SCROLLABLE */}
-          <div 
-            className="flex-1 overflow-y-auto px-5"
-            style={{ 
-              paddingTop: '5rem', 
-              paddingBottom: '6rem',
-              scrollbarWidth: 'none', 
-              msOverflowStyle: 'none' 
-            }}
-          >
-            {/* Mensaje de Bienvenida - SIEMPRE VISIBLE */}
-            {messages.length === 0 && (
-              <div className="mb-6 animate-fade-in">
-                <div className="mb-4">
-                  <p className="text-lg text-gray-200 leading-relaxed font-light">
-                    Hola. Tu próxima aventura empieza aquí.
-                  </p>
-                  <p className="text-base text-gray-400 leading-relaxed font-light mt-2">
-                    Dime a dónde quieres ir o qué se te antoja, y yo armo el plan perfecto para ti.
-                  </p>
-                </div>
-
-                {/* Sugerencias - SE OCULTAN AL ESCRIBIR O ENVIAR MENSAJE */}
-                {!isFocused && (
-                  <div className="flex flex-col items-start gap-2.5 animate-fade-in">
-                    {suggestions.map((suggestion, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                        className="w-auto max-w-full bg-gradient-to-br from-[#1f203a] to-[#0e1027] active:from-[#27283a] active:to-[#15112f] rounded-2xl px-5 py-3.5 text-left transition-all active:scale-98 border border-[#2a2b45] shadow-lg"
-                      >
-                        <p className="text-sm text-gray-200 font-normal">{suggestion}</p>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Mensajes del Chat */}
-            {messages.length > 0 && (
-              <div className="space-y-4 pb-4">
-                {messages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
-                  >
-                    {msg.role === 'assistant' && (
-                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 mr-2 shadow-[0_0_10px_3px_rgba(255,255,255,0.2)]">
-                        <img 
-                          src="/images/yunus.png" 
-                          alt="Yunus" 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                    
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                        msg.role === 'user'
-                          ? 'bg-gradient-to-br from-[#5b5fc7] to-[#7b3ff2] text-white'
-                          : 'bg-gradient-to-br from-[#1f203a] to-[#0e1027] text-gray-200 border border-[#2a2b45]'
-                      }`}
-                    >
-                      <p className="text-sm leading-relaxed">{msg.content}</p>
-                    </div>
-                  </div>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
-            )}
-          </div>
-
-          {/* Input FIJO - Estilo AI Mejorado */}
-          <div className="absolute bottom-0 left-0 right-0 z-20 px-4 pb-5 pt-3 bg-gradient-to-t from-black via-black to-transparent">
-            <div className="relative flex items-end gap-2">
-              <button className="w-9 h-9 rounded-full bg-[#1a1b26] flex items-center justify-center flex-shrink-0 active:bg-[#27283a] transition-colors mb-1">
+          {/* Input FIJO - Estilo AI */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-4 pb-6 pt-4 bg-gradient-to-t from-black via-black/95 to-transparent">
+            <div className="relative flex items-center gap-2 bg-[#1a1b26] rounded-full px-2 py-2 border border-[#2a2b45]">
+              <button className="w-9 h-9 rounded-full bg-[#0d0e14] flex items-center justify-center flex-shrink-0 active:bg-[#1a1b26] transition-colors">
                 <Plus className="w-5 h-5 text-gray-400" />
               </button>
 
-              <div className="flex-1 bg-gradient-to-br from-[#1f203a] to-[#0e1027] rounded-3xl border border-[#2a2b45] shadow-lg">
-                <textarea
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setTimeout(() => setIsFocused(false), 100)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault()
-                      handleSendMessage()
-                    }
-                  }}
-                  placeholder="Mensaje"
-                  rows={1}
-                  className="w-full bg-transparent text-white placeholder-gray-500 text-base focus:outline-none border-0 px-5 py-3 resize-none"
-                  style={{ maxHeight: '120px' }}
-                />
-              </div>
+              <input
+                type="text"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder="Escribe a Yunus..."
+                className="flex-1 bg-transparent text-white placeholder-gray-500 text-[16px] focus:outline-none border-0 px-2"
+              />
 
               {chatInput.trim() ? (
-                <button 
-                  onClick={handleSendMessage}
-                  className="w-11 h-11 rounded-full bg-gradient-to-br from-[#5b5fc7] to-[#7b3ff2] flex items-center justify-center flex-shrink-0 active:scale-95 transition-all shadow-lg shadow-[#5b5fc7]/30"
-                >
-                  <Send className="w-5 h-5 text-white" />
+                <button className="w-9 h-9 rounded-full bg-[#5b5fc7] flex items-center justify-center flex-shrink-0 active:bg-[#6b6fd7] transition-colors">
+                  <Send className="w-4 h-4 text-white" />
                 </button>
               ) : (
-                <button className="w-11 h-11 rounded-full bg-[#1a1b26] flex items-center justify-center flex-shrink-0 active:bg-[#27283a] transition-colors">
+                <button className="w-9 h-9 rounded-full bg-[#0d0e14] flex items-center justify-center flex-shrink-0 active:bg-[#1a1b26] transition-colors">
                   <Mic className="w-5 h-5 text-gray-400" />
                 </button>
               )}
             </div>
+            
+            <p className="text-[10px] text-gray-600 mt-3 text-center font-medium">
+              Yunus analiza tu perfil para ofrecerte el mejor plan de pagos.
+            </p>
           </div>
         </div>
 
         {/* PANTALLA DERECHA - DISCOVER */}
         <div className="w-screen h-full flex-shrink-0 bg-black flex flex-col">
-          <div className="flex-shrink-0 px-4 pt-3 pb-3 bg-black border-b border-[#1a1b26]">
+          <div className="flex-shrink-0 px-4 pt-3 pb-3 bg-black">
             <h1 className="text-2xl font-semibold text-white mb-4">Descubre</h1>
             <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {filters.map((filter) => (
@@ -617,7 +522,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
 
           <div className="flex-1 overflow-y-auto px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            <div className="space-y-4 pb-8 pt-4">
+            <div className="space-y-4 pb-8">
               {destinations.map((dest) => (
                 <div
                   key={dest.id}
@@ -639,7 +544,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                       <h3 className="text-xl font-bold text-white mb-1">{dest.title}</h3>
                       <p className="text-sm text-gray-300 mb-3">{dest.description}</p>
                       
-                      <div className="inline-flex items-center gap-2 bg-gradient-to-br from-[#5b5fc7] to-[#7b3ff2] rounded-full px-4 py-2 shadow-lg shadow-[#5b5fc7]/30">
+                      <div className="inline-flex items-center gap-2 bg-[#5b5fc7] rounded-full px-4 py-2">
                         <Calendar className="w-4 h-4 text-white" />
                         <span className="text-sm font-semibold text-white">
                           {dest.installments} pagos de ${dest.monthlyPayment}
