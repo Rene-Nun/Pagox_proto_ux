@@ -8,7 +8,7 @@ interface HomeScreenProps {
 
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [chatInput, setChatInput] = useState('')
-  const [isFocused, setIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(false) // Estado para controlar el modo "Teclado Activo"
   const [activeFilter, setActiveFilter] = useState('Para ti')
   const [currentScreen, setCurrentScreen] = useState(1)
   const [resaleModalOpen, setResaleModalOpen] = useState(false)
@@ -26,6 +26,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
   const filters = ['Para ti', 'Playas', 'Eventos', 'Ofertas Flash', 'Ciudades']
 
+  // ... (TUS DATOS DE MUESTRA: destinations, adventures, achievements SE MANTIENEN IGUAL)
   const destinations = [
     {
       id: 1,
@@ -211,7 +212,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       >
         {/* PANTALLA IZQUIERDA - PERFIL PREMIUM */}
         <div className="w-screen h-full flex-shrink-0 bg-black flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {/* ... (TU CÓDIGO DE PERFIL SE QUEDA IGUAL, LO OMITO PARA NO HACER SPAM, PERO IMAGINA QUE AQUÍ VA TODO EL CÓDIGO DE LA PANTALLA IZQUIERDA QUE YA TE GUSTABA) ... */}
+           <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <div className="px-5 pt-6 pb-8">
               {/* Header de Perfil Premium */}
               <div className="flex items-center gap-4 mb-8">
@@ -413,8 +415,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
           </div>
         </div>
 
-        {/* PANTALLA CENTRAL - CHAT */}
+        {/* PANTALLA CENTRAL - CHAT (ARREGLADA) */}
         <div className="w-screen h-full flex-shrink-0 bg-black flex flex-col relative">
+          
           {/* Header FIJO */}
           <div className="absolute top-0 left-0 right-0 z-10 px-4 pt-3 pb-3 flex items-center justify-between bg-black/95 backdrop-blur-sm">
             <button 
@@ -431,9 +434,11 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </button>
           </div>
 
-          {/* Contenido Central */}
+          {/* Contenido Central Scrollable - Con lógica isFocused para ocultar cosas */}
           <div className="flex-1 px-5 overflow-y-auto" style={{ paddingTop: '4.5rem', paddingBottom: '7rem', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            <div className={`transition-opacity duration-300 ${isFocused ? 'opacity-0 pointer-events-none h-0 overflow-hidden' : 'opacity-100'}`}>
+            <div className={`transition-all duration-300 ${isFocused ? 'opacity-0 h-0 overflow-hidden pointer-events-none' : 'opacity-100'}`}>
+              
+              {/* Logo y Bienvenida */}
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 shadow-[0_0_20px_8px_rgba(255,255,255,0.3)]">
                   <img 
@@ -466,23 +471,26 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          {/* Input FIJO - Estilo AI */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 px-4 pb-6 pt-4 bg-gradient-to-t from-black via-black/95 to-transparent">
+          {/* Input FIJO ABAJO - Estilo AI */}
+          <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black via-black/95 to-transparent pt-4 pb-6 px-4">
             <div className="relative flex items-center gap-2 bg-[#1a1b26] rounded-full px-2 py-2 border border-[#2a2b45]">
+              {/* Botón Plus */}
               <button className="w-9 h-9 rounded-full bg-[#0d0e14] flex items-center justify-center flex-shrink-0 active:bg-[#1a1b26] transition-colors">
                 <Plus className="w-5 h-5 text-gray-400" />
               </button>
 
+              {/* Input Real */}
               <input
                 type="text"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
+                onFocus={() => setIsFocused(true)} // Activa modo "Teclado"
+                onBlur={() => setIsFocused(false)} // Desactiva modo "Teclado"
                 placeholder="Escribe a Yunus..."
-                className="flex-1 bg-transparent text-white placeholder-gray-500 text-[16px] focus:outline-none border-0 px-2"
+                className="flex-1 bg-transparent text-white placeholder-gray-500 text-[16px] focus:outline-none border-0 px-2 h-10"
               />
 
+              {/* Botón Acción Derecha */}
               {chatInput.trim() ? (
                 <button className="w-9 h-9 rounded-full bg-[#5b5fc7] flex items-center justify-center flex-shrink-0 active:bg-[#6b6fd7] transition-colors">
                   <Send className="w-4 h-4 text-white" />
@@ -494,9 +502,12 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               )}
             </div>
             
-            <p className="text-[10px] text-gray-600 mt-3 text-center font-medium">
-              Yunus analiza tu perfil para ofrecerte el mejor plan de pagos.
-            </p>
+            {/* Texto de disclaimer - Se oculta si hay teclado para ahorrar espacio */}
+            {!isFocused && (
+              <p className="text-[10px] text-gray-600 mt-3 text-center font-medium animate-fade-in">
+                Yunus analiza tu perfil para ofrecerte el mejor plan de pagos.
+              </p>
+            )}
           </div>
         </div>
 
@@ -559,14 +570,15 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
 
-      {/* MODAL DE REVENTA */}
+      {/* MODAL DE REVENTA (IGUAL QUE ANTES) */}
       {resaleModalOpen && selectedTicket && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-sm">
           <div 
             className="w-full max-w-lg bg-gradient-to-br from-[#1f203a] to-[#0e1027] rounded-t-3xl border-t border-x border-[#2a2b45] shadow-2xl animate-slide-up"
             style={{ maxHeight: '85vh' }}
           >
-            <div className="flex items-center justify-between p-5 border-b border-[#2a2b45]">
+            {/* ... CONTENIDO DEL MODAL SE MANTIENE ... */}
+             <div className="flex items-center justify-between p-5 border-b border-[#2a2b45]">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5b5fc7] to-[#7b3ff2] flex items-center justify-center">
                   <TrendingUp className="w-5 h-5 text-white" />
