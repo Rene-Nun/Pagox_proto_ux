@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Send, User, ShoppingBag, Heart, Calendar, CheckCircle, Circle, TrendingUp, Users, Target, X, Sparkles, Lock, Unlock } from 'lucide-react'
+import { Send, User, ShoppingBag, Heart, Calendar, CheckCircle, Circle, TrendingUp, Users, Target, X, Sparkles, Lock, Unlock, Plus, Mic } from 'lucide-react'
 
 interface HomeScreenProps {
   onNavigate: (screen: string, tab?: string) => void
@@ -8,6 +8,7 @@ interface HomeScreenProps {
 
 export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [chatInput, setChatInput] = useState('')
+  const [isFocused, setIsFocused] = useState(false)
   const [activeFilter, setActiveFilter] = useState('Para ti')
   const [currentScreen, setCurrentScreen] = useState(1)
   const [resaleModalOpen, setResaleModalOpen] = useState(false)
@@ -183,8 +184,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   }
 
   return (
-    <div className="fixed inset-0 w-full h-full bg-black overflow-hidden">
-      <style jsx global>{`
+    <div className="fixed inset-0 w-full h-[100dvh] bg-black overflow-hidden">
+      <style>{`
         html, body {
           background-color: #000000 !important;
           overscroll-behavior: none !important;
@@ -253,7 +254,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                     </div>
                   </div>
                   
-                  {/* Barra de Progreso Premium */}
                   <div className="relative w-full h-3 bg-[#0d0e14] rounded-full overflow-hidden mb-4 border border-[#1a1b26]">
                     <div 
                       className="absolute left-0 top-0 h-full rounded-full transition-all duration-500"
@@ -266,7 +266,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                     </div>
                   </div>
 
-                  {/* Achievements */}
                   <div className="flex items-center gap-2 pt-3 border-t border-[#2a2b45]">
                     {achievements.map((achievement) => (
                       <div
@@ -292,11 +291,10 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
               </div>
 
-              {/* Próximo Compromiso - Hero Card */}
+              {/* Próximo Compromiso */}
               <div className="mb-6">
                 <h2 className="text-xs font-bold text-gray-400 mb-3 uppercase tracking-wider">Próximo Pago</h2>
                 <div className="relative bg-gradient-to-br from-[#1f203a] to-[#0e1027] rounded-3xl p-6 border border-[#2a2b45] shadow-lg shadow-[#003d90]/30 overflow-hidden">
-                  {/* Background Pattern */}
                   <div className="absolute inset-0 opacity-5">
                     <div className="absolute inset-0 bg-gradient-to-br from-[#5b5fc7] to-transparent"></div>
                   </div>
@@ -322,7 +320,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
               </div>
 
-              {/* Mis Aventuras - Ticket Style */}
+              {/* Mis Aventuras */}
               <div>
                 <h2 className="text-xs font-bold text-gray-400 mb-3 uppercase tracking-wider">Mis Aventuras</h2>
                 <div className="space-y-3">
@@ -331,7 +329,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                       key={adventure.id}
                       className="relative bg-gradient-to-br from-[#1f203a] to-[#0e1027] rounded-2xl overflow-hidden border border-[#2a2b45] shadow-lg shadow-[#003d90]/20"
                     >
-                      {/* Ticket Header con Imagen */}
                       <div className="relative h-32">
                         <img
                           src={adventure.image}
@@ -340,7 +337,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                         
-                        {/* Status Badge */}
                         <div className="absolute top-3 right-3">
                           {adventure.status === 'completed' ? (
                             <div className="flex items-center gap-1.5 bg-green-500/20 backdrop-blur-sm rounded-full px-3 py-1.5 border border-green-500/30">
@@ -355,16 +351,13 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                           )}
                         </div>
 
-                        {/* Info sobre imagen */}
                         <div className="absolute bottom-3 left-3 right-3">
                           <h3 className="text-lg font-bold text-white mb-0.5">{adventure.title}</h3>
                           <p className="text-xs text-gray-300">{adventure.subtitle}</p>
                         </div>
                       </div>
 
-                      {/* Ticket Body */}
                       <div className="p-4">
-                        {/* Progreso de Pago */}
                         <div className="mb-3">
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-xs font-medium text-gray-400">
@@ -375,7 +368,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                             </span>
                           </div>
                           
-                          {/* Barra de Progreso */}
                           <div className="relative w-full h-2 bg-[#0d0e14] rounded-full overflow-hidden border border-[#1a1b26]">
                             <div 
                               className="absolute left-0 top-0 h-full rounded-full transition-all duration-500"
@@ -389,7 +381,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                           </div>
                         </div>
 
-                        {/* Actions */}
                         {adventure.status === 'active' && adventure.remaining > 0 && (
                           <div className="flex gap-2 pt-3 border-t border-[#2a2b45]">
                             <div className="flex-1">
@@ -423,8 +414,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
 
         {/* PANTALLA CENTRAL - CHAT */}
-        <div className="w-screen h-full flex-shrink-0 bg-black flex flex-col">
-          <div className="px-4 pt-3 pb-3 flex items-center justify-between flex-shrink-0 bg-black">
+        <div className="w-screen h-full flex-shrink-0 bg-black flex flex-col relative">
+          {/* Header FIJO */}
+          <div className="absolute top-0 left-0 right-0 z-10 px-4 pt-3 pb-3 flex items-center justify-between bg-black/95 backdrop-blur-sm">
             <button 
               onClick={() => setCurrentScreen(0)}
               className="w-10 h-10 rounded-full bg-[#1a1b26] flex items-center justify-center active:bg-[#27283a] transition-colors"
@@ -439,10 +431,11 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </button>
           </div>
 
-          <div className="flex-1 px-5 pt-2 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            <div className="animate-fade-in">
+          {/* Contenido Central */}
+          <div className="flex-1 px-5 overflow-y-auto" style={{ paddingTop: '4.5rem', paddingBottom: '7rem', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className={`transition-opacity duration-300 ${isFocused ? 'opacity-0 pointer-events-none h-0 overflow-hidden' : 'opacity-100'}`}>
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 shadow-[0_0_20px_8px_rgba(255,255,255,0.3)]">
                   <img 
                     src="/images/yunus.png" 
                     alt="Yunus" 
@@ -459,7 +452,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start gap-2.5 pb-32">
+              <div className="flex flex-col items-start gap-2.5">
                 {suggestions.map((suggestion, index) => (
                   <button
                     key={index}
@@ -473,22 +466,34 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
             </div>
           </div>
 
-          <div className="flex-shrink-0 px-4 pb-8 pt-2 bg-black w-full">
-            <div className="relative">
+          {/* Input FIJO - Estilo AI */}
+          <div className="absolute bottom-0 left-0 right-0 z-10 px-4 pb-6 pt-4 bg-gradient-to-t from-black via-black/95 to-transparent">
+            <div className="relative flex items-center gap-2 bg-[#1a1b26] rounded-full px-2 py-2 border border-[#2a2b45]">
+              <button className="w-9 h-9 rounded-full bg-[#0d0e14] flex items-center justify-center flex-shrink-0 active:bg-[#1a1b26] transition-colors">
+                <Plus className="w-5 h-5 text-gray-400" />
+              </button>
+
               <input
                 type="text"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 placeholder="Escribe a Yunus..."
-                className="w-full bg-[#1a1b26] rounded-full pl-5 pr-12 py-4 text-white placeholder-gray-500 text-[16px] focus:outline-none focus:ring-1 focus:ring-[#5b5fc7] border-0"
+                className="flex-1 bg-transparent text-white placeholder-gray-500 text-[16px] focus:outline-none border-0 px-2"
               />
-              <button 
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-[#5b5fc7] rounded-full flex items-center justify-center active:bg-[#6b6fd7] transition-colors disabled:opacity-50"
-                disabled={!chatInput.trim()}
-              >
-                <Send className="w-4 h-4 text-white" />
-              </button>
+
+              {chatInput.trim() ? (
+                <button className="w-9 h-9 rounded-full bg-[#5b5fc7] flex items-center justify-center flex-shrink-0 active:bg-[#6b6fd7] transition-colors">
+                  <Send className="w-4 h-4 text-white" />
+                </button>
+              ) : (
+                <button className="w-9 h-9 rounded-full bg-[#0d0e14] flex items-center justify-center flex-shrink-0 active:bg-[#1a1b26] transition-colors">
+                  <Mic className="w-5 h-5 text-gray-400" />
+                </button>
+              )}
             </div>
+            
             <p className="text-[10px] text-gray-600 mt-3 text-center font-medium">
               Yunus analiza tu perfil para ofrecerte el mejor plan de pagos.
             </p>
@@ -554,14 +559,13 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       </div>
 
-      {/* MODAL DE REVENTA - ANÁLISIS DE YUNUS */}
+      {/* MODAL DE REVENTA */}
       {resaleModalOpen && selectedTicket && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-sm">
           <div 
             className="w-full max-w-lg bg-gradient-to-br from-[#1f203a] to-[#0e1027] rounded-t-3xl border-t border-x border-[#2a2b45] shadow-2xl animate-slide-up"
             style={{ maxHeight: '85vh' }}
           >
-            {/* Header */}
             <div className="flex items-center justify-between p-5 border-b border-[#2a2b45]">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5b5fc7] to-[#7b3ff2] flex items-center justify-center">
@@ -580,9 +584,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
               </button>
             </div>
 
-            {/* Content */}
             <div className="p-5 overflow-y-auto" style={{ maxHeight: 'calc(85vh - 80px)', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              {/* Ticket Preview */}
               <div className="relative rounded-2xl overflow-hidden mb-5 border border-[#2a2b45]">
                 <img
                   src={selectedTicket.image}
@@ -596,7 +598,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
               </div>
 
-              {/* Precio Óptimo Sugerido */}
               <div className="bg-gradient-to-br from-[#5b5fc7]/10 to-[#7b3ff2]/10 rounded-2xl p-5 mb-4 border border-[#5b5fc7]/20">
                 <div className="flex items-center gap-2 mb-3">
                   <Sparkles className="w-5 h-5 text-[#7b3ff2]" />
@@ -613,9 +614,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </p>
               </div>
 
-              {/* Métricas de Mercado */}
               <div className="grid grid-cols-3 gap-3 mb-5">
-                {/* Confianza */}
                 <div className="bg-[#0d0e14] rounded-xl p-3 border border-[#1a1b26]">
                   <div className="flex items-center gap-1 mb-2">
                     <Target className="w-4 h-4 text-[#5b5fc7]" />
@@ -624,7 +623,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   <p className="text-2xl font-bold text-white">{selectedTicket.marketData.confidence}%</p>
                 </div>
 
-                {/* Demanda */}
                 <div className="bg-[#0d0e14] rounded-xl p-3 border border-[#1a1b26]">
                   <div className="flex items-center gap-1 mb-2">
                     <TrendingUp className="w-4 h-4 text-green-400" />
@@ -633,7 +631,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   <p className="text-sm font-bold text-white">{selectedTicket.marketData.demand}</p>
                 </div>
 
-                {/* Competencia */}
                 <div className="bg-[#0d0e14] rounded-xl p-3 border border-[#1a1b26]">
                   <div className="flex items-center gap-1 mb-2">
                     <Users className="w-4 h-4 text-yellow-400" />
@@ -643,10 +640,9 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
               </div>
 
-              {/* Insights de Yunus */}
               <div className="bg-[#0d0e14] rounded-2xl p-4 mb-5 border border-[#1a1b26]">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_5px_rgba(255,255,255,0.2)]">
                     <img 
                       src="/images/yunus.png" 
                       alt="Yunus" 
@@ -667,7 +663,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                 </div>
               </div>
 
-              {/* Acciones */}
               <div className="space-y-3">
                 <button className="w-full bg-gradient-to-r from-[#5b5fc7] to-[#7b3ff2] hover:from-[#6b6fd7] hover:to-[#8b4ff9] active:scale-98 rounded-2xl py-4 text-white font-bold text-base transition-all shadow-lg shadow-[#5b5fc7]/30">
                   Publicar en Marketplace
@@ -684,7 +679,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;
