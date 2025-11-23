@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { Send, User, ShoppingBag, Heart, Calendar, CheckCircle, Circle, TrendingUp, Users, Target, X, Sparkles, Lock, Unlock, Plus, Mic } from 'lucide-react'
 
 interface HomeScreenProps {
@@ -28,7 +28,7 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
 
   const filters = ['Para ti', 'Playas', 'Eventos', 'Ofertas Flash', 'Ciudades']
 
-  // --- DATOS DUMMY (IGUAL QUE ANTES) ---
+  // --- DATOS DUMMY ---
   const destinations = [
     { id: 1, title: 'Tulum, Quintana Roo', description: 'Playas paradisíacas y ruinas mayas', image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800&q=80', monthlyPayment: 899, installments: 6 },
     { id: 2, title: 'CDMX - Concierto Coldplay', description: 'Estadio GNP, Marzo 2025', image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80', monthlyPayment: 450, installments: 4 },
@@ -53,7 +53,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const goToDiscover = () => setCurrentScreen(2)
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    // IMPORTANTE: Inicializamos ambos en el mismo punto para evitar "saltos" si es solo un click
     touchStartX.current = e.touches[0].clientX
     touchEndX.current = e.touches[0].clientX 
   }
@@ -66,9 +65,8 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
     if (touchStartX.current === null || touchEndX.current === null) return
 
     const diffX = touchStartX.current - touchEndX.current
-    const minSwipeDistance = 60 // Aumenté un poco el umbral para evitar falsos positivos
+    const minSwipeDistance = 60 
 
-    // Solo cambiamos pantalla si hubo un desplazamiento real
     if (Math.abs(diffX) > minSwipeDistance) {
       if (diffX > 0 && currentScreen < 2) {
         setCurrentScreen(prev => prev + 1)
@@ -77,7 +75,6 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
       }
     }
     
-    // Reset
     touchStartX.current = null
     touchEndX.current = null
   }
@@ -88,47 +85,40 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   }
 
   return (
-    // ESTRUCTURA PRINCIPAL: FIXED + FLEXBOX PARA ESTABILIDAD CON TECLADO
     <div className="fixed inset-0 w-full h-[100dvh] bg-black flex flex-col overflow-hidden">
       <style>{`
         html, body { background-color: #000000; overscroll-behavior: none; }
-        /* Ocultar scrollbar */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
 
-      {/* HEADER (NIVEL SUPERIOR - SIEMPRE VISIBLE) */}
-      {/* Usamos z-50 para que flote sobre todo */}
-      <div className="flex-none px-4 pt-4 pb-2 flex items-center justify-between bg-black z-50 h-16">
+      {/* HEADER FIJO */}
+      <div className="absolute top-0 left-0 right-0 z-50 px-4 pt-4 pb-2 flex items-center justify-between bg-gradient-to-b from-black via-black/90 to-transparent pointer-events-none">
         <button 
           onClick={() => setCurrentScreen(0)}
-          className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors border border-[#27283a] ${currentScreen === 0 ? 'bg-white text-black' : 'bg-[#1a1b26] text-gray-300'}`}
+          className={`pointer-events-auto w-10 h-10 rounded-full flex items-center justify-center transition-colors border border-[#27283a] ${currentScreen === 0 ? 'bg-white text-black' : 'bg-[#1a1b26] text-gray-300'}`}
         >
           <User className="w-5 h-5" />
         </button>
         <button 
           onClick={goToDiscover}
-          className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors border border-[#27283a] ${currentScreen === 2 ? 'bg-white text-black' : 'bg-[#1a1b26] text-gray-300'}`}
+          className={`pointer-events-auto w-10 h-10 rounded-full flex items-center justify-center transition-colors border border-[#27283a] ${currentScreen === 2 ? 'bg-white text-black' : 'bg-[#1a1b26] text-gray-300'}`}
         >
           <ShoppingBag className="w-5 h-5" />
         </button>
       </div>
 
-      {/* ÁREA DE CONTENIDO (FLEX-1 SE ENCOGE CUANDO SALE TECLADO) */}
-      <div className="flex-1 relative overflow-hidden w-full">
-        {/* CARRUSEL DE PANTALLAS */}
-        <div 
-          ref={containerRef}
-          className="flex h-full w-[300vw] transition-transform duration-300 ease-out"
-          style={{ transform: `translateX(-${currentScreen * 100}vw)` }}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          
-          {/* --- PANTALLA 0: PERFIL (IZQUIERDA) --- */}
-          <div className="w-[100vw] h-full overflow-y-auto no-scrollbar px-5 pb-20">
-             {/* ... (CONTENIDO DE PERFIL IGUAL QUE TU CÓDIGO) ... */}
+      {/* CARRUSEL DE PANTALLAS */}
+      <div 
+        ref={containerRef}
+        className="flex-1 flex transition-transform duration-300 ease-out relative"
+        style={{ transform: `translateX(-${currentScreen * 100}vw)`, width: '300vw' }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* PANTALLA 0: PERFIL (IZQUIERDA) */}
+        <div className="w-[100vw] h-full overflow-y-auto no-scrollbar pt-20 pb-24 px-5">
              <div className="pt-2 pb-8">
               <div className="flex items-center gap-4 mb-8">
                 <div className="relative">
@@ -183,117 +173,100 @@ export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
                   ))}
               </div>
             </div>
-          </div>
+        </div>
 
-          {/* --- PANTALLA 1: CHAT (CENTRO) --- */}
-          <div className="w-[100vw] h-full flex flex-col relative">
-            {/* Contenido Scrollable */}
-            <div className="flex-1 overflow-y-auto no-scrollbar px-5 pb-4">
-               {/* Espaciador para empujar contenido si es poco */}
-               <div className="min-h-full flex flex-col justify-end">
-                  
-                  {/* Logo y Bienvenida (SIEMPRE VISIBLES) */}
-                  <div className="flex items-center gap-3 mb-4 animate-fade-in">
-                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 shadow-[0_0_20px_5px_rgba(255,255,255,0.4)]">
-                      <img src="/images/yunus.png" alt="Yunus" className="w-full h-full object-cover" />
-                    </div>
-                    <h2 className="text-2xl font-medium text-white tracking-tight">Yunus</h2>
-                  </div>
-
-                  <div className="mb-6 animate-fade-in">
-                    <p className="text-[17px] text-gray-200 leading-relaxed font-light">
-                      Hola. Tu próxima aventura empieza aquí. <br/>
-                      Dime a dónde quieres ir y yo armo el plan.
-                    </p>
-                  </div>
-
-                  {/* Sugerencias (SE OCULTAN AL ESCRIBIR) */}
-                  {/* Usamos 'hidden' o height 0 para que desaparezcan físicamente del flujo */}
-                  <div className={`flex flex-col items-start gap-2.5 transition-all duration-300 ease-in-out ${isFocused ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'}`}>
-                    {suggestions.map((suggestion, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setChatInput(suggestion)}
-                        className="w-auto max-w-full bg-[#1a1b26] active:bg-[#27283a] rounded-2xl px-5 py-3 text-left transition-all active:scale-95 border border-[#27283a]"
-                      >
-                        <p className="text-[14px] text-gray-300 font-normal">{suggestion}</p>
-                      </button>
-                    ))}
-                  </div>
-                  
-                  {/* Espacio extra al final para que no se pegue al input */}
-                  <div className="h-2"></div>
-               </div>
-            </div>
-          </div>
-
-          {/* --- PANTALLA 2: DISCOVER (DERECHA) --- */}
-          <div className="w-[100vw] h-full overflow-y-auto no-scrollbar px-5 pb-20">
-             <div className="pt-2">
-                <h1 className="text-2xl font-semibold text-white mb-4">Descubre</h1>
-                <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar">
-                  {filters.map((filter) => (
-                    <button key={filter} onClick={() => setActiveFilter(filter)} className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ${activeFilter === filter ? 'bg-white text-black' : 'bg-[#1a1b26] text-gray-300'}`}>{filter}</button>
-                  ))}
+        {/* PANTALLA 1: CHAT (CENTRO - ARREGLADO) */}
+        <div className="w-[100vw] h-full relative flex flex-col">
+          <div className="flex-1 overflow-y-auto no-scrollbar px-5 pt-20 pb-24">
+             {/* Logo y Bienvenida (SIEMPRE VISIBLES) */}
+             <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden flex-shrink-0 shadow-[0_0_20px_5px_rgba(255,255,255,0.3)]">
+                  <img src="/images/yunus.png" alt="Yunus" className="w-full h-full object-cover" />
                 </div>
-                <div className="space-y-4">
-                  {destinations.map((dest) => (
-                    <div key={dest.id} className="relative rounded-2xl overflow-hidden bg-[#1a1b26] h-64">
-                       <img src={dest.image} className="w-full h-full object-cover opacity-60" />
-                       <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                          <h3 className="text-white font-bold">{dest.title}</h3>
-                          <div className="inline-flex items-center gap-2 bg-[#5b5fc7] rounded-full px-3 py-1 mt-2">
-                            <span className="text-xs font-bold text-white">{dest.installments} pagos de ${dest.monthlyPayment}</span>
-                          </div>
-                       </div>
-                    </div>
-                  ))}
-                </div>
+                <h2 className="text-2xl font-medium text-white tracking-tight">Yunus</h2>
+             </div>
+
+             <div className="mb-6">
+                <p className="text-[17px] text-gray-200 leading-relaxed font-light">
+                  Hola. Tu próxima aventura empieza aquí. <br/>
+                  Dime a dónde quieres ir y yo armo el plan.
+                </p>
+             </div>
+
+             {/* Sugerencias: Se ocultan suavemente al activar teclado */}
+             <div className={`flex flex-col items-start gap-2.5 transition-all duration-300 ${isFocused ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100'}`}>
+                {suggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setChatInput(suggestion)}
+                    className="w-auto max-w-full bg-[#1a1b26] active:bg-[#27283a] rounded-2xl px-5 py-3 text-left transition-all active:scale-95 border border-[#27283a]"
+                  >
+                    <p className="text-[14px] text-gray-300 font-normal">{suggestion}</p>
+                  </button>
+                ))}
              </div>
           </div>
+        </div>
 
+        {/* PANTALLA 2: DISCOVER (DERECHA) */}
+        <div className="w-[100vw] h-full overflow-y-auto no-scrollbar pt-20 pb-24 px-5">
+           <h1 className="text-2xl font-semibold text-white mb-4">Descubre</h1>
+           <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar">
+              {filters.map((filter) => (
+                <button key={filter} onClick={() => setActiveFilter(filter)} className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ${activeFilter === filter ? 'bg-white text-black' : 'bg-[#1a1b26] text-gray-300'}`}>{filter}</button>
+              ))}
+           </div>
+           <div className="space-y-4">
+              {destinations.map((dest) => (
+                <div key={dest.id} className="relative rounded-2xl overflow-hidden bg-[#1a1b26] h-64">
+                   <img src={dest.image} className="w-full h-full object-cover opacity-60" />
+                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+                      <h3 className="text-white font-bold">{dest.title}</h3>
+                      <div className="inline-flex items-center gap-2 bg-[#5b5fc7] rounded-full px-3 py-1 mt-2">
+                        <span className="text-xs font-bold text-white">{dest.installments} pagos de ${dest.monthlyPayment}</span>
+                      </div>
+                   </div>
+                </div>
+              ))}
+           </div>
         </div>
       </div>
 
-      {/* INPUT BAR (FUERA DEL CARRUSEL, DENTRO DEL FLEX) */}
-      {/* Al estar aquí (flex-none), el teclado lo empuja hacia arriba naturalmente en móviles */}
-      <div className="flex-none bg-black px-4 pt-2 pb-6 z-50 w-full border-t border-[#1a1b26]/50">
+      {/* INPUT BAR FIJA (Estilo AI - Fuera del carrusel) */}
+      <div className="fixed bottom-0 left-0 right-0 z-[60] bg-black px-4 pt-2 pb-6 border-t border-[#1a1b26]">
          <div className="relative flex items-center gap-2 bg-[#1a1b26] rounded-[24px] px-2 py-2 border border-[#2a2b45]">
-            {/* Botón Plus */}
-            <button className="w-10 h-10 rounded-full bg-[#27283a] flex items-center justify-center flex-shrink-0 active:bg-[#38394f]">
+            <button className="w-10 h-10 rounded-full bg-[#27283a] flex items-center justify-center flex-shrink-0 active:bg-[#38394f] transition-colors">
               <Plus className="w-5 h-5 text-gray-400" />
             </button>
 
-            {/* Input Transparente */}
             <input
               type="text"
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
               onFocus={() => {
                 setIsFocused(true)
-                if (currentScreen !== 1) setCurrentScreen(1) // Si escribes, vuelve al chat
+                if (currentScreen !== 1) setCurrentScreen(1)
               }}
               onBlur={() => setIsFocused(false)}
               placeholder="Escribe a Yunus..."
               className="flex-1 bg-transparent text-white placeholder-gray-500 text-[16px] focus:outline-none border-0 px-2 h-10"
             />
 
-            {/* Botón Acción */}
             {chatInput.trim() ? (
-              <button className="w-10 h-10 rounded-full bg-[#5b5fc7] flex items-center justify-center flex-shrink-0 active:bg-[#6b6fd7]">
+              <button className="w-10 h-10 rounded-full bg-[#5b5fc7] flex items-center justify-center flex-shrink-0 active:bg-[#6b6fd7] transition-colors">
                 <Send className="w-5 h-5 text-white" />
               </button>
             ) : (
-              <button className="w-10 h-10 rounded-full bg-[#27283a] flex items-center justify-center flex-shrink-0 active:bg-[#38394f]">
+              <button className="w-10 h-10 rounded-full bg-[#27283a] flex items-center justify-center flex-shrink-0 active:bg-[#38394f] transition-colors">
                 <Mic className="w-5 h-5 text-gray-400" />
               </button>
             )}
          </div>
       </div>
 
-      {/* MODAL DE REVENTA */}
+      {/* MODAL REVENTA */}
       {resaleModalOpen && selectedTicket && (
-        <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/80 backdrop-blur-sm animate-fade-in">
+        <div className="fixed inset-0 z-[70] flex items-end justify-center bg-black/80 backdrop-blur-sm">
           <div className="w-full max-w-lg bg-[#1a1b26] rounded-t-3xl border-t border-[#2a2b45] p-5 animate-slide-up">
             <div className="flex justify-between items-center mb-6">
                <h3 className="text-white font-bold text-lg">Reventa Inteligente</h3>
