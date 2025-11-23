@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Send, User, ShoppingBag, Plus, Mic } from 'lucide-react'
 
 interface HomeScreenProps {
-  onNavigate?: (screen: string) => void
+  onNavigate?: (screen: string, tab?: string) => void
+  activeTab?: string
 }
 
-export default function HomeScreen({ onNavigate }: HomeScreenProps) {
+export default function HomeScreen({ onNavigate, activeTab }: HomeScreenProps) {
   const [chatInput, setChatInput] = useState('')
   const [isFocused, setIsFocused] = useState(false)
 
