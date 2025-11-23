@@ -82,7 +82,6 @@ export default function Home() {
       case 'plans':
         return <PlansScreen 
           onNavigate={handleNavigation} 
-          activeTab={activeTab}
           forSaleTickets={forSaleTickets}
         />
       case 'profile':
